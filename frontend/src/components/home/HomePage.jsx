@@ -34,7 +34,7 @@ export default async function HomePage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900">
+    <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
       <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-5 py-8">

@@ -123,17 +123,17 @@ export default function ProductsPage() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="text-xl font-semibold">{title}</div>
-          <div className="text-sm text-white/55">Dữ liệu lấy từ API /api/catalog/products (admin all=1).</div>
+          <div className="text-sm text-muted-foreground">Dữ liệu lấy từ API /api/catalog/products (admin all=1).</div>
         </div>
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <div className="flex items-center gap-2 rounded-xl bg-white/5 px-3 py-2 ring-1 ring-white/10">
-            <Search className="h-4 w-4 text-white/60" />
+          <div className="flex items-center gap-2 rounded-xl bg-card px-3 py-2 ring-1 ring-border">
+            <Search className="h-4 w-4 text-muted-foreground" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Tìm theo tên/slug…"
-              className="w-56 bg-transparent text-sm outline-none placeholder:text-white/40"
+              className="w-56 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
             />
           </div>
           <button
@@ -146,7 +146,7 @@ export default function ProductsPage() {
           >
             <span className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-pink-500" />
             <span
-              className="relative rounded-full bg-[#0b1020] px-4 py-2 text-sm font-medium ring-1 ring-white/10"
+              className="relative rounded-full bg-background dark:bg-[#0b1020] px-4 py-2 text-sm font-medium ring-1 ring-border"
             >
               ＋ Thêm sản phẩm
             </span>
@@ -154,8 +154,8 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="grid grid-cols-10 gap-3 px-5 py-3 text-xs text-white/55">
+      <div className="rounded-2xl border border-border bg-card backdrop-blur-xl">
+        <div className="grid grid-cols-10 gap-3 px-5 py-3 text-xs text-muted-foreground">
           <div>Ảnh</div>
           <div className="col-span-2">Tên sản phẩm</div>
           <div>SKU</div>
@@ -167,26 +167,26 @@ export default function ProductsPage() {
           <div className="text-right">Hành động</div>
         </div>
 
-        <div className="divide-y divide-white/10">
+        <div className="divide-y divide-border">
           {loading ? (
-            <div className="px-5 py-6 text-sm text-white/60">Đang tải…</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">Đang tải…</div>
           ) : rows.length === 0 ? (
-            <div className="px-5 py-6 text-sm text-white/60">{error || "Chưa có sản phẩm."}</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">{error || "Chưa có sản phẩm."}</div>
           ) : (
             rows.map((r) => {
               const id = r?.sanphamid ?? r?.id;
               return (
                 <div key={String(id)} className="grid grid-cols-10 items-center gap-3 px-5 py-4">
-                  <div className="h-10 w-10 overflow-hidden rounded-xl bg-white/10 ring-1 ring-white/10">
+                  <div className="h-10 w-10 overflow-hidden rounded-xl bg-muted/50 ring-1 ring-border">
                     <SmartImage src={pickFirstImage(r)} alt={r?.ten || "product"} className="h-full w-full object-cover" />
                   </div>
                   <div className="col-span-2 min-w-0">
                     <div className="truncate text-sm font-medium">{r?.ten ?? "-"}</div>
-                    <div className="truncate text-xs text-white/50">#{id}</div>
+                    <div className="truncate text-xs text-muted-foreground">#{id}</div>
                   </div>
-                  <div className="text-sm text-white/70">{r.__sku || "-"}</div>
-                  <div className="text-sm text-white/70">{r?.danhmuc_ten ?? "-"}</div>
-                  <div className="text-sm text-white/70">{r?.nhacungcap_ten ?? "-"}</div>
+                  <div className="text-sm text-muted-foreground">{r.__sku || "-"}</div>
+                  <div className="text-sm text-muted-foreground">{r?.danhmuc_ten ?? "-"}</div>
+                  <div className="text-sm text-muted-foreground">{r?.nhacungcap_ten ?? "-"}</div>
                   <div className="text-sm">{r.__minPrice > 0 ? formatMoneyVND(r.__minPrice) : "-"}</div>
                   <div className="text-center text-sm">{r.__stock}</div>
                   <div className="flex justify-center">
@@ -196,7 +196,7 @@ export default function ProductsPage() {
                   </div>
                   <div className="flex items-center justify-end gap-3">
                     <button
-                      className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                      className="grid h-9 w-9 place-items-center rounded-xl bg-card ring-1 ring-border hover:bg-muted/50"
                       type="button"
                       onClick={() => {
                         setEditing(r);
@@ -206,7 +206,7 @@ export default function ProductsPage() {
                       <Pencil className="h-4 w-4" />
                     </button>
                     <button
-                      className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                      className="grid h-9 w-9 place-items-center rounded-xl bg-card ring-1 ring-border hover:bg-muted/50"
                       type="button"
                       onClick={() => {
                         setConfirmTarget(r);
@@ -223,10 +223,10 @@ export default function ProductsPage() {
         </div>
 
         <div className="flex items-center justify-between px-5 py-4">
-          <div className="text-xs text-white/55">Trang {page}</div>
+          <div className="text-xs text-muted-foreground">Trang {page}</div>
           <div className="flex gap-2">
             <button
-              className="rounded-xl bg-white/5 px-3 py-2 text-sm ring-1 ring-white/10 disabled:opacity-40"
+              className="rounded-xl bg-card px-3 py-2 text-sm ring-1 ring-border disabled:opacity-40"
               onClick={() => canPrev && setPage((p) => Math.max(1, p - 1))}
               disabled={!canPrev}
               type="button"
@@ -234,7 +234,7 @@ export default function ProductsPage() {
               ← Trước
             </button>
             <button
-              className="rounded-xl bg-white/5 px-3 py-2 text-sm ring-1 ring-white/10 disabled:opacity-40"
+              className="rounded-xl bg-card px-3 py-2 text-sm ring-1 ring-border disabled:opacity-40"
               onClick={() => canNext && setPage((p) => p + 1)}
               disabled={!canNext}
               type="button"

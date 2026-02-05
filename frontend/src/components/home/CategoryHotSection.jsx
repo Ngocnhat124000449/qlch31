@@ -19,14 +19,14 @@ export default function CategoryHotSection({
     <section className="mt-14">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="text-4xl font-semibold text-white">{title}</h2>
-          {subtitle ? <p className="text-slate-400 mt-2">{subtitle}</p> : null}
+          <h2 className="text-4xl font-semibold text-foreground">{title}</h2>
+          {subtitle ? <p className="text-muted-foreground mt-2">{subtitle}</p> : null}
         </div>
 
         {categoryId ? (
           <Link
             href={`/categories/${categoryId}`}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10"
+            className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-muted/50"
           >
             Xem thêm
           </Link>

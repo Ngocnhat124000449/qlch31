@@ -35,15 +35,15 @@ export default function FlashSaleSection({ endsAt, items }) {
 
   return (
     <section className="mt-10">
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+      <div className="rounded-2xl border border-border bg-card p-6">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-slate-100 font-semibold">
+            <div className="text-foreground font-semibold">
               Khuyến mãi chớp nhoáng
             </div>
 
             {/* ✅ SSR sẽ render "—", client mount xong mới render số */}
-            <div className="text-slate-400 text-sm mt-2">
+            <div className="text-muted-foreground text-sm mt-2">
               {mounted ? (
                 <>
                   {days} ngày &nbsp; {pad2(hours)} giờ &nbsp; {pad2(mins)} phút
@@ -55,7 +55,7 @@ export default function FlashSaleSection({ endsAt, items }) {
             </div>
           </div>
 
-          <div className="text-slate-400 text-sm">Kết thúc sau</div>
+          <div className="text-muted-foreground text-sm">Kết thúc sau</div>
         </div>
 
         <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">

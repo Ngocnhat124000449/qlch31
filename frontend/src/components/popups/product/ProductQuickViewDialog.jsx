@@ -156,22 +156,22 @@ export default function ProductQuickViewDialog({ open, sanphamid, onOpenChange }
         <ScrollArea className="h-[80vh]">
           <div className="p-6">
             <DialogHeader>
-              <DialogTitle className="text-xl text-slate-100">{name}</DialogTitle>
+              <DialogTitle className="text-xl text-foreground">{name}</DialogTitle>
               {desc ? (
-                <div className="text-sm text-slate-400">{desc}</div>
+                <div className="text-sm text-muted-foreground">{desc}</div>
               ) : null}
             </DialogHeader>
 
             <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 aspect-square">
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-card aspect-square">
                 <SmartImage src={heroImg} alt={name} className="h-full w-full object-cover" />
               </div>
 
               <div>
-                <div className="text-3xl font-semibold text-slate-100">
+                <div className="text-3xl font-semibold text-foreground">
                   {selectedVariant?.giaban ? formatVND(selectedVariant.giaban) : "—"}
                 </div>
-                <div className="mt-2 text-sm text-slate-400">
+                <div className="mt-2 text-sm text-muted-foreground">
                   {Number(selectedVariant?.tonkho ?? 0) > 0 ? "Còn hàng" : "Hết hàng"}
                 </div>
 
@@ -182,14 +182,14 @@ export default function ProductQuickViewDialog({ open, sanphamid, onOpenChange }
                   >
                     -
                   </Button>
-                  <div className="w-10 text-center text-slate-100">{qty}</div>
+                  <div className="w-10 text-center text-foreground">{qty}</div>
                   <Button variant="secondary" onClick={() => setQty((q) => q + 1)}>
                     +
                   </Button>
                 </div>
 
                 <div className="mt-5">
-                  <div className="text-sm text-slate-300 mb-2">Chọn biến thể</div>
+                  <div className="text-sm text-muted-foreground mb-2">Chọn biến thể</div>
                   <div className="flex flex-wrap gap-2">
                     {variants.map((v) => (
                       <Button
@@ -215,9 +215,9 @@ export default function ProductQuickViewDialog({ open, sanphamid, onOpenChange }
                   Thêm vào giỏ hàng
                 </Button>
 
-                <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <div className="text-sm font-medium text-slate-100">Thông số nhanh</div>
-                  <div className="mt-2 text-sm text-slate-400">
+                <div className="mt-6 rounded-2xl border border-border bg-card p-4">
+                  <div className="text-sm font-medium text-foreground">Thông số nhanh</div>
+                  <div className="mt-2 text-sm text-muted-foreground">
                     {attrs.length === 0 ? "—" : null}
                     {attrs.slice(0, 6).map((a, idx) => (
                       <div key={idx}>
@@ -232,20 +232,20 @@ export default function ProductQuickViewDialog({ open, sanphamid, onOpenChange }
             <Separator className="my-8" />
 
             <div>
-              <div className="text-xl font-semibold text-slate-100">Đánh giá</div>
+              <div className="text-xl font-semibold text-foreground">Đánh giá</div>
               <div className="mt-4 space-y-4">
                 {reviews.length === 0 ? (
-                  <div className="text-sm text-slate-400">Chưa có đánh giá.</div>
+                  <div className="text-sm text-muted-foreground">Chưa có đánh giá.</div>
                 ) : (
                   reviews.map((rv) => (
-                    <div key={rv.danhgiaid || rv.id} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div key={rv.danhgiaid || rv.id} className="rounded-2xl border border-border bg-card p-4">
                       <div className="flex items-center justify-between">
-                        <div className="font-medium text-slate-100">
+                        <div className="font-medium text-foreground">
                           {rv.user?.hoten || rv.hoten || "Ẩn danh"}
                         </div>
-                        <div className="text-xs text-slate-400">{rv.created_at || rv.createdAt || ""}</div>
+                        <div className="text-xs text-muted-foreground">{rv.created_at || rv.createdAt || ""}</div>
                       </div>
-                      <div className="mt-2 text-sm text-slate-300">{rv.noidung}</div>
+                      <div className="mt-2 text-sm text-muted-foreground">{rv.noidung}</div>
                     </div>
                   ))
                 )}

@@ -89,17 +89,17 @@ export default function BrandsPage() {
         onAction={() => {}}
       />
 
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
+      <div className="rounded-2xl border border-border bg-card p-4 backdrop-blur-xl">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Tìm theo tên / email / SĐT"
-          className="w-full rounded-xl bg-white/5 px-4 py-3 text-sm outline-none ring-1 ring-white/10 focus:ring-indigo-400/30"
+          className="w-full rounded-xl bg-card px-4 py-3 text-sm outline-none ring-1 ring-border focus:ring-indigo-400/30"
         />
       </div>
 
-      <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="grid grid-cols-7 gap-3 px-5 py-3 text-xs text-white/55">
+      <div className="rounded-2xl border border-border bg-card backdrop-blur-xl">
+        <div className="grid grid-cols-7 gap-3 px-5 py-3 text-xs text-muted-foreground">
           <div className="col-span-2">Thương hiệu (Nhà cung cấp)</div>
           <div>Email</div>
           <div>SĐT</div>
@@ -108,11 +108,11 @@ export default function BrandsPage() {
           <div className="text-right">Ngày tạo</div>
         </div>
 
-        <div className="divide-y divide-white/10">
+        <div className="divide-y divide-border">
           {loading ? (
-            <div className="px-5 py-6 text-sm text-white/60">Đang tải…</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">Đang tải…</div>
           ) : filtered.length === 0 ? (
-            <div className="px-5 py-6 text-sm text-white/60">{error || "Chưa có dữ liệu."}</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">{error || "Chưa có dữ liệu."}</div>
           ) : (
             filtered.map((r) => {
               const id = pickSupplierId(r);
@@ -120,17 +120,17 @@ export default function BrandsPage() {
                 <div key={String(id)} className="grid grid-cols-7 items-center gap-3 px-5 py-4">
                   <div className="col-span-2 min-w-0">
                     <div className="truncate text-sm font-medium">{pickSupplierName(r)}</div>
-                    <div className="truncate text-xs text-white/50">#{id}</div>
+                    <div className="truncate text-xs text-muted-foreground">#{id}</div>
                   </div>
-                  <div className="truncate text-sm text-white/70">{r?.email ?? "-"}</div>
-                  <div className="truncate text-sm text-white/70">{r?.sdt ?? r?.phone ?? "-"}</div>
+                  <div className="truncate text-sm text-muted-foreground">{r?.email ?? "-"}</div>
+                  <div className="truncate text-sm text-muted-foreground">{r?.sdt ?? r?.phone ?? "-"}</div>
                   <div className="text-center text-sm">{r.__products ?? 0}</div>
                   <div className="flex justify-center">
                     <span className="rounded-full bg-indigo-500/25 px-4 py-1 text-xs ring-1 ring-indigo-400/30">
                       {statusLabel(r?.trangthai)}
                     </span>
                   </div>
-                  <div className="text-right text-sm text-white/70">
+                  <div className="text-right text-sm text-muted-foreground">
                     {r?.created_at ? new Date(r.created_at).toLocaleDateString("vi-VN") : "-"}
                   </div>
                 </div>

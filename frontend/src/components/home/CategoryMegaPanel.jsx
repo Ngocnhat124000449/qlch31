@@ -31,19 +31,19 @@ export default function CategoryMegaPanel({
       onMouseLeave={onLeave}
       className={[
         "absolute left-[280px] inset-y-0 z-40 w-[920px] rounded-2xl",
-        "border border-white/10 bg-slate-950/80 backdrop-blur",
+        "border border-border bg-popover backdrop-blur",
         "shadow-2xl",
       ].join(" ")}
     >
       <div className="grid grid-cols-12 gap-6 p-6">
         {/* Vendors */}
         <div className="col-span-5">
-          <div className="mb-3 text-sm font-semibold text-slate-100">
+          <div className="mb-3 text-sm font-semibold text-foreground">
             Hãng / Nhà cung cấp
           </div>
 
           {loading ? (
-            <div className="text-sm text-slate-400">Đang tải...</div>
+            <div className="text-sm text-muted-foreground">Đang tải...</div>
           ) : error ? (
             <div className="text-sm text-rose-300">Không tải được dữ liệu</div>
           ) : vendors?.length ? (
@@ -53,8 +53,8 @@ export default function CategoryMegaPanel({
                   key={String(v)}
                   className={[
                     "rounded-lg px-3 py-2 text-sm",
-                    "border border-white/10 bg-white/5",
-                    "text-slate-200",
+                    "border border-border bg-card",
+                    "text-foreground",
                   ].join(" ")}
                 >
                   {v}
@@ -62,13 +62,13 @@ export default function CategoryMegaPanel({
               ))}
             </div>
           ) : (
-            <div className="text-sm text-slate-400">Chưa có hãng</div>
+            <div className="text-sm text-muted-foreground">Chưa có hãng</div>
           )}
         </div>
 
         {/* HOT */}
         <div className="col-span-3">
-          <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-100">
+          <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
             HOT <span className="text-amber-400">⚡</span>
           </div>
           <div className="space-y-2">
@@ -83,8 +83,8 @@ export default function CategoryMegaPanel({
                   disabled={id == null}
                   className={[
                     "block rounded-lg px-3 py-2 text-sm",
-                    "border border-white/10 bg-white/5",
-                    "text-slate-200 hover:bg-white/10 hover:text-slate-100",
+                    "border border-border bg-card",
+                    "text-foreground hover:bg-muted/50 hover:text-foreground",
                     "transition-colors",
                   ].join(" ")}
                 >
@@ -97,7 +97,7 @@ export default function CategoryMegaPanel({
 
         {/* NEW */}
         <div className="col-span-4">
-          <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-100">
+          <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
             Mới <span className="text-emerald-400">●</span>
           </div>
           <div className="space-y-2">
@@ -112,8 +112,8 @@ export default function CategoryMegaPanel({
                   disabled={id == null}
                   className={[
                     "block rounded-lg px-3 py-2 text-sm",
-                    "border border-white/10 bg-white/5",
-                    "text-slate-200 hover:bg-white/10 hover:text-slate-100",
+                    "border border-border bg-card",
+                    "text-foreground hover:bg-muted/50 hover:text-foreground",
                     "transition-colors",
                   ].join(" ")}
                 >

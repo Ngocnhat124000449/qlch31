@@ -16,7 +16,7 @@ export default function SmartImage({
   if (!src) {
     return (
       <div
-        className={`grid place-items-center bg-white/5 text-xs text-white/40 ${className}`}
+        className={`grid place-items-center bg-muted/50 text-xs text-muted-foreground ${className}`}
         style={style}
         {...rest}
       >

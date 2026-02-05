@@ -237,21 +237,21 @@ useEffect(() => {
           else onOpenChange?.(true);
         }}
       >
-        <DialogContent className="max-w-3xl border-white/10 bg-[#0b1020] text-white">
+        <DialogContent className="max-w-3xl border-border bg-background dark:bg-[#0b1020] text-foreground">
           <DialogHeader>
             <DialogTitle>{productId ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}</DialogTitle>
           </DialogHeader>
 
           <Tabs value={tab} onValueChange={setTab} className="gap-4">
-            <TabsList className="bg-white/5 text-white/70 ring-1 ring-white/10">
-              <TabsTrigger value="info" className="data-[state=active]:bg-white/10 data-[state=active]:text-white">
+            <TabsList className="bg-card text-muted-foreground ring-1 ring-border">
+              <TabsTrigger value="info" className="data-[state=active]:bg-muted/50 data-[state=active]:text-foreground">
                 Thông tin
               </TabsTrigger>
               <TabsTrigger
                 value="variants"
                 disabled={!productId}
                 title={!productId ? "Hãy lưu sản phẩm trước để thêm biến thể" : undefined}
-                className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                className="data-[state=active]:bg-muted/50 data-[state=active]:text-foreground"
               >
                 Biến thể
               </TabsTrigger>
@@ -265,7 +265,7 @@ useEffect(() => {
               ) : null}
 
               {hint ? (
-                <div className="rounded-xl border border-indigo-400/20 bg-indigo-500/10 px-4 py-3 text-sm text-white/80">
+                <div className="rounded-xl border border-indigo-400/20 bg-indigo-500/10 px-4 py-3 text-sm text-foreground">
                   {hint}
                 </div>
               ) : null}
@@ -286,10 +286,10 @@ useEffect(() => {
                 <div className="grid gap-2">
                   <Label>Danh mục</Label>
                   <Select value={danhmucid} onValueChange={setDanhmucid} disabled={loadingOpt}>
-                    <SelectTrigger className="w-full border-white/15 bg-white/5">
+                    <SelectTrigger className="w-full border-white/15 bg-card">
                       <SelectValue placeholder="Chọn danh mục" />
                     </SelectTrigger>
-                    <SelectContent className="border-white/10 bg-[#0b1020] text-white">
+                    <SelectContent className="border-border bg-background dark:bg-[#0b1020] text-foreground">
                       {cats.map((c) => {
                         const cid = c?.danhmucid ?? c?.id;
                         return (
@@ -305,10 +305,10 @@ useEffect(() => {
                 <div className="grid gap-2">
                   <Label>Nhà cung cấp</Label>
                   <Select value={nhacungcapid} onValueChange={setNhacungcapid} disabled={loadingOpt}>
-                    <SelectTrigger className="w-full border-white/15 bg-white/5">
+                    <SelectTrigger className="w-full border-white/15 bg-card">
                       <SelectValue placeholder="Chọn nhà cung cấp" />
                     </SelectTrigger>
-                    <SelectContent className="border-white/10 bg-[#0b1020] text-white">
+                    <SelectContent className="border-border bg-background dark:bg-[#0b1020] text-foreground">
                       {sups.map((s) => {
                         const sid = s?.nhacungcapid ?? s?.id;
                         return (
@@ -352,7 +352,7 @@ useEffect(() => {
       Chọn ảnh từ thiết bị
     </Button>
 
-    <div className="min-w-0 text-xs text-white/70">
+    <div className="min-w-0 text-xs text-muted-foreground">
       {image ? (
         <span className="truncate">Đã chọn: {image.name}</span>
       ) : initial?.hinhanhurl ? (
@@ -370,8 +370,8 @@ useEffect(() => {
   </div>
 
   {(imagePreview || initial?.hinhanhurl) ? (
-    <div className="mt-1 overflow-hidden rounded-lg border border-white/10 bg-white/5 p-2">
-      <div className="text-[11px] text-white/60">Xem trước</div>
+    <div className="mt-1 overflow-hidden rounded-lg border border-border bg-card p-2">
+      <div className="text-[11px] text-muted-foreground">Xem trước</div>
       <SmartImage
         src={imagePreview || initial?.hinhanhurl}
         alt={ten ? `Ảnh ${ten}` : "Ảnh sản phẩm"}
@@ -381,10 +381,10 @@ useEffect(() => {
   ) : null}
 </div>
 
-              <label className="flex items-center gap-2 text-sm text-white/80">
+              <label className="flex items-center gap-2 text-sm text-foreground">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 rounded border-white/20"
+                  className="h-4 w-4 rounded border-border"
                   checked={!!trangthai}
                   onChange={(e) => setTrangthai(e.target.checked)}
                 />
@@ -409,7 +409,7 @@ useEffect(() => {
                 <Button
                   type="button"
                   variant="outline"
-                  className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+                  className="border-white/15 bg-card text-foreground hover:bg-muted/50"
                   onClick={() => onOpenChange?.(false)}
                   disabled={saving}
                 >
@@ -425,7 +425,7 @@ useEffect(() => {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-sm font-medium">Biến thể sản phẩm</div>
-                  <div className="text-xs text-white/55">Quản lý SKU, giá bán, tồn kho.</div>
+                  <div className="text-xs text-muted-foreground">Quản lý SKU, giá bán, tồn kho.</div>
                 </div>
                 <Button
                   type="button"
@@ -444,19 +444,19 @@ useEffect(() => {
                 </Button>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/5">
-                <div className="grid grid-cols-7 gap-3 px-4 py-3 text-xs text-white/55">
+              <div className="rounded-2xl border border-border bg-card">
+                <div className="grid grid-cols-7 gap-3 px-4 py-3 text-xs text-muted-foreground">
                   <div className="col-span-2">SKU</div>
                   <div>Giá</div>
                   <div className="text-center">Tồn kho</div>
                   <div className="text-center">Trạng thái</div>
                   <div className="text-right">Hành động</div>
                 </div>
-                <div className="divide-y divide-white/10">
+                <div className="divide-y divide-border">
                   {loadingVariants ? (
-                    <div className="px-4 py-5 text-sm text-white/60">Đang tải…</div>
+                    <div className="px-4 py-5 text-sm text-muted-foreground">Đang tải…</div>
                   ) : variantList.length === 0 ? (
-                    <div className="px-4 py-5 text-sm text-white/60">Chưa có biến thể.</div>
+                    <div className="px-4 py-5 text-sm text-muted-foreground">Chưa có biến thể.</div>
                   ) : (
                     variantList.map((v) => {
                       const vid = pickVariantId(v);
@@ -464,7 +464,7 @@ useEffect(() => {
                         <div key={String(vid)} className="grid grid-cols-7 items-center gap-3 px-4 py-3">
                           <div className="col-span-2 min-w-0">
                             <div className="truncate text-sm font-medium">{v?.sku ?? "-"}</div>
-                            <div className="truncate text-xs text-white/50">#{vid}</div>
+                            <div className="truncate text-xs text-muted-foreground">#{vid}</div>
                           </div>
                           <div className="text-sm">{v?.giaban ?? "-"}</div>
                           <div className="text-center text-sm">{v?.tonkho ?? 0}</div>
@@ -478,7 +478,7 @@ useEffect(() => {
                               type="button"
                               variant="outline"
                               size="sm"
-                              className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+                              className="border-white/15 bg-card text-foreground hover:bg-muted/50"
                               onClick={() => {
                                 setVariantEditing(v);
                                 setVariantModalOpen(true);
@@ -498,7 +498,7 @@ useEffect(() => {
                 <Button
                   type="button"
                   variant="outline"
-                  className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+                  className="border-white/15 bg-card text-foreground hover:bg-muted/50"
                   onClick={handleReloadProduct}
                 >
                   Làm mới sản phẩm
@@ -506,7 +506,7 @@ useEffect(() => {
                 <Button
                   type="button"
                   variant="outline"
-                  className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+                  className="border-white/15 bg-card text-foreground hover:bg-muted/50"
                   onClick={() => loadVariants(productId)}
                 >
                   Làm mới biến thể

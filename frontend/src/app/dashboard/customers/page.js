@@ -92,8 +92,8 @@ export default function CustomersPage() {
         onAction={undefined}
       />
 
-      <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="grid grid-cols-7 gap-3 px-5 py-3 text-xs text-white/55">
+      <div className="rounded-2xl border border-border bg-card backdrop-blur-xl">
+        <div className="grid grid-cols-7 gap-3 px-5 py-3 text-xs text-muted-foreground">
           <div className="col-span-2">Khách hàng</div>
           <div>Email</div>
           <div className="text-center">Vai trò</div>
@@ -102,11 +102,11 @@ export default function CustomersPage() {
           <div className="text-right">Lần mua gần nhất</div>
         </div>
 
-        <div className="divide-y divide-white/10">
+        <div className="divide-y divide-border">
           {loading ? (
-            <div className="px-5 py-6 text-sm text-white/60">Đang tải…</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">Đang tải…</div>
           ) : enriched.length === 0 ? (
-            <div className="px-5 py-6 text-sm text-white/60">{error || "Chưa có dữ liệu."}</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">{error || "Chưa có dữ liệu."}</div>
           ) : (
             enriched.map((u) => {
               const id = u?.userid ?? u?.id;
@@ -114,9 +114,9 @@ export default function CustomersPage() {
                 <div key={String(id)} className="grid grid-cols-7 items-center gap-3 px-5 py-4">
                   <div className="col-span-2 min-w-0">
                     <div className="truncate text-sm font-medium">{pickUserName(u)}</div>
-                    <div className="truncate text-xs text-white/50">#{id}</div>
+                    <div className="truncate text-xs text-muted-foreground">#{id}</div>
                   </div>
-                  <div className="truncate text-sm text-white/70">{u?.email ?? "-"}</div>
+                  <div className="truncate text-sm text-muted-foreground">{u?.email ?? "-"}</div>
                   <div className="flex justify-center">
                     <span className="rounded-full bg-indigo-500/25 px-4 py-1 text-xs ring-1 ring-indigo-400/30">
                       {String(pickRole(u)).toLowerCase()}
@@ -124,7 +124,7 @@ export default function CustomersPage() {
                   </div>
                   <div className="text-center text-sm">{u.__orders ?? 0}</div>
                   <div className="text-right text-sm">{formatMoneyVND(u.__spend || 0)}</div>
-                  <div className="text-right text-sm text-white/70">
+                  <div className="text-right text-sm text-muted-foreground">
                     {u.__last ? new Date(u.__last).toLocaleDateString("vi-VN") : "-"}
                   </div>
                 </div>

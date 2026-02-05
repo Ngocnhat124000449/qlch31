@@ -39,10 +39,10 @@ export default function SiteHeader() {
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-[#070c1a]/70 backdrop-blur">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1280px] items-center gap-6 px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-card">
             ⌂
           </span>
           <span>QuantumCore</span>
@@ -55,7 +55,7 @@ export default function SiteHeader() {
               <Link
                 key={n.label}
                 href={n.href}
-                className="inline-flex items-center gap-2 text-sm text-slate-300 hover:text-white"
+                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
               >
                 <Icon className="h-4 w-4" />
                 {n.label}
@@ -63,7 +63,7 @@ export default function SiteHeader() {
             );
           })}
 
-          <div className="inline-flex items-center gap-2 text-sm text-slate-300 hover:text-white cursor-pointer">
+          <div className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground cursor-pointer">
             <Grid2x2 className="h-4 w-4" />
             Categories
             <ChevronDown className="h-4 w-4 opacity-70" />
@@ -72,12 +72,12 @@ export default function SiteHeader() {
 
         <div className="ml-auto hidden w-[420px] items-center md:flex">
           <div
-            className="flex w-full items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-slate-300"
+            className="flex w-full items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-muted-foreground"
             onClick={openSearch}
           >
             <Search className="h-4 w-4 opacity-70" />
             <input
-              className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
+              className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
               placeholder="Search products..."
               readOnly
             />
@@ -88,7 +88,7 @@ export default function SiteHeader() {
           <Button
             variant="ghost"
             size="icon"
-            className="text-slate-200 hover:bg-white/5"
+            className="text-foreground hover:bg-card"
             aria-label="Theme"
           >
             <Moon className="h-5 w-5" />
@@ -97,7 +97,7 @@ export default function SiteHeader() {
           <Button
             variant="ghost"
             size="icon"
-            className="text-slate-200 hover:bg-white/5"
+            className="text-foreground hover:bg-card"
             aria-label="Wishlist"
             asChild
           >
@@ -109,7 +109,7 @@ export default function SiteHeader() {
           <Button
             variant="ghost"
             size="icon"
-            className="text-slate-200 hover:bg-white/5"
+            className="text-foreground hover:bg-card"
             aria-label="Cart"
             onClick={openCart}
           >

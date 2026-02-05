@@ -91,6 +91,14 @@ export async function adminGetOrderDetail(donhangid) {
   return res?.order ?? res?.data?.order ?? res;
 }
 
+export async function adminUpdateOrderStatus(donhangid, trangthai) {
+  const res = await apiFetch(`/api/orders/${encodeURIComponent(donhangid)}/status`, {
+    method: "PATCH",
+    body: { trangthai: String(trangthai || "").toUpperCase() },
+  });
+  return res;
+}
+
 // ----------------------------
 // Users
 // ----------------------------
@@ -203,6 +211,57 @@ export async function adminUpdateVariant(bentheid, fields = {}) {
 }
 
 // ----------------------------
+// Attributes (Thuộc tính)
+// ----------------------------
+
+export async function adminListAttributes() {
+  const res = await apiFetch(`/api/attributes`);
+  return { raw: res, attributes: res?.attributes ?? normalizeList(res) };
+}
+
+export async function adminCreateAttribute(body) {
+  const res = await apiFetch(`/api/attributes`, {
+    method: "POST",
+    body,
+  });
+  return res?.attribute ?? res;
+}
+
+export async function adminListCategoryAttributes(danhmucid) {
+  const res = await apiFetch(`/api/categories/${encodeURIComponent(danhmucid)}/attributes`);
+  return { raw: res, mappings: res?.categoryAttributes ?? normalizeList(res) };
+}
+
+export async function adminAttachCategoryAttribute(danhmucid, body) {
+  const res = await apiFetch(`/api/categories/${encodeURIComponent(danhmucid)}/attributes`, {
+    method: "POST",
+    body,
+  });
+  return res?.mapping ?? res;
+}
+
+export async function adminUpdateCategoryAttribute(danhmucid, thuoctinhid, body) {
+  const res = await apiFetch(
+    `/api/categories/${encodeURIComponent(danhmucid)}/attributes/${encodeURIComponent(thuoctinhid)}`,
+    {
+      method: "PUT",
+      body,
+    }
+  );
+  return res?.mapping ?? res;
+}
+
+export async function adminDetachCategoryAttribute(danhmucid, thuoctinhid) {
+  const res = await apiFetch(
+    `/api/categories/${encodeURIComponent(danhmucid)}/attributes/${encodeURIComponent(thuoctinhid)}`,
+    {
+      method: "DELETE",
+    }
+  );
+  return res;
+}
+
+// ----------------------------
 // Promotions
 // ----------------------------
 
@@ -267,4 +326,53 @@ export async function publicGetReviewsByVariant(bentheid, { limit = 1, offset = 
     summary,
     reviews: normalizeList(res),
   };
+}
+
+
+// ----------------------------
+// Banners
+// ----------------------------
+
+function normalizeBannerList(res) {
+  // backend: { message, data: [...] } (public route)
+  if (Array.isArray(res)) return res;
+  if (Array.isArray(res?.data)) return res.data;
+  if (Array.isArray(res?.banners)) return res.banners;
+  return [];
+}
+
+export async function adminListBanners({ vitri, all = true } = {}) {
+  const qs = toQuery({ vitri, all: all ? "true" : undefined });
+  const res = await apiFetch(`/api/banners${qs}`, { method: "GET" });
+  return { raw: res, banners: normalizeBannerList(res) };
+}
+
+export async function adminGetBanner(bannerid) {
+  const res = await apiFetch(`/api/banners/${encodeURIComponent(bannerid)}`, { method: "GET" });
+  return res?.data ?? res?.banner ?? res;
+}
+
+export async function adminCreateBanner(fields = {}) {
+  const fd = buildFormData(fields, "image");
+  const res = await apiFetch(`/api/banners`, {
+    method: "POST",
+    body: fd,
+  });
+  return res?.data ?? res?.banner ?? res;
+}
+
+export async function adminUpdateBanner(bannerid, fields = {}) {
+  const fd = buildFormData(fields, "image");
+  const res = await apiFetch(`/api/banners/${encodeURIComponent(bannerid)}`, {
+    method: "PATCH",
+    body: fd,
+  });
+  return res?.data ?? res?.banner ?? res;
+}
+
+export async function adminDeleteBanner(bannerid) {
+  const res = await apiFetch(`/api/banners/${encodeURIComponent(bannerid)}`, {
+    method: "DELETE",
+  });
+  return res;
 }

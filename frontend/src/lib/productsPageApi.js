@@ -1,19 +1,16 @@
-const RAW_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
-const API_BASE = RAW_BASE.replace(/\/$/, "");
+// src/lib/productsPageApi.js
+// API helper cho trang /products (Server Components).
+// - Group theo danh mục
+// - Mỗi sản phẩm kèm danh sách biến thể
+// - Dùng publicFetchJson để tự resolve base URL (dev fallback / proxy).
 
-/**
- * API helper cho trang /products (server component).
- * - Group theo danh mục
- * - Mỗi sản phẩm kèm danh sách biến thể
- */
+import { publicFetchJson } from "@/lib/publicApi";
 
 export const PRODUCTS_ENDPOINTS = {
   categories: "/api/catalog/categories",
   products: "/api/catalog/products",
   productsByCategory: (danhmucid, limit = 8) =>
-    `/api/catalog/products?danhmucid=${encodeURIComponent(
-      danhmucid
-    )}&limit=${limit}`,
+    `/api/catalog/products?danhmucid=${encodeURIComponent(danhmucid)}&limit=${limit}`,
   productsBySearch: (q, limit = 24) =>
     `/api/catalog/products?q=${encodeURIComponent(q)}&limit=${limit}`,
   variantsByProduct: (sanphamid) =>
@@ -21,27 +18,7 @@ export const PRODUCTS_ENDPOINTS = {
 };
 
 async function fetchJson(path, init = {}) {
-  if (!API_BASE) {
-    throw new Error("Missing NEXT_PUBLIC_API_BASE in .env.local");
-  }
-
-  const res = await fetch(`${API_BASE}${path}`, {
-    ...init,
-    headers: {
-      ...(init.headers || {}),
-      "Content-Type": "application/json",
-    },
-    cache: "no-store",
-  });
-
-  const data = await res.json().catch(() => null);
-  if (!res.ok) {
-    const err = new Error(data?.message || "API error");
-    err.status = res.status;
-    err.data = data;
-    throw err;
-  }
-  return data;
+  return publicFetchJson(path, { ...init, cache: init.cache ?? "no-store" });
 }
 
 function normalizeList(data) {
@@ -99,9 +76,7 @@ async function attachVariantsToProducts(products, variantLimit = 6) {
     list.map((p) => {
       const id = getProductId(p);
       if (!id) return Promise.resolve(null);
-      return fetchJson(PRODUCTS_ENDPOINTS.variantsByProduct(id)).catch(
-        () => null
-      );
+      return fetchJson(PRODUCTS_ENDPOINTS.variantsByProduct(id)).catch(() => null);
     })
   );
 
@@ -117,15 +92,9 @@ async function attachVariantsToProducts(products, variantLimit = 6) {
  * [{ id, title, products: [{...product, variants: [...]}, ...] }, ...]
  */
 export async function buildProductsPageByCategories(opts = {}) {
-  const {
-    maxCategories = 8,
-    productLimit = 8,
-    variantLimit = 6,
-  } = opts;
+  const { maxCategories = 8, productLimit = 8, variantLimit = 6 } = opts;
 
-  const catsRes = await fetchJson(PRODUCTS_ENDPOINTS.categories).catch(
-    () => ({ categories: [] })
-  );
+  const catsRes = await fetchJson(PRODUCTS_ENDPOINTS.categories).catch(() => ({ categories: [] }));
   const categories = normalizeList(catsRes);
 
   const picked = categories.slice(0, Math.max(1, Number(maxCategories) || 8));
@@ -134,9 +103,7 @@ export async function buildProductsPageByCategories(opts = {}) {
     picked.map((cat) => {
       const id = getCatId(cat);
       if (!id) return Promise.resolve(null);
-      return fetchJson(
-        PRODUCTS_ENDPOINTS.productsByCategory(id, productLimit)
-      ).catch(() => null);
+      return fetchJson(PRODUCTS_ENDPOINTS.productsByCategory(id, productLimit)).catch(() => null);
     })
   );
 
@@ -146,16 +113,10 @@ export async function buildProductsPageByCategories(opts = {}) {
     const catId = getCatId(cat);
     if (!catId) continue;
 
-    const products = mergeUniqueProducts(
-      normalizeList(productResList[i]),
-      productLimit
-    );
+    const products = mergeUniqueProducts(normalizeList(productResList[i]), productLimit);
     if (!products.length) continue;
 
-    const productsWithVariants = await attachVariantsToProducts(
-      products,
-      variantLimit
-    );
+    const productsWithVariants = await attachVariantsToProducts(products, variantLimit);
 
     blocks.push({
       id: catId,
@@ -177,9 +138,7 @@ export async function buildProductsPageBySearch(q, opts = {}) {
 
   const [catsRes, prodRes] = await Promise.all([
     fetchJson(PRODUCTS_ENDPOINTS.categories).catch(() => ({ categories: [] })),
-    fetchJson(PRODUCTS_ENDPOINTS.productsBySearch(keyword, limit)).catch(
-      () => ({ products: [] })
-    ),
+    fetchJson(PRODUCTS_ENDPOINTS.productsBySearch(keyword, limit)).catch(() => ({ products: [] })),
   ]);
 
   const categories = normalizeList(catsRes);
@@ -190,10 +149,7 @@ export async function buildProductsPageBySearch(q, opts = {}) {
   });
 
   const products = mergeUniqueProducts(normalizeList(prodRes), limit);
-  const productsWithVariants = await attachVariantsToProducts(
-    products,
-    variantLimit
-  );
+  const productsWithVariants = await attachVariantsToProducts(products, variantLimit);
 
   return { keyword, products: productsWithVariants, categoryMap };
 }

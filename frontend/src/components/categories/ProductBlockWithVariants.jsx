@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SmartImage from "@/components/ui/SmartImage";
 
 import { formatVND } from "@/lib/format";
@@ -47,34 +48,44 @@ export default function ProductBlockWithVariants({ product }) {
   const variants = normalizeVariants(product);
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
-      <div className="relative h-44">
-        <SmartImage src={imageUrl} alt={name} className="h-full w-full object-cover" />
+    <div className="rounded-2xl border border-border bg-card overflow-hidden">
+      <Link
+        href={id != null ? `/products/${encodeURIComponent(id)}` : "#"}
+        className="block"
+        aria-label={id != null ? `Xem chi tiết ${name}` : "Sản phẩm"}
+      >
+        <div className="relative h-44">
+          <SmartImage
+            src={imageUrl}
+            alt={name}
+            className="h-full w-full object-cover"
+          />
 
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent p-3">
-          <div className="text-slate-100 font-semibold line-clamp-1">
-            {name}
-          </div>
-          <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-300">
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent p-3">
+            <div className="text-foreground font-semibold line-clamp-1">
+              {name}
+            </div>
+          <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
             {supplierName ? (
-              <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5">
+              <span className="rounded-full border border-border bg-card px-2 py-0.5">
                 {supplierName}
               </span>
             ) : null}
             {id != null ? (
-              <span className="text-slate-400">#{String(id)}</span>
+              <span className="text-muted-foreground">#{String(id)}</span>
             ) : null}
           </div>
+          </div>
         </div>
-      </div>
+      </Link>
 
       <div className="p-4">
         {shortDesc ? (
-          <p className="text-sm text-slate-400 line-clamp-2">{shortDesc}</p>
+          <p className="text-sm text-muted-foreground line-clamp-2">{shortDesc}</p>
         ) : null}
 
         <div className="mt-4">
-          <div className="text-sm font-semibold text-slate-100">
+          <div className="text-sm font-semibold text-foreground">
             Biến thể
           </div>
 
@@ -90,13 +101,13 @@ export default function ProductBlockWithVariants({ product }) {
                 return (
                   <div
                     key={String(bentheid ?? sku)}
-                    className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-slate-950/30 px-3 py-2"
+                    className="flex items-center justify-between gap-3 rounded-xl border border-border bg-muted/30 dark:bg-muted/30 dark:bg-slate-950/30 px-3 py-2"
                   >
                     <div className="min-w-0">
-                      <div className="text-sm font-medium text-slate-100 truncate">
+                      <div className="text-sm font-medium text-foreground truncate">
                         {sku}
                       </div>
-                      <div className="mt-0.5 text-xs text-slate-400">
+                      <div className="mt-0.5 text-xs text-muted-foreground">
                         {stock != null ? `Tồn kho: ${stock}` : ""}
                         {!active ? " · Tạm tắt" : ""}
                       </div>
@@ -112,7 +123,7 @@ export default function ProductBlockWithVariants({ product }) {
               })}
             </div>
           ) : (
-            <div className="mt-2 text-sm text-slate-400">
+            <div className="mt-2 text-sm text-muted-foreground">
               Sản phẩm chưa có biến thể.
             </div>
           )}

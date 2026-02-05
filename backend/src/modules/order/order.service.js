@@ -43,7 +43,7 @@ async function getCartItemsForUser(client, userid) {
 
 export async function createOrderFromCart(
   userid,
-  { phuongthucid, diachiuserid, phivanchuyen, ghichu }
+  { phuongthucid, diachiuserid, phivanchuyen, ghichu, items: selectedItems }
 ) {
   const client = await pool.connect();
   try {
@@ -72,10 +72,69 @@ export async function createOrderFromCart(
     }
 
     // cart items
-    const { magiohang, items } = await getCartItemsForUser(client, userid);
-    if (!magiohang || items.length === 0) {
+    const { magiohang, items: cartItems } = await getCartItemsForUser(
+      client,
+      userid
+    );
+    if (!magiohang || cartItems.length === 0) {
       throw new AppError("Cart is empty", 400, "CART_EMPTY");
     }
+
+    // If client provides selected items, checkout only those. Otherwise checkout whole cart.
+    // selectedItems: [{ bentheid, soluong }]
+    const cartMap = new Map(
+      cartItems.map((it) => [Number(it.bentheid), it])
+    );
+
+    const items = (() => {
+      if (!Array.isArray(selectedItems)) {
+        return cartItems.map((it) => ({ ...it, soluong: Number(it.soluong) }));
+      }
+
+      const picked = [];
+      for (const sel of selectedItems) {
+        const bentheid = Number(sel?.bentheid);
+        const qty = Number(sel?.soluong);
+        const row = cartMap.get(bentheid);
+        if (!row) {
+          throw new AppError(
+            "Selected item is not in cart",
+            400,
+            "ITEM_NOT_IN_CART",
+            { bentheid }
+          );
+        }
+
+        const inCartQty = Number(row.soluong);
+        if (!Number.isInteger(qty) || qty <= 0) {
+          throw new AppError(
+            "Invalid selected quantity",
+            400,
+            "INVALID_QTY",
+            { bentheid, qty }
+          );
+        }
+        if (qty > inCartQty) {
+          throw new AppError(
+            "Selected quantity exceeds cart quantity",
+            409,
+            "QTY_EXCEEDS_CART",
+            { bentheid, requested: qty, inCart: inCartQty }
+          );
+        }
+
+        picked.push({ ...row, soluong: qty, _inCartQty: inCartQty });
+      }
+
+      if (picked.length === 0) {
+        throw new AppError(
+          "No valid items selected",
+          400,
+          "NO_ITEMS_SELECTED"
+        );
+      }
+      return picked;
+    })();
 
     // validate stock + active, compute tongtien
     let tongtien = 0;
@@ -166,11 +225,30 @@ export async function createOrderFromCart(
       });
     }
 
-    // clear cart
-    await client.query(
-      `DELETE FROM public.giohang_chua_bienthesanpham WHERE magiohang=$1`,
-      [magiohang]
-    );
+    // update cart
+    if (!Array.isArray(selectedItems)) {
+      // old behavior: clear whole cart
+      await client.query(
+        `DELETE FROM public.giohang_chua_bienthesanpham WHERE magiohang=$1`,
+        [magiohang]
+      );
+    } else {
+      // new behavior: remove only selected items (or decrement their quantities)
+      for (const it of items) {
+        const remaining = Number(it._inCartQty) - Number(it.soluong);
+        if (remaining <= 0) {
+          await client.query(
+            `DELETE FROM public.giohang_chua_bienthesanpham WHERE magiohang=$1 AND bentheid=$2`,
+            [magiohang, it.bentheid]
+          );
+        } else {
+          await client.query(
+            `UPDATE public.giohang_chua_bienthesanpham SET soluong=$3 WHERE magiohang=$1 AND bentheid=$2`,
+            [magiohang, it.bentheid, remaining]
+          );
+        }
+      }
+    }
 
     await client.query("COMMIT");
 

@@ -94,7 +94,7 @@ export default function CategorySidebar({ categories = [] }) {
 
   return (
     <div
-      className="relative rounded-2xl border border-white/10 bg-slate-950/40 p-4"
+      className="relative rounded-2xl border border-border bg-muted/40 dark:bg-muted/30 dark:bg-slate-950/40 p-4"
       onMouseLeave={onLeaveAll}
     >
       <div className="space-y-2">
@@ -109,12 +109,12 @@ export default function CategorySidebar({ categories = [] }) {
               href={id ? `/categories/${id}` : "/categories"}
               onMouseEnter={() => onEnterCat(id)}
               className={[
-                "flex items-center justify-between rounded-xl px-3 py-3 text-slate-200",
-                active ? "bg-white/10" : "hover:bg-white/5",
+                "flex items-center justify-between rounded-xl px-3 py-3 text-foreground",
+                active ? "bg-muted/50" : "hover:bg-card",
               ].join(" ")}
             >
               <span className="text-sm font-medium">{name}</span>
-              <span className="text-slate-400">{">"}</span>
+              <span className="text-muted-foreground">{">"}</span>
             </Link>
           );
         })}

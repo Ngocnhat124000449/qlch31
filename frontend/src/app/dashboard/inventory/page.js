@@ -65,14 +65,14 @@ export default function InventoryPage() {
       <div className="flex items-center justify-between">
         <div>
           <div className="text-xl font-semibold">Tồn kho</div>
-          <div className="text-sm text-white/55">
-            Tồn kho được tính bằng tổng <span className="text-white/80">tonkho</span> của các biến thể (API /api/catalog/products/:id/variants).
+          <div className="text-sm text-muted-foreground">
+            Tồn kho được tính bằng tổng <span className="text-foreground">tonkho</span> của các biến thể (API /api/catalog/products/:id/variants).
           </div>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="grid grid-cols-6 gap-3 px-5 py-3 text-xs text-white/55">
+      <div className="rounded-2xl border border-border bg-card backdrop-blur-xl">
+        <div className="grid grid-cols-6 gap-3 px-5 py-3 text-xs text-muted-foreground">
           <div className="col-span-2">Sản phẩm</div>
           <div>SKU</div>
           <div className="text-center">Tồn kho</div>
@@ -80,11 +80,11 @@ export default function InventoryPage() {
           <div className="text-right">Trạng thái</div>
         </div>
 
-        <div className="divide-y divide-white/10">
+        <div className="divide-y divide-border">
           {loading ? (
-            <div className="px-5 py-6 text-sm text-white/60">Đang tải…</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">Đang tải…</div>
           ) : rows.length === 0 ? (
-            <div className="px-5 py-6 text-sm text-white/60">{error || "Chưa có dữ liệu."}</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">{error || "Chưa có dữ liệu."}</div>
           ) : (
             rows.map((r) => {
               const id = r?.sanphamid ?? r?.id;
@@ -93,11 +93,11 @@ export default function InventoryPage() {
                 <div key={String(id)} className="grid grid-cols-6 items-center gap-3 px-5 py-4">
                   <div className="col-span-2 min-w-0">
                     <div className="truncate text-sm font-medium">{r?.ten ?? "-"}</div>
-                    <div className="truncate text-xs text-white/50">#{id}</div>
+                    <div className="truncate text-xs text-muted-foreground">#{id}</div>
                   </div>
-                  <div className="text-sm text-white/70">{r.__sku}</div>
+                  <div className="text-sm text-muted-foreground">{r.__sku}</div>
                   <div className="text-center text-sm">{stock}</div>
-                  <div className="text-center text-sm text-white/50">-</div>
+                  <div className="text-center text-sm text-muted-foreground">-</div>
                   <div className="text-right">
                     <span className="rounded-full bg-indigo-500/25 px-4 py-1 text-xs ring-1 ring-indigo-400/30">
                       {statusFromStock(stock)}

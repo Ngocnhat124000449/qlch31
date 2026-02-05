@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SmartImage from "@/components/ui/SmartImage";
 import { Badge } from "@/components/ui/badge";
 import { formatVND } from "@/lib/format";
@@ -53,32 +54,45 @@ export default function ProductWithVariantsCard({ product, variantLimit = 6 }) {
   const show = variants.slice(0, Math.max(0, Number(variantLimit) || 0) || 6);
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
-      <div className="relative h-44">
-        <SmartImage src={imageUrl} alt={name} className="h-full w-full object-cover" />
-      </div>
+    <div className="rounded-2xl border border-border bg-card overflow-hidden">
+      <Link
+        href={id != null ? `/products/${encodeURIComponent(id)}` : "#"}
+        className="block"
+        aria-label={id != null ? `Xem chi tiết ${name}` : "Sản phẩm"}
+      >
+        <div className="relative h-44">
+          <SmartImage
+            src={imageUrl}
+            alt={name}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      </Link>
 
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <div className="text-slate-100 font-semibold line-clamp-2">
+            <Link
+              href={id != null ? `/products/${encodeURIComponent(id)}` : "#"}
+              className="text-foreground font-semibold line-clamp-2 hover:underline"
+            >
               {name}
-            </div>
+            </Link>
             {supplier ? (
-              <div className="mt-1 text-xs text-slate-400 line-clamp-1">
+              <div className="mt-1 text-xs text-muted-foreground line-clamp-1">
                 {supplier}
               </div>
             ) : null}
           </div>
 
-          <Badge className="bg-white/10 text-slate-100 border border-white/10">
+          <Badge className="bg-muted/50 text-foreground border border-border">
             {variants.length} biến thể
           </Badge>
         </div>
 
         <div className="mt-3 space-y-2">
           {show.length === 0 ? (
-            <div className="text-sm text-slate-400">Chưa có biến thể.</div>
+            <div className="text-sm text-muted-foreground">Chưa có biến thể.</div>
           ) : (
             show.map((v) => {
               const vid = pickVariantId(v) ?? Math.random();
@@ -89,23 +103,23 @@ export default function ProductWithVariantsCard({ product, variantLimit = 6 }) {
               return (
                 <div
                   key={String(vid)}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-slate-950/30 px-3 py-2"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-border bg-muted/30 dark:bg-slate-950/30 px-3 py-2"
                 >
                   <div className="min-w-0">
-                    <div className="text-xs font-medium text-slate-100 line-clamp-1">
+                    <div className="text-xs font-medium text-foreground line-clamp-1">
                       {sku}
                     </div>
-                    <div className="text-[11px] text-slate-400">ID: {vid}</div>
+                    <div className="text-[11px] text-muted-foreground">ID: {vid}</div>
                   </div>
 
                   <div className="text-right">
-                    <div className="text-xs font-semibold text-pink-300">
+                    <div className="text-xs font-semibold text-primary">
                       {formatVND(price)}
                     </div>
                     <div
                       className={[
                         "text-[11px]",
-                        stock > 0 ? "text-emerald-300" : "text-slate-400",
+                        stock > 0 ? "text-emerald-600 dark:text-emerald-300" : "text-muted-foreground",
                       ].join(" ")}
                     >
                       {stock > 0 ? `Còn ${stock}` : "Hết hàng"}
@@ -117,7 +131,7 @@ export default function ProductWithVariantsCard({ product, variantLimit = 6 }) {
           )}
 
           {variants.length > show.length ? (
-            <div className="text-xs text-slate-400">
+            <div className="text-xs text-muted-foreground">
               +{variants.length - show.length} biến thể khác
             </div>
           ) : null}
@@ -125,7 +139,7 @@ export default function ProductWithVariantsCard({ product, variantLimit = 6 }) {
 
         {/* Hint: id để debug/link sau này */}
         {id ? (
-          <div className="mt-3 text-[11px] text-slate-500">SP#{id}</div>
+          <div className="mt-3 text-[11px] text-muted-foreground">SP#{id}</div>
         ) : null}
       </div>
     </div>

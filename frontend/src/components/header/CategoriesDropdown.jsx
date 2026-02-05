@@ -142,7 +142,7 @@ export default function CategoriesDropdown({ active = false }) {
         onClick={() => setOpen((v) => !v)} // fallback cho thiết bị không hover
         className={[
           "flex items-center gap-1 text-sm font-medium transition-colors",
-          active ? "text-slate-100" : "text-slate-300 hover:text-slate-100",
+          active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
         ].join(" ")}
         aria-haspopup="menu"
         aria-expanded={open}
@@ -156,11 +156,11 @@ export default function CategoriesDropdown({ active = false }) {
           onMouseEnter={openMenu}
         >
           {/* Container relative để CategoryMegaPanel định vị absolute (left-[280px], top-0) */}
-          <div className="relative rounded-2xl border border-white/10 bg-slate-950/95 text-slate-100 shadow-2xl">
+          <div className="relative rounded-2xl border border-border bg-popover text-foreground shadow-2xl">
             {/* Cột trái: danh mục */}
             <div className="w-[280px] p-2">
               {catsLoading ? (
-                <div className="px-3 py-2 text-sm text-slate-400">
+                <div className="px-3 py-2 text-sm text-muted-foreground">
                   Đang tải danh mục...
                 </div>
               ) : cats.length ? (
@@ -176,23 +176,23 @@ export default function CategoriesDropdown({ active = false }) {
                         onMouseEnter={() => onEnterCat(id)}
                         className={[
                           "rounded-xl",
-                          isActive ? "bg-white/10" : "hover:bg-white/5",
+                          isActive ? "bg-accent" : "hover:bg-accent/60",
                         ].join(" ")}
                       >
                         <Link
                           href={id ? `/categories/${id}` : "/categories"}
-                          className="flex items-center justify-between px-3 py-3 text-sm font-medium text-slate-200"
+                          className="flex items-center justify-between px-3 py-3 text-sm font-medium text-foreground"
                           onClick={() => setOpen(false)}
                         >
                           <span className="truncate">{name}</span>
-                          <span className="text-slate-400">{">"}</span>
+                          <span className="text-muted-foreground">{">"}</span>
                         </Link>
                       </div>
                     );
                   })}
                 </div>
               ) : (
-                <div className="px-3 py-2 text-sm text-slate-400">
+                <div className="px-3 py-2 text-sm text-muted-foreground">
                   Chưa có danh mục
                 </div>
               )}

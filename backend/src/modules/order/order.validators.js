@@ -21,6 +21,41 @@ export function validateCreateOrder(body) {
   const phivanchuyen = toNum(body?.phivanchuyen);
   const ghichu = body?.ghichu;
 
+  // Optional: checkout selected items only.
+  // items: [{ bentheid: int, soluong: int }]
+  // If omitted, the server will checkout the whole cart (backward compatible).
+  const rawItems = body?.items;
+  let items = null;
+  if (rawItems !== undefined) {
+    if (!Array.isArray(rawItems) || rawItems.length === 0) {
+      errors.push("items must be a non-empty array");
+    } else {
+      const map = new Map();
+      for (const it of rawItems) {
+        const bentheid = toInt(it?.bentheid);
+        const soluong = toInt(it?.soluong);
+        if (!bentheid) {
+          errors.push("items[].bentheid must be integer");
+          continue;
+        }
+        if (!soluong || soluong <= 0) {
+          errors.push("items[].soluong must be integer > 0");
+          continue;
+        }
+
+        map.set(bentheid, (map.get(bentheid) || 0) + soluong);
+      }
+      items = Array.from(map.entries()).map(([bentheid, soluong]) => ({
+        bentheid,
+        soluong,
+      }));
+
+      if (items.length === 0) {
+        errors.push("items must contain at least 1 valid element");
+      }
+    }
+  }
+
   if (!phuongthucid) errors.push("phuongthucid must be integer");
   if (!diachiuserid) errors.push("diachiuserid must be integer");
   if (phivanchuyen === null || phivanchuyen < 0)
@@ -36,6 +71,7 @@ export function validateCreateOrder(body) {
       diachiuserid,
       phivanchuyen,
       ghichu: ghichu?.trim() || null,
+      items,
     },
   };
 }

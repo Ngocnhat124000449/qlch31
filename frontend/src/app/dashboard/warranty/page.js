@@ -266,17 +266,17 @@ export default function WarrantyPage() {
       />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-          <div className="text-sm text-white/55">Chọn sản phẩm để phân tích</div>
+        <div className="rounded-2xl border border-border bg-card p-6 backdrop-blur-xl">
+          <div className="text-sm text-muted-foreground">Chọn sản phẩm để phân tích</div>
 
           <div className="mt-3">
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Tìm sản phẩm theo tên..."
-              className="w-full rounded-xl bg-white/5 px-4 py-3 text-sm outline-none ring-1 ring-white/10 focus:ring-indigo-400/30"
+              className="w-full rounded-xl bg-card px-4 py-3 text-sm outline-none ring-1 ring-border focus:ring-indigo-400/30"
             />
-            <div className="mt-2 text-xs text-white/50">
+            <div className="mt-2 text-xs text-muted-foreground">
               {loadingProducts ? "Đang tìm..." : `Gợi ý: ${productOptions.length} sản phẩm`}
             </div>
 
@@ -288,7 +288,7 @@ export default function WarrantyPage() {
                   const p = productOptions.find((x) => String(pickProductId(x)) === String(val)) || null;
                   setSelectedProduct(p);
                 }}
-                className="w-full rounded-xl bg-white/5 px-4 py-3 text-sm outline-none ring-1 ring-white/10 focus:ring-indigo-400/30"
+                className="w-full rounded-xl bg-card px-4 py-3 text-sm outline-none ring-1 ring-border focus:ring-indigo-400/30"
               >
                 <option value="">-- Chọn sản phẩm --</option>
                 {productOptions.map((p) => (
@@ -308,8 +308,8 @@ export default function WarrantyPage() {
             </button>
 
             {selectedId ? (
-              <div className="mt-3 text-xs text-white/55">
-                Đang chọn: <span className="font-medium text-white">{selectedName}</span> <span className="text-white/40">(SP#{selectedId})</span>
+              <div className="mt-3 text-xs text-muted-foreground">
+                Đang chọn: <span className="font-medium text-foreground">{selectedName}</span> <span className="text-muted-foreground">(SP#{selectedId})</span>
               </div>
             ) : null}
 
@@ -317,37 +317,37 @@ export default function WarrantyPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+        <div className="rounded-2xl border border-border bg-card p-6 backdrop-blur-xl">
           {!summary ? (
-            <div className="grid h-full place-items-center text-sm text-white/45">
+            <div className="grid h-full place-items-center text-sm text-muted-foreground">
               {loading ? "Đang phân tích..." : "Kết quả sẽ hiển thị sau khi bạn chọn sản phẩm và bấm Phân tích."}
             </div>
           ) : (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-white/10 bg-slate-950/30 p-4">
-                  <div className="text-xs text-white/55">Điểm rủi ro</div>
+                <div className="rounded-2xl border border-border bg-muted/30 dark:bg-slate-950/30 p-4">
+                  <div className="text-xs text-muted-foreground">Điểm rủi ro</div>
                   <div className="mt-2 text-3xl font-semibold">{summary.risk ?? "—"}/100</div>
-                  <div className="mt-1 text-xs text-white/45">
+                  <div className="mt-1 text-xs text-muted-foreground">
                     Từ rating + tỉ lệ huỷ đơn (mẫu)
                   </div>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-slate-950/30 p-4">
-                  <div className="text-xs text-white/55">Độ tin cậy</div>
+                <div className="rounded-2xl border border-border bg-muted/30 dark:bg-slate-950/30 p-4">
+                  <div className="text-xs text-muted-foreground">Độ tin cậy</div>
                   <div className="mt-2 text-3xl font-semibold">{summary.confidence ?? 0}%</div>
-                  <div className="mt-1 text-xs text-white/45">
+                  <div className="mt-1 text-xs text-muted-foreground">
                     Reviews: {summary.reviews} · Orders: {summary.orders}
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-slate-950/30 p-4">
+              <div className="rounded-2xl border border-border bg-muted/30 dark:bg-slate-950/30 p-4">
                 <div className="text-sm font-semibold">Tóm tắt</div>
-                <div className="mt-2 grid grid-cols-2 gap-3 text-sm text-white/70">
-                  <div>Rating TB: <span className="font-medium text-white">{summary.avg != null ? summary.avg.toFixed(2) : "—"}</span></div>
-                  <div>Tỉ lệ huỷ: <span className="font-medium text-white">{(summary.cancelRate * 100).toFixed(1)}%</span></div>
+                <div className="mt-2 grid grid-cols-2 gap-3 text-sm text-muted-foreground">
+                  <div>Rating TB: <span className="font-medium text-foreground">{summary.avg != null ? summary.avg.toFixed(2) : "—"}</span></div>
+                  <div>Tỉ lệ huỷ: <span className="font-medium text-foreground">{(summary.cancelRate * 100).toFixed(1)}%</span></div>
                 </div>
-                <div className="mt-2 text-xs text-white/45">
+                <div className="mt-2 text-xs text-muted-foreground">
                   * Đây là phân tích thống kê từ dữ liệu hiện có, không phải quyết định tự động.
                 </div>
               </div>
@@ -356,8 +356,8 @@ export default function WarrantyPage() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="grid grid-cols-8 gap-3 px-5 py-3 text-xs text-white/55">
+      <div className="rounded-2xl border border-border bg-card backdrop-blur-xl">
+        <div className="grid grid-cols-8 gap-3 px-5 py-3 text-xs text-muted-foreground">
           <div className="col-span-2">Biến thể</div>
           <div className="text-center">Tồn kho</div>
           <div className="text-center">Orders (mẫu)</div>
@@ -367,11 +367,11 @@ export default function WarrantyPage() {
           <div className="text-right">Rủi ro</div>
         </div>
 
-        <div className="divide-y divide-white/10">
+        <div className="divide-y divide-border">
           {loading ? (
-            <div className="px-5 py-6 text-sm text-white/60">Đang tải…</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">Đang tải…</div>
           ) : rows.length === 0 ? (
-            <div className="px-5 py-6 text-sm text-white/60">{selectedId ? "Chưa có dữ liệu biến thể hoặc chưa đủ dữ liệu mẫu." : "Chưa chọn sản phẩm."}</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">{selectedId ? "Chưa có dữ liệu biến thể hoặc chưa đủ dữ liệu mẫu." : "Chưa chọn sản phẩm."}</div>
           ) : (
             rows.map((r) => {
               const vid = pickVariantId(r);
@@ -383,9 +383,9 @@ export default function WarrantyPage() {
                 <div key={String(vid)} className="grid grid-cols-8 items-center gap-3 px-5 py-4">
                   <div className="col-span-2 min-w-0">
                     <div className="truncate text-sm font-medium">{sku}</div>
-                    <div className="truncate text-xs text-white/50">BT#{vid}</div>
+                    <div className="truncate text-xs text-muted-foreground">BT#{vid}</div>
                   </div>
-                  <div className="text-center text-sm text-white/70">{stock}</div>
+                  <div className="text-center text-sm text-muted-foreground">{stock}</div>
                   <div className="text-center text-sm">{r.__orders ?? 0}</div>
                   <div className="text-center text-sm">{r.__cancelOrders ?? 0}</div>
                   <div className="text-center text-sm">{avg}</div>

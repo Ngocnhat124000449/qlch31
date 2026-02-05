@@ -18,6 +18,7 @@ import {
   ChevronDown,
   Box as Cube,
   ShoppingBag,
+  Image,
 } from "lucide-react";
 
 function cx(...args) {
@@ -34,8 +35,8 @@ function NavItem({ href, icon: Icon, label }) {
       className={cx(
         "flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition",
         active
-          ? "bg-violet-500/25 text-white"
-          : "text-white/70 hover:bg-white/5 hover:text-white"
+          ? "bg-violet-500/25 text-foreground"
+          : "text-muted-foreground hover:bg-card hover:text-foreground"
       )}
     >
       <Icon className="h-4 w-4 opacity-90" />
@@ -52,7 +53,7 @@ function NavGroup({ icon: Icon, label, defaultOpen = true, children }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm text-white/80 hover:bg-white/5"
+        className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm text-foreground hover:bg-card"
       >
         <span className="flex items-center gap-3">
           <Icon className="h-4 w-4 opacity-90" />
@@ -78,15 +79,15 @@ export default function AdminSidebar() {
   }, []);
 
   return (
-    <aside className="sticky top-0 h-screen w-[280px] shrink-0 border-r border-white/10 bg-black/10 backdrop-blur-xl">
+    <aside className="sticky top-0 h-screen w-[280px] shrink-0 border-r border-border bg-background/60 backdrop-blur-xl">
       <div className="flex h-full flex-col p-4">
         <Link href="/dashboard" className="flex items-center gap-2 px-2 py-2">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10">
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-card ring-1 ring-border">
             <Cube className="h-5 w-5 text-violet-300" />
           </span>
           <div className="leading-tight">
             <div className="text-sm font-semibold">Insights</div>
-            <div className="text-xs text-white/50">Admin Dashboard</div>
+            <div className="text-xs text-muted-foreground">Admin Dashboard</div>
           </div>
         </Link>
 
@@ -134,18 +135,19 @@ export default function AdminSidebar() {
               icon={Percent}
               label="Khuyến mãi"
             />
+            <NavItem href="/dashboard/banners" icon={Image} label="Banners" />
           </NavGroup>
         </div>
 
         <div className="mt-auto space-y-3 px-2 pt-4">
           <Link
             href="/"
-            className="flex items-center gap-3 rounded-xl bg-white/5 px-3 py-2 text-sm text-white/80 ring-1 ring-white/10 hover:bg-white/10"
+            className="flex items-center gap-3 rounded-xl bg-card px-3 py-2 text-sm text-foreground ring-1 ring-border hover:bg-muted/50"
           >
             <ShoppingBag className="h-4 w-4" />
             <span>Về trang mua sắm</span>
           </Link>
-          <div className="text-xs text-white/40" suppressHydrationWarning>
+          <div className="text-xs text-muted-foreground" suppressHydrationWarning>
             © {year || ""} Insights
           </div>
         </div>

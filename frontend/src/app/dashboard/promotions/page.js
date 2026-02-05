@@ -75,8 +75,8 @@ export default function PromotionsAdminPage() {
         }}
       />
 
-      <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="grid grid-cols-7 gap-3 px-5 py-3 text-xs text-white/55">
+      <div className="rounded-2xl border border-border bg-card backdrop-blur-xl">
+        <div className="grid grid-cols-7 gap-3 px-5 py-3 text-xs text-muted-foreground">
           <div className="col-span-2">Tên khuyến mãi</div>
           <div>Giảm</div>
           <div>Bắt đầu</div>
@@ -85,23 +85,23 @@ export default function PromotionsAdminPage() {
           <div className="text-right">Hành động</div>
         </div>
 
-        <div className="divide-y divide-white/10">
+        <div className="divide-y divide-border">
           {loading ? (
-            <div className="px-5 py-6 text-sm text-white/60">Đang tải…</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">Đang tải…</div>
           ) : rows.length === 0 ? (
-            <div className="px-5 py-6 text-sm text-white/60">{error || "Chưa có khuyến mãi."}</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">{error || "Chưa có khuyến mãi."}</div>
           ) : (
             rows.map((r) => (
               <div key={String(r?.khuyenmaiid ?? r?.id)} className="grid grid-cols-7 items-center gap-3 px-5 py-4">
                 <div className="col-span-2 min-w-0">
                   <div className="truncate text-sm font-medium">{r?.tenkhuyenmai ?? "-"}</div>
-                  <div className="truncate text-xs text-white/50">#{r?.khuyenmaiid}</div>
+                  <div className="truncate text-xs text-muted-foreground">#{r?.khuyenmaiid}</div>
                 </div>
                 <div className="text-sm">{discountLabel(r)}</div>
-                <div className="text-sm text-white/70">
+                <div className="text-sm text-muted-foreground">
                   {r?.thoigianbatdau ? new Date(r.thoigianbatdau).toLocaleDateString("vi-VN") : "-"}
                 </div>
-                <div className="text-sm text-white/70">
+                <div className="text-sm text-muted-foreground">
                   {r?.thoigianketthuc ? new Date(r.thoigianketthuc).toLocaleDateString("vi-VN") : "-"}
                 </div>
                 <div className="flex justify-center">
@@ -111,7 +111,7 @@ export default function PromotionsAdminPage() {
                 </div>
                 <div className="flex justify-end gap-3">
                   <button
-                    className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                    className="grid h-9 w-9 place-items-center rounded-xl bg-card ring-1 ring-border hover:bg-muted/50"
                     type="button"
                     onClick={() => {
                       setEditing(r);
@@ -121,7 +121,7 @@ export default function PromotionsAdminPage() {
                     <Pencil className="h-4 w-4" />
                   </button>
                   <button
-                    className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                    className="grid h-9 w-9 place-items-center rounded-xl bg-card ring-1 ring-border hover:bg-muted/50"
                     type="button"
                     onClick={() => {
                       setConfirmTarget(r);

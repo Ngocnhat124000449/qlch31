@@ -74,7 +74,7 @@ export default function SupplierUpsertDialog({ open, onOpenChange, initial, onSa
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg border-white/10 bg-[#0b1020] text-white">
+      <DialogContent className="max-w-lg border-border bg-background dark:bg-[#0b1020] text-foreground">
         <DialogHeader>
           <DialogTitle>{isEdit ? "Cập nhật nhà cung cấp" : "Thêm nhà cung cấp"}</DialogTitle>
         </DialogHeader>
@@ -111,10 +111,10 @@ export default function SupplierUpsertDialog({ open, onOpenChange, initial, onSa
             <Input value={logourl} onChange={(e) => setLogourl(e.target.value)} placeholder="https://..." />
           </div>
 
-          <label className="flex items-center gap-2 text-sm text-white/80">
+          <label className="flex items-center gap-2 text-sm text-foreground">
             <input
               type="checkbox"
-              className="h-4 w-4 rounded border-white/20"
+              className="h-4 w-4 rounded border-border"
               checked={!!trangthai}
               onChange={(e) => setTrangthai(e.target.checked)}
             />
@@ -126,7 +126,7 @@ export default function SupplierUpsertDialog({ open, onOpenChange, initial, onSa
           <Button
             type="button"
             variant="outline"
-            className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+            className="border-white/15 bg-card text-foreground hover:bg-muted/50"
             onClick={() => onOpenChange?.(false)}
             disabled={saving}
           >

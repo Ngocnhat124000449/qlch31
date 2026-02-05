@@ -16,17 +16,17 @@ export default function ConfirmDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md border-white/10 bg-[#0b1020] text-white">
+      <DialogContent className="max-w-md border-border bg-background dark:bg-[#0b1020] text-foreground">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        {description ? <div className="text-sm text-white/70">{description}</div> : null}
+        {description ? <div className="text-sm text-muted-foreground">{description}</div> : null}
 
         <DialogFooter>
           <Button
             type="button"
             variant="outline"
-            className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+            className="border-white/15 bg-card text-foreground hover:bg-muted/50"
             onClick={() => onOpenChange?.(false)}
             disabled={loading}
           >

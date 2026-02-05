@@ -26,17 +26,21 @@ function pickSupplierName(p) {
 }
 
 export default async function CategoryDetailPage({ params, searchParams }) {
-  const danhmucid = params?.id;
+  // ✅ FIX: Next.js sync dynamic APIs - params/searchParams là Promise
+  const p = await params;
+  const sp = await searchParams;
+
+  const danhmucid = p?.id;
 
   // Giới hạn (bạn có thể chỉnh default ở đây)
-  const fetchLimit = Math.min(100, Number(searchParams?.limit || 60)); // tổng products fetch
-  const supplierLimit = Number(searchParams?.suppliers || 8); // số NCC tối đa
-  const perSupplier = Number(searchParams?.perSupplier || 6); // số SP tối đa mỗi NCC
+  const fetchLimit = Math.min(100, Number(sp?.limit || 60)); // tổng products fetch
+  const supplierLimit = Number(sp?.suppliers || 8); // số NCC tối đa
+  const perSupplier = Number(sp?.perSupplier || 6); // số SP tối đa mỗi NCC
 
   const [catRes, prodRes] = await Promise.all([
-    publicFetchJson(`/api/catalog/categories/${encodeURIComponent(danhmucid)}`).catch(
-      () => null
-    ),
+    publicFetchJson(
+      `/api/catalog/categories/${encodeURIComponent(danhmucid)}`
+    ).catch(() => null),
     publicFetchJson(
       `/api/catalog/products?danhmucid=${encodeURIComponent(
         danhmucid
@@ -92,30 +96,30 @@ export default async function CategoryDetailPage({ params, searchParams }) {
   const detailMap = new Map(detailPairs.filter(([, v]) => v));
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900">
+    <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
       <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-5 py-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <div className="text-sm text-slate-400">
-              <Link href="/" className="hover:text-slate-200">
+            <div className="text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-foreground">
                 Trang chủ
               </Link>{" "}
               <span className="mx-2">/</span>
-              <Link href="/categories" className="hover:text-slate-200">
+              <Link href="/categories" className="hover:text-foreground">
                 Danh mục
               </Link>{" "}
               <span className="mx-2">/</span>
-              <span className="text-slate-200">
+              <span className="text-foreground">
                 {category?.ten || `Danh mục #${danhmucid}`}
               </span>
             </div>
 
-            <h1 className="mt-2 text-2xl font-semibold text-slate-100">
+            <h1 className="mt-2 text-2xl font-semibold text-foreground">
               {category?.ten || `Danh mục #${danhmucid}`}
             </h1>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-muted-foreground">
               Hiển thị tối đa <b>{supplierLimit}</b> nhà cung cấp, mỗi nhà cung
               cấp tối đa <b>{perSupplier}</b> sản phẩm.
             </p>
@@ -123,7 +127,7 @@ export default async function CategoryDetailPage({ params, searchParams }) {
 
           <Link
             href="/categories"
-            className="text-sm text-slate-300 hover:text-slate-100"
+            className="text-sm text-muted-foreground hover:text-foreground"
           >
             ← Tất cả danh mục
           </Link>
@@ -136,15 +140,15 @@ export default async function CategoryDetailPage({ params, searchParams }) {
               <a
                 key={String(g.supplierId || g.supplierName)}
                 href={`#supplier-${g.supplierId || g.supplierName}`}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 hover:bg-white/10"
+                className="rounded-full border border-border bg-card px-3 py-2 text-sm text-foreground hover:bg-muted/50"
               >
                 {g.supplierName}{" "}
-                <span className="text-slate-400">({g.products.length})</span>
+                <span className="text-muted-foreground">({g.products.length})</span>
               </a>
             ))}
           </div>
         ) : (
-          <div className="mt-6 text-sm text-slate-400">
+          <div className="mt-6 text-sm text-muted-foreground">
             Chưa có sản phẩm trong danh mục này.
           </div>
         )}
@@ -159,10 +163,10 @@ export default async function CategoryDetailPage({ params, searchParams }) {
             >
               <div className="flex items-end justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-100">
+                  <h2 className="text-lg font-semibold text-foreground">
                     {g.supplierName}
                   </h2>
-                  <div className="mt-1 text-sm text-slate-400">
+                  <div className="mt-1 text-sm text-muted-foreground">
                     {g.products.length} sản phẩm (đang hiển thị{" "}
                     {Math.min(perSupplier, g.products.length)})
                   </div>

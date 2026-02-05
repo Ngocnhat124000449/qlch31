@@ -10,11 +10,13 @@ import {
 export const dynamic = "force-dynamic";
 
 export default async function ProductsPage({ searchParams }) {
-  const q = String(searchParams?.search || "").trim();
+  const sp = await searchParams; // ✅ FIX: unwrap Promise
 
-  const maxCategories = Math.min(30, Number(searchParams?.maxCategories || 8));
-  const productLimit = Math.min(60, Number(searchParams?.limit || 8));
-  const variantLimit = Math.min(30, Number(searchParams?.variantLimit || 6));
+  const q = String(sp?.search || "").trim();
+
+  const maxCategories = Math.min(30, Number(sp?.maxCategories || 8));
+  const productLimit = Math.min(60, Number(sp?.limit || 8));
+  const variantLimit = Math.min(30, Number(sp?.variantLimit || 6));
 
   const isSearchMode = !!q;
 
@@ -30,24 +32,24 @@ export default async function ProductsPage({ searchParams }) {
       });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900">
+    <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
       <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-5 py-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <div className="text-sm text-slate-400">
-              <Link href="/" className="hover:text-slate-200">
+            <div className="text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-foreground">
                 Trang chủ
               </Link>{" "}
               <span className="mx-2">/</span>
-              <span className="text-slate-200">Sản phẩm</span>
+              <span className="text-foreground">Sản phẩm</span>
             </div>
 
-            <h1 className="mt-2 text-2xl font-semibold text-slate-100">
+            <h1 className="mt-2 text-2xl font-semibold text-foreground">
               {isSearchMode ? "Kết quả tìm kiếm" : "Sản phẩm theo danh mục"}
             </h1>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-muted-foreground">
               {isSearchMode
                 ? `Từ khóa: “${q}”`
                 : `Mỗi block là 1 danh mục · mỗi danh mục tối đa ${productLimit} sản phẩm · mỗi sản phẩm tối đa ${variantLimit} biến thể`}
@@ -57,14 +59,14 @@ export default async function ProductsPage({ searchParams }) {
           {isSearchMode ? (
             <Link
               href="/products"
-              className="text-sm text-slate-300 hover:text-slate-100"
+              className="text-sm text-muted-foreground hover:text-foreground"
             >
               ← Xem theo danh mục
             </Link>
           ) : (
             <Link
               href="/categories"
-              className="text-sm text-slate-300 hover:text-slate-100"
+              className="text-sm text-muted-foreground hover:text-foreground"
             >
               Xem tất cả danh mục →
             </Link>
@@ -72,15 +74,9 @@ export default async function ProductsPage({ searchParams }) {
         </div>
 
         {isSearchMode ? (
-          <SearchResultsGrid
-            data={data}
-            variantLimit={variantLimit}
-          />
+          <SearchResultsGrid data={data} variantLimit={variantLimit} />
         ) : (
-          <CategoriesBlocks
-            blocks={data}
-            variantLimit={variantLimit}
-          />
+          <CategoriesBlocks blocks={data} variantLimit={variantLimit} />
         )}
       </main>
 
@@ -101,15 +97,17 @@ function CategoriesBlocks({ blocks, variantLimit }) {
             <a
               key={String(b.id)}
               href={`#cat-${b.id}`}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-3 py-2 text-sm text-foreground hover:bg-muted/50"
             >
               {b.title}{" "}
-              <span className="text-slate-400">({b.products?.length || 0})</span>
+              <span className="text-muted-foreground">
+                ({b.products?.length || 0})
+              </span>
             </a>
           ))}
         </div>
       ) : (
-        <div className="mt-6 text-sm text-slate-400">Chưa có dữ liệu.</div>
+        <div className="mt-6 text-sm text-muted-foreground">Chưa có dữ liệu.</div>
       )}
 
       {/* Blocks */}
@@ -122,17 +120,17 @@ function CategoriesBlocks({ blocks, variantLimit }) {
           >
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
-                <h2 className="text-lg font-semibold text-slate-100">
+                <h2 className="text-lg font-semibold text-foreground">
                   {b.title}
                 </h2>
-                <div className="mt-1 text-sm text-slate-400">
+                <div className="mt-1 text-sm text-muted-foreground">
                   {b.products?.length || 0} sản phẩm
                 </div>
               </div>
 
               <Link
                 href={`/categories/${encodeURIComponent(b.id)}`}
-                className="text-sm text-slate-300 hover:text-slate-100"
+                className="text-sm text-muted-foreground hover:text-foreground"
               >
                 Xem thêm →
               </Link>
@@ -160,14 +158,16 @@ function SearchResultsGrid({ data, variantLimit }) {
 
   if (!products.length) {
     return (
-      <div className="mt-8 text-sm text-slate-400">Không có sản phẩm phù hợp.</div>
+      <div className="mt-8 text-sm text-muted-foreground">
+        Không có sản phẩm phù hợp.
+      </div>
     );
   }
 
   return (
     <div className="mt-8">
-      <div className="text-sm text-slate-400">
-        Tìm thấy <b className="text-slate-200">{products.length}</b> sản phẩm
+      <div className="text-sm text-muted-foreground">
+        Tìm thấy <b className="text-foreground">{products.length}</b> sản phẩm
       </div>
 
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -178,11 +178,14 @@ function SearchResultsGrid({ data, variantLimit }) {
           return (
             <div key={String(p?.sanphamid ?? p?.id ?? JSON.stringify(p))}>
               {catName ? (
-                <div className="mb-2 text-xs text-slate-400">
-                  Danh mục: <span className="text-slate-200">{catName}</span>
+                <div className="mb-2 text-xs text-muted-foreground">
+                  Danh mục: <span className="text-foreground">{catName}</span>
                 </div>
               ) : null}
-              <ProductWithVariantsCard product={p} variantLimit={variantLimit} />
+              <ProductWithVariantsCard
+                product={p}
+                variantLimit={variantLimit}
+              />
             </div>
           );
         })}

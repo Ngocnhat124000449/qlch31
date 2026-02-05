@@ -114,3 +114,52 @@ export const cartApi = {
   // DELETE /api/cart/clear
   clear: () => apiFetch("/api/cart/clear", { method: "DELETE" }),
 };
+
+// =====================
+// PAYMENT METHODS (PUBLIC)
+// =====================
+
+export const paymentApi = {
+  // GET /api/payment-methods
+  list: () => apiFetch("/api/payment-methods", { auth: false }),
+  // GET /api/payment-methods/:phuongthucid
+  getOne: (phuongthucid) =>
+    apiFetch(`/api/payment-methods/${encodeURIComponent(phuongthucid)}`, {
+      auth: false,
+    }),
+};
+
+// =====================
+// ORDERS (AUTH)
+// =====================
+
+function toQuery(params = {}) {
+  const sp = new URLSearchParams();
+  Object.entries(params).forEach(([k, v]) => {
+    if (v === undefined || v === null || v === "") return;
+    sp.set(k, String(v));
+  });
+  const qs = sp.toString();
+  return qs ? `?${qs}` : "";
+}
+
+export const orderApi = {
+  // POST /api/orders { phuongthucid, diachiuserid, phivanchuyen, ghichu, items? }
+  create: (payload) =>
+    apiFetch("/api/orders", {
+      method: "POST",
+      body: payload,
+    }),
+
+  // GET /api/orders
+  listMine: (params) => apiFetch(`/api/orders${toQuery(params)}`),
+
+  // GET /api/orders/:donhangid
+  detail: (donhangid) => apiFetch(`/api/orders/${encodeURIComponent(donhangid)}`),
+
+  // PATCH /api/orders/:donhangid/cancel
+  cancel: (donhangid) =>
+    apiFetch(`/api/orders/${encodeURIComponent(donhangid)}/cancel`, {
+      method: "PATCH",
+    }),
+};

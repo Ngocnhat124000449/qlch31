@@ -13,19 +13,19 @@ export default async function PromotionsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900">
+    <div className="min-h-screen bg-background dark:bg-gradient-to-b dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
       <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-5 py-10">
         {/* Hero */}
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/5">
-            <Sparkles className="h-6 w-6 text-slate-100" />
+          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full border border-border bg-card">
+            <Sparkles className="h-6 w-6 text-foreground" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-semibold text-slate-100">
+          <h1 className="text-3xl md:text-4xl font-semibold text-foreground">
             Sản phẩm khuyến mãi
           </h1>
-          <p className="mt-3 text-slate-400">
+          <p className="mt-3 text-muted-foreground">
             Đừng bỏ lỡ cơ hội sở hữu những sản phẩm công nghệ đỉnh cao với mức
             giá cực kỳ ưu đãi.
           </p>
@@ -33,7 +33,7 @@ export default async function PromotionsPage() {
 
         {/* Grid */}
         {products.length === 0 ? (
-          <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-8 text-center text-slate-300">
+          <div className="mt-10 rounded-2xl border border-border bg-card p-8 text-center text-muted-foreground">
             Hiện chưa có sản phẩm khuyến mãi.
           </div>
         ) : (

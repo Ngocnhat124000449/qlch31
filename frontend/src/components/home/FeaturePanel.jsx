@@ -42,7 +42,7 @@ const features = [
 
 export default function FeaturePanel() {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+    <div className="rounded-2xl border border-border bg-card p-5">
       <div className="space-y-4">
         {features.map((f, idx) => {
           const Icon = f.icon;
@@ -50,8 +50,8 @@ export default function FeaturePanel() {
             <div key={idx} className="flex gap-3">
               <Icon className="h-5 w-5 text-indigo-300 mt-0.5" />
               <div>
-                <div className="text-slate-100 font-semibold">{f.title}</div>
-                <div className="text-slate-400 text-sm">{f.desc}</div>
+                <div className="text-foreground font-semibold">{f.title}</div>
+                <div className="text-muted-foreground text-sm">{f.desc}</div>
               </div>
             </div>
           );

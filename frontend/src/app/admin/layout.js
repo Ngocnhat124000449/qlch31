@@ -67,8 +67,8 @@ export default function AdminLayout({ children }) {
   // Luôn render một UI ổn định trong quá trình kiểm tra/redirect
   if (status === "loading" || blocked) {
     return (
-      <div className="min-h-screen bg-[#060b1a] text-slate-200 grid place-items-center">
-        <div className="text-sm text-slate-400">
+      <div className="min-h-screen bg-background text-foreground grid place-items-center">
+        <div className="text-sm text-muted-foreground">
           Đang kiểm tra quyền truy cập…
         </div>
       </div>

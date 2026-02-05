@@ -206,7 +206,7 @@ export default function PromotionUpsertDialog({ open, onOpenChange, initial, onS
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-3xl border-white/10 bg-[#0b1020] text-white">
+        <DialogContent className="max-w-3xl border-border bg-background dark:bg-[#0b1020] text-foreground">
           <DialogHeader>
             <DialogTitle>{isEdit ? "Cập nhật khuyến mãi" : "Tạo khuyến mãi"}</DialogTitle>
           </DialogHeader>
@@ -218,7 +218,7 @@ export default function PromotionUpsertDialog({ open, onOpenChange, initial, onS
               </div>
             ) : null}
             {hint ? (
-              <div className="rounded-xl border border-indigo-400/20 bg-indigo-500/10 px-4 py-3 text-sm text-white/80">
+              <div className="rounded-xl border border-indigo-400/20 bg-indigo-500/10 px-4 py-3 text-sm text-foreground">
                 {hint}
               </div>
             ) : null}
@@ -231,10 +231,10 @@ export default function PromotionUpsertDialog({ open, onOpenChange, initial, onS
               <div className="grid gap-2">
                 <Label>Loại giảm giá</Label>
                 <Select value={loaigiamgia} onValueChange={setLoai}>
-                  <SelectTrigger className="w-full border-white/15 bg-white/5">
+                  <SelectTrigger className="w-full border-white/15 bg-card">
                     <SelectValue placeholder="Chọn loại" />
                   </SelectTrigger>
-                  <SelectContent className="border-white/10 bg-[#0b1020] text-white">
+                  <SelectContent className="border-border bg-background dark:bg-[#0b1020] text-foreground">
                     <SelectItem value="PERCENT">PERCENT (%)</SelectItem>
                     <SelectItem value="FIXED">FIXED (VND)</SelectItem>
                   </SelectContent>
@@ -273,19 +273,19 @@ export default function PromotionUpsertDialog({ open, onOpenChange, initial, onS
             </div>
 
             <div className="flex flex-wrap gap-6">
-              <label className="flex items-center gap-2 text-sm text-white/80">
+              <label className="flex items-center gap-2 text-sm text-foreground">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 rounded border-white/20"
+                  className="h-4 w-4 rounded border-border"
                   checked={!!trangthai}
                   onChange={(e) => setTrangthai(e.target.checked)}
                 />
                 Active
               </label>
-              <label className="flex items-center gap-2 text-sm text-white/80">
+              <label className="flex items-center gap-2 text-sm text-foreground">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 rounded border-white/20"
+                  className="h-4 w-4 rounded border-border"
                   checked={!!cothecongdon}
                   onChange={(e) => setCongdon(e.target.checked)}
                 />
@@ -295,25 +295,25 @@ export default function PromotionUpsertDialog({ open, onOpenChange, initial, onS
 
             {/* Attached products (best-effort) */}
             {id ? (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div className="rounded-2xl border border-border bg-card p-4">
                 <div className="text-sm font-medium">Sản phẩm đang áp dụng (best-effort)</div>
-                <div className="text-xs text-white/55">
+                <div className="text-xs text-muted-foreground">
                   Mục này đọc từ endpoint public /api/promotions/:id nên chỉ chắc chắn hiển thị khi khuyến mãi đang active.
                 </div>
 
                 <div className="mt-3 space-y-2">
                   {loadingAttached ? (
-                    <div className="text-sm text-white/60">Đang tải…</div>
+                    <div className="text-sm text-muted-foreground">Đang tải…</div>
                   ) : attached.length === 0 ? (
-                    <div className="text-sm text-white/60">Chưa có dữ liệu sản phẩm áp dụng.</div>
+                    <div className="text-sm text-muted-foreground">Chưa có dữ liệu sản phẩm áp dụng.</div>
                   ) : (
                     attached.map((p) => {
                       const pid = p?.sanphamid ?? p?.id;
                       return (
-                        <div key={String(pid)} className="flex items-center justify-between rounded-xl bg-white/5 px-3 py-2 ring-1 ring-white/10">
+                        <div key={String(pid)} className="flex items-center justify-between rounded-xl bg-card px-3 py-2 ring-1 ring-border">
                           <div className="min-w-0">
                             <div className="truncate text-sm">{p?.ten ?? "-"}</div>
-                            <div className="truncate text-xs text-white/50">#{pid}</div>
+                            <div className="truncate text-xs text-muted-foreground">#{pid}</div>
                           </div>
                           <Button
                             type="button"
@@ -334,7 +334,7 @@ export default function PromotionUpsertDialog({ open, onOpenChange, initial, onS
 
             {/* Attach products */}
             {id ? (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div className="rounded-2xl border border-border bg-card p-4">
                 <div className="text-sm font-medium">Gắn sản phẩm vào khuyến mãi</div>
                 <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
                   <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Tìm sản phẩm theo tên/slug..." />
@@ -345,15 +345,15 @@ export default function PromotionUpsertDialog({ open, onOpenChange, initial, onS
 
                 <div className="mt-3 space-y-2">
                   {productResults.length === 0 ? (
-                    <div className="text-sm text-white/60">Nhập từ khóa và bấm ‘Tìm’.</div>
+                    <div className="text-sm text-muted-foreground">Nhập từ khóa và bấm ‘Tìm’.</div>
                   ) : (
                     productResults.map((p) => {
                       const pid = p?.sanphamid ?? p?.id;
                       return (
-                        <div key={String(pid)} className="flex items-center justify-between rounded-xl bg-white/5 px-3 py-2 ring-1 ring-white/10">
+                        <div key={String(pid)} className="flex items-center justify-between rounded-xl bg-card px-3 py-2 ring-1 ring-border">
                           <div className="min-w-0">
                             <div className="truncate text-sm">{p?.ten ?? "-"}</div>
-                            <div className="truncate text-xs text-white/50">#{pid}</div>
+                            <div className="truncate text-xs text-muted-foreground">#{pid}</div>
                           </div>
                           <Button type="button" size="sm" onClick={() => handleAttach(p)}>
                             Gắn
@@ -383,7 +383,7 @@ export default function PromotionUpsertDialog({ open, onOpenChange, initial, onS
             <Button
               type="button"
               variant="outline"
-              className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+              className="border-white/15 bg-card text-foreground hover:bg-muted/50"
               onClick={() => onOpenChange?.(false)}
               disabled={saving}
             >

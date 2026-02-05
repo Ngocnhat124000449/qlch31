@@ -2,11 +2,13 @@
 
 import SmartImage from "@/components/ui/SmartImage";
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { usePopups } from "@/components/popups/PopupProvider";
 import { cartApi } from "@/lib/api";
 import { getAccessToken } from "@/lib/tokens";
 import { formatVND } from "@/lib/format";
+import { saveCheckoutItems } from "@/lib/checkoutSelection";
 
 import {
   Dialog,
@@ -31,6 +33,7 @@ function normalizeItems(cart) {
 
 export default function CartDialog({ open, onOpenChange }) {
   const { closeCart, openAuth } = usePopups();
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [cart, setCart] = useState(null);
@@ -127,6 +130,25 @@ export default function CartDialog({ open, onOpenChange }) {
     await refresh();
   }
 
+  function handleCheckout() {
+    const picked = items
+      .filter((it) => selected[String(it.bentheid)])
+      .map((it) => ({
+        bentheid: Number(it.bentheid),
+        soluong: Number(it.soluong || 0),
+      }))
+      .filter((it) => Number.isFinite(it.bentheid) && it.bentheid > 0 && it.soluong > 0);
+
+    if (!picked.length) return;
+    saveCheckoutItems(picked);
+
+    // Close first, then navigate
+    if (onOpenChange) onOpenChange(false);
+    else closeCart();
+
+    router.push("/checkout");
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
@@ -136,8 +158,8 @@ export default function CartDialog({ open, onOpenChange }) {
 
         <div className="flex items-center gap-3">
           <Checkbox checked={allSelected} onCheckedChange={(v) => toggleSelectAll(!!v)} />
-          <div className="text-sm text-slate-200">
-            Chọn tất cả <span className="text-slate-400">({items.length})</span>
+          <div className="text-sm text-foreground">
+            Chọn tất cả <span className="text-muted-foreground">({items.length})</span>
           </div>
 
           <div className="ml-auto">
@@ -151,9 +173,9 @@ export default function CartDialog({ open, onOpenChange }) {
 
         <ScrollArea className="h-[50vh] pr-2">
           {loading ? (
-            <div className="py-10 text-center text-sm text-slate-400">Loading...</div>
+            <div className="py-10 text-center text-sm text-muted-foreground">Loading...</div>
           ) : items.length === 0 ? (
-            <div className="py-10 text-center text-sm text-slate-400">Giỏ hàng trống</div>
+            <div className="py-10 text-center text-sm text-muted-foreground">Giỏ hàng trống</div>
           ) : (
             <div className="space-y-4">
               {items.map((it) => {
@@ -167,7 +189,7 @@ export default function CartDialog({ open, onOpenChange }) {
                   it?.sanpham?.hinhanh ||
                   null;
                 return (
-                  <div key={key} className="flex gap-3 rounded-xl border border-white/10 bg-white/5 p-3">
+                  <div key={key} className="flex gap-3 rounded-xl border border-border bg-card p-3">
                     <Checkbox
                       checked={!!selected[String(it.bentheid)]}
                       onCheckedChange={(v) =>
@@ -178,17 +200,17 @@ export default function CartDialog({ open, onOpenChange }) {
                       }
                     />
 
-                    <div className="h-16 w-16 overflow-hidden rounded-lg border border-white/10 bg-white/5">
+                    <div className="h-16 w-16 overflow-hidden rounded-lg border border-border bg-card">
                       <SmartImage src={img} alt={name} className="h-full w-full object-cover" />
                     </div>
 
                     <div className="flex-1">
-                      <div className="font-medium text-slate-100">{name}</div>
+                      <div className="font-medium text-foreground">{name}</div>
                       {sku ? (
-                        <div className="text-xs text-slate-400">SKU: {sku}</div>
+                        <div className="text-xs text-muted-foreground">SKU: {sku}</div>
                       ) : null}
 
-                      <div className="mt-1 text-sm text-slate-200 font-semibold">
+                      <div className="mt-1 text-sm text-foreground font-semibold">
                         {formatVND(it.giaban)}
                       </div>
 
@@ -196,7 +218,7 @@ export default function CartDialog({ open, onOpenChange }) {
                         <Button variant="secondary" size="sm" onClick={() => dec(it)}>
                           -
                         </Button>
-                        <div className="w-10 text-center text-sm text-slate-200">{it.soluong}</div>
+                        <div className="w-10 text-center text-sm text-foreground">{it.soluong}</div>
                         <Button variant="secondary" size="sm" onClick={() => inc(it)}>
                           +
                         </Button>
@@ -221,15 +243,17 @@ export default function CartDialog({ open, onOpenChange }) {
         <Separator className="my-3" />
 
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="text-sm text-slate-300">
-            Tổng (đã chọn): <span className="font-semibold text-slate-100">{formatVND(selectedTotal)}</span>
+          <div className="text-sm text-muted-foreground">
+            Tổng (đã chọn): <span className="font-semibold text-foreground">{formatVND(selectedTotal)}</span>
           </div>
 
           <div className="flex gap-2">
             <Button variant="secondary" onClick={() => (onOpenChange ? onOpenChange(false) : closeCart())}>
               Đóng
             </Button>
-            <Button disabled={selectedTotal <= 0}>Thanh toán</Button>
+            <Button disabled={selectedTotal <= 0} onClick={handleCheckout}>
+              Thanh toán
+            </Button>
           </div>
         </div>
       </DialogContent>

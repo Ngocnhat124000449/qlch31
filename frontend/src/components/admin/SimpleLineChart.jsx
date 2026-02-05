@@ -42,14 +42,14 @@ export default function SimpleLineChart({
   }, [points]);
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
+    <div className="rounded-2xl border border-border bg-card p-4 backdrop-blur-xl">
       <div className="mb-3">
         <div className="text-base font-semibold">{title}</div>
-        <div className="text-xs text-white/55">{subtitle}</div>
+        <div className="text-xs text-muted-foreground">{subtitle}</div>
       </div>
 
       {normalized.length === 0 ? (
-        <div className="grid h-[260px] place-items-center text-sm text-white/50">
+        <div className="grid h-[260px] place-items-center text-sm text-muted-foreground">
           Chưa có dữ liệu.
         </div>
       ) : (
@@ -63,7 +63,7 @@ export default function SimpleLineChart({
           </svg>
 
           <div
-            className="mt-2 grid text-center text-[11px] text-white/45"
+            className="mt-2 grid text-center text-[11px] text-muted-foreground"
             style={{ gridTemplateColumns: `repeat(${Math.max(labels.length, 1)}, minmax(0,1fr))` }}
           >
             {labels.map((t, i) => (

@@ -84,8 +84,8 @@ export default function DashboardLayout({ children }) {
   // Luôn render một UI ổn định trong quá trình kiểm tra/redirect
   if (status === "loading" || blocked) {
     return (
-      <div className="min-h-screen text-white bg-[#070B16] grid place-items-center">
-        <div className="text-sm text-white/60">
+      <div className="min-h-screen text-foreground bg-background grid place-items-center">
+        <div className="text-sm text-muted-foreground">
           Đang kiểm tra quyền truy cập dashboard…
         </div>
       </div>

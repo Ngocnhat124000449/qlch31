@@ -142,8 +142,8 @@ export default function SuppliersPage() {
         }}
       />
 
-      <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="grid grid-cols-9 gap-3 px-5 py-3 text-xs text-white/55">
+      <div className="rounded-2xl border border-border bg-card backdrop-blur-xl">
+        <div className="grid grid-cols-9 gap-3 px-5 py-3 text-xs text-muted-foreground">
           <div className="col-span-2">Nhà cung cấp</div>
           <div>Email</div>
           <div>SĐT</div>
@@ -154,11 +154,11 @@ export default function SuppliersPage() {
           <div className="text-right">Hành động</div>
         </div>
 
-        <div className="divide-y divide-white/10">
+        <div className="divide-y divide-border">
           {loading ? (
-            <div className="px-5 py-6 text-sm text-white/60">Đang tải…</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">Đang tải…</div>
           ) : rows.length === 0 ? (
-            <div className="px-5 py-6 text-sm text-white/60">{error || "Chưa có nhà cung cấp."}</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">{error || "Chưa có nhà cung cấp."}</div>
           ) : (
             rows.map((r) => {
               const id = r?.nhacungcapid ?? r?.id;
@@ -166,10 +166,10 @@ export default function SuppliersPage() {
                 <div key={String(id)} className="grid grid-cols-9 items-center gap-3 px-5 py-4">
                   <div className="col-span-2 min-w-0">
                     <div className="truncate text-sm font-medium">{r?.ten ?? "-"}</div>
-                    <div className="truncate text-xs text-white/50">#{id}</div>
+                    <div className="truncate text-xs text-muted-foreground">#{id}</div>
                   </div>
-                  <div className="truncate text-sm text-white/70">{r?.email ?? "-"}</div>
-                  <div className="truncate text-sm text-white/70">{r?.sdt ?? "-"}</div>
+                  <div className="truncate text-sm text-muted-foreground">{r?.email ?? "-"}</div>
+                  <div className="truncate text-sm text-muted-foreground">{r?.sdt ?? "-"}</div>
                   <div className="flex justify-center">
                     <span className="rounded-full bg-indigo-500/25 px-4 py-1 text-xs ring-1 ring-indigo-400/30">
                       {statusLabel(r?.trangthai)}
@@ -177,13 +177,13 @@ export default function SuppliersPage() {
                   </div>
                   <div className="text-center text-sm">{r.__orders ?? 0}</div>
                   <div className="text-right text-sm">{formatMoneyVND(r.__revenue || 0)}</div>
-                  <div className="text-right text-sm text-white/70">
+                  <div className="text-right text-sm text-muted-foreground">
                     {r?.created_at ? new Date(r.created_at).toLocaleDateString("vi-VN") : "-"}
                   </div>
                   <div className="flex justify-end gap-3">
                     <button
                       type="button"
-                      className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                      className="grid h-9 w-9 place-items-center rounded-xl bg-card ring-1 ring-border hover:bg-muted/50"
                       onClick={() => {
                         setEditing(r);
                         setModalOpen(true);
@@ -193,7 +193,7 @@ export default function SuppliersPage() {
                     </button>
                     <button
                       type="button"
-                      className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                      className="grid h-9 w-9 place-items-center rounded-xl bg-card ring-1 ring-border hover:bg-muted/50"
                       onClick={() => {
                         setConfirmTarget(r);
                         setConfirmOpen(true);

@@ -73,8 +73,8 @@ export default function CategoriesPage() {
         }}
       />
 
-      <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-        <div className="grid grid-cols-7 gap-3 px-5 py-3 text-xs text-white/55">
+      <div className="rounded-2xl border border-border bg-card backdrop-blur-xl">
+        <div className="grid grid-cols-7 gap-3 px-5 py-3 text-xs text-muted-foreground">
           <div>Icon</div>
           <div>Tên danh mục</div>
           <div className="col-span-2">Slug</div>
@@ -83,11 +83,11 @@ export default function CategoriesPage() {
           <div className="text-right">Hành động</div>
         </div>
 
-        <div className="divide-y divide-white/10">
+        <div className="divide-y divide-border">
           {loading ? (
-            <div className="px-5 py-6 text-sm text-white/60">Đang tải…</div>
+            <div className="px-5 py-6 text-sm text-muted-foreground">Đang tải…</div>
           ) : rows.length === 0 ? (
-            <div className="px-5 py-6 text-sm text-white/60">
+            <div className="px-5 py-6 text-sm text-muted-foreground">
               {error || "Chưa có danh mục."}
             </div>
           ) : (
@@ -96,11 +96,11 @@ export default function CategoriesPage() {
                 key={String(r?.danhmucid ?? r?.id ?? r?.tenviettat ?? r?.ten ?? Math.random())}
                 className="grid grid-cols-7 items-center gap-3 px-5 py-4"
               >
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10">
-                  <Boxes className="h-5 w-5 text-white/80" />
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-card ring-1 ring-border">
+                  <Boxes className="h-5 w-5 text-foreground" />
                 </div>
                 <div className="text-sm font-medium">{r?.ten ?? r?.name ?? "-"}</div>
-                <div className="col-span-2 text-sm text-white/65">
+                <div className="col-span-2 text-sm text-muted-foreground">
                   {r?.tenviettat ?? r?.slug ?? "-"}
                 </div>
                 <div className="flex justify-center">
@@ -108,13 +108,13 @@ export default function CategoriesPage() {
                     {toStatusLabel(r?.trangthai)}
                   </span>
                 </div>
-                <div className="text-sm text-white/70">
+                <div className="text-sm text-muted-foreground">
                   {r?.created_at ? new Date(r.created_at).toLocaleString("vi-VN") : "-"}
                 </div>
                 <div className="flex justify-end gap-3">
                   <button
                     type="button"
-                    className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                    className="grid h-9 w-9 place-items-center rounded-xl bg-card ring-1 ring-border hover:bg-muted/50"
                     onClick={() => {
                       setEditing(r);
                       setModalOpen(true);
@@ -124,7 +124,7 @@ export default function CategoriesPage() {
                   </button>
                   <button
                     type="button"
-                    className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                    className="grid h-9 w-9 place-items-center rounded-xl bg-card ring-1 ring-border hover:bg-muted/50"
                     onClick={() => {
                       setConfirmTarget(r);
                       setConfirmOpen(true);

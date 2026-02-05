@@ -35,15 +35,15 @@ export default function SalesLineChart({ data }) {
 
   if (!normalized.length) {
     return (
-      <div className="grid h-[260px] w-full place-items-center rounded-2xl border border-white/5 bg-[#050915]">
-        <div className="text-sm text-slate-400">Chưa có dữ liệu doanh thu 7 ngày.</div>
+      <div className="grid h-[260px] w-full place-items-center rounded-2xl border border-border/40 bg-card dark:bg-[#050915]">
+        <div className="text-sm text-muted-foreground">Chưa có dữ liệu doanh thu 7 ngày.</div>
       </div>
     );
   }
 
   return (
     <div className="w-full">
-      <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-[#050915] p-4 text-indigo-400">
+      <div className="relative overflow-hidden rounded-2xl border border-border/40 bg-card dark:bg-[#050915] p-4 text-indigo-400">
         <svg viewBox="0 0 860 260" className="h-[260px] w-full">
           {/* grid */}
           {Array.from({ length: 5 }).map((_, i) => {
@@ -69,7 +69,7 @@ export default function SalesLineChart({ data }) {
           ))}
         </svg>
 
-        <div className={`mt-4 grid gap-2 text-center text-xs text-slate-400`} style={{ gridTemplateColumns: `repeat(${Math.max(points.length, 1)}, minmax(0, 1fr))` }}>
+        <div className={`mt-4 grid gap-2 text-center text-xs text-muted-foreground`} style={{ gridTemplateColumns: `repeat(${Math.max(points.length, 1)}, minmax(0, 1fr))` }}>
           {points.map((p) => (
             <div key={String(p.label)} className="truncate">
               {p.label}

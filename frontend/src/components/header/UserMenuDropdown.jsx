@@ -55,7 +55,7 @@ export default function UserMenuDropdown({ me }) {
         <Button
           variant="ghost"
           size="icon"
-          className="text-slate-200 hover:bg-white/5"
+          className="text-foreground hover:bg-card"
         >
           <User className="h-5 w-5" />
         </Button>
@@ -63,17 +63,17 @@ export default function UserMenuDropdown({ me }) {
 
       <DropdownMenuContent
         align="end"
-        className="w-44 bg-slate-950/95 border-white/10 text-slate-100"
+        className="w-44 bg-popover border-border text-foreground"
       >
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="cursor-pointer">
             My Account
           </DropdownMenuSubTrigger>
-          <DropdownMenuSubContent className="w-56 bg-slate-950/95 border-white/10 text-slate-100">
+          <DropdownMenuSubContent className="w-56 bg-popover border-border text-foreground">
             <DropdownMenuItem asChild className="cursor-pointer">
               <Link href="/me">Thông tin của tôi</Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator className="bg-white/10" />
+            <DropdownMenuSeparator className="bg-muted/50" />
             <DropdownMenuItem className="cursor-pointer" onClick={openEditName}>
               Sửa tên hiển thị
             </DropdownMenuItem>
@@ -99,7 +99,7 @@ export default function UserMenuDropdown({ me }) {
           </DropdownMenuItem>
         )}
 
-        <DropdownMenuSeparator className="bg-white/10" />
+        <DropdownMenuSeparator className="bg-muted/50" />
         <DropdownMenuItem className="cursor-pointer" onClick={signOut}>
           Sign Out
         </DropdownMenuItem>

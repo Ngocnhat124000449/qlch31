@@ -162,61 +162,61 @@ export default function DashboardOverview() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="border-white/5 bg-white/5">
+        <Card className="border-border/40 bg-card">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-slate-200">Tổng doanh thu</CardTitle>
+            <CardTitle className="text-sm text-foreground">Tổng doanh thu</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{loading ? "…" : formatMoneyVND(stats.revenue)}</div>
-            <div className="mt-1 text-xs text-slate-400">(Tạm tính từ đơn hàng)</div>
+            <div className="mt-1 text-xs text-muted-foreground">(Tạm tính từ đơn hàng)</div>
           </CardContent>
         </Card>
 
-        <Card className="border-white/5 bg-white/5">
+        <Card className="border-border/40 bg-card">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-slate-200">Tổng đơn hàng</CardTitle>
+            <CardTitle className="text-sm text-foreground">Tổng đơn hàng</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{loading ? "…" : stats.totalOrders}</div>
-            <div className="mt-1 text-xs text-slate-400">Đơn trong danh sách đã tải</div>
+            <div className="mt-1 text-xs text-muted-foreground">Đơn trong danh sách đã tải</div>
           </CardContent>
         </Card>
 
-        <Card className="border-white/5 bg-white/5">
+        <Card className="border-border/40 bg-card">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-slate-200">Giá trị đơn trung bình</CardTitle>
+            <CardTitle className="text-sm text-foreground">Giá trị đơn trung bình</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{loading ? "…" : formatMoneyVND(stats.aov)}</div>
-            <div className="mt-1 text-xs text-slate-400">Doanh thu / đơn</div>
+            <div className="mt-1 text-xs text-muted-foreground">Doanh thu / đơn</div>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-5">
-        <Card className="border-white/5 bg-white/5 lg:col-span-3">
+        <Card className="border-border/40 bg-card lg:col-span-3">
           <CardHeader>
             <CardTitle className="text-base">Tổng quan bán hàng</CardTitle>
-            <div className="text-sm text-slate-400">Doanh thu trong 7 ngày qua.</div>
+            <div className="text-sm text-muted-foreground">Doanh thu trong 7 ngày qua.</div>
           </CardHeader>
           <CardContent>
             <SalesLineChart data={sales7} />
           </CardContent>
         </Card>
 
-        <Card className="border-white/5 bg-white/5 lg:col-span-2">
+        <Card className="border-border/40 bg-card lg:col-span-2">
           <CardHeader>
             <CardTitle className="text-base">Đơn hàng gần đây</CardTitle>
-            <div className="text-sm text-slate-400">Danh sách các đơn hàng gần đây nhất.</div>
+            <div className="text-sm text-muted-foreground">Danh sách các đơn hàng gần đây nhất.</div>
           </CardHeader>
           <CardContent>
             {loading ? (
-              <div className="text-sm text-slate-400">Đang tải…</div>
+              <div className="text-sm text-muted-foreground">Đang tải…</div>
             ) : recentOrders.length === 0 ? (
-              <div className="text-sm text-slate-400">Chưa có dữ liệu.</div>
+              <div className="text-sm text-muted-foreground">Chưa có dữ liệu.</div>
             ) : (
               <div className="space-y-3">
-                <div className="grid grid-cols-3 gap-2 border-b border-white/5 pb-2 text-xs text-slate-400">
+                <div className="grid grid-cols-3 gap-2 border-b border-border/40 pb-2 text-xs text-muted-foreground">
                   <div>Khách hàng</div>
                   <div>Trạng thái</div>
                   <div className="text-right">Tổng cộng</div>
@@ -226,11 +226,11 @@ export default function DashboardOverview() {
                   return (
                     <div
                       key={String(code)}
-                      className="grid grid-cols-3 items-center gap-2 border-b border-white/5 py-3 last:border-b-0"
+                      className="grid grid-cols-3 items-center gap-2 border-b border-border/40 py-3 last:border-b-0"
                     >
                       <div className="min-w-0">
-                        <div className="truncate text-sm font-medium text-slate-100">{pickCustomerName(o)}</div>
-                        <div className="text-xs text-slate-400">#{code}</div>
+                        <div className="truncate text-sm font-medium text-foreground">{pickCustomerName(o)}</div>
+                        <div className="text-xs text-muted-foreground">#{code}</div>
                       </div>
                       <div>
                         <StatusBadge value={pickStatus(o)} />

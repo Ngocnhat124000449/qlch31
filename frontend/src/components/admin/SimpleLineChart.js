@@ -15,10 +15,10 @@ export default function SimpleLineChart() {
     .join(" ");
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
+    <div className="rounded-2xl border border-border bg-card p-4 backdrop-blur-xl">
       <div className="mb-3">
         <div className="text-base font-semibold">Tổng quan bán hàng</div>
-        <div className="text-xs text-white/55">Doanh thu trong 7 ngày qua.</div>
+        <div className="text-xs text-muted-foreground">Doanh thu trong 7 ngày qua.</div>
       </div>
 
       <svg viewBox="0 0 340 110" className="h-[260px] w-full">
@@ -29,7 +29,7 @@ export default function SimpleLineChart() {
         ))}
       </svg>
 
-      <div className="mt-2 grid grid-cols-7 text-center text-[11px] text-white/45">
+      <div className="mt-2 grid grid-cols-7 text-center text-[11px] text-muted-foreground">
         {["Ngày 2/7", "Ngày 3/7", "Ngày 4/7", "Ngày 5/7", "Ngày 6/7", "Ngày 7/7", ""].map(
           (t, i) => (
             <div key={i} className="truncate">
