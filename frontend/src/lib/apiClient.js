@@ -59,13 +59,24 @@ export async function apiFetch(path, init = {}) {
   // conditional request (ETag). `fetch()` treats 304 as non-ok, which then
   // breaks auth guards (they think the user is guest).
   // Default to `no-store` to avoid 304 and keep auth state stable.
-  const res = await fetch(url, {
-    cache: "no-store",
-    ...init,
-    method,
-    headers,
-    body,
-  });
+  let res;
+  try {
+    res = await fetch(url, {
+      cache: "no-store",
+      ...init,
+      method,
+      headers,
+      body,
+    });
+  } catch (cause) {
+    const err = new Error(
+      `Không thể kết nối tới backend (${url}). Kiểm tra backend hoặc API base.`
+    );
+    err.code = "FETCH_FAILED";
+    err.url = url;
+    err.cause = cause;
+    throw err;
+  }
 
   // parse response
   const contentType = res.headers.get("content-type") || "";

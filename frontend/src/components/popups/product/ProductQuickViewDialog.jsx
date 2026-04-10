@@ -1,4 +1,5 @@
 "use client";
+import styles from "./ProductQuickViewDialog.module.scss";
 
 import SmartImage from "@/components/ui/SmartImage";
 import { useEffect, useMemo, useState } from "react";
@@ -7,6 +8,7 @@ import { usePopups } from "@/components/popups/PopupProvider";
 import { catalogApi, variantApi, reviewApi, cartApi } from "@/lib/api";
 import { getAccessToken } from "@/lib/tokens";
 import { formatVND } from "@/lib/format";
+import { getVariantDisplayName } from "@/lib/variantLabel";
 
 import {
   Dialog,
@@ -52,6 +54,7 @@ export default function ProductQuickViewDialog({ open, sanphamid, onOpenChange }
   const { closeQuickView, openAuth, openCart } = usePopups();
 
   const [loading, setLoading] = useState(false);
+  const [loadError, setLoadError] = useState("");
   const [product, setProduct] = useState(null);
   const [variants, setVariants] = useState([]);
   const [selectedVariantId, setSelectedVariantId] = useState(null);
@@ -78,6 +81,7 @@ export default function ProductQuickViewDialog({ open, sanphamid, onOpenChange }
     setAttrs([]);
     setReviews([]);
     setQty(1);
+    setLoadError("");
 
     catalogApi
       .product(sanphamid)
@@ -91,6 +95,15 @@ export default function ProductQuickViewDialog({ open, sanphamid, onOpenChange }
 
         const best = pickBestVariant(vs);
         if (best?.bentheid != null) setSelectedVariantId(best.bentheid);
+      })
+      .catch((err) => {
+        if (!alive) return;
+        setProduct(null);
+        setVariants([]);
+        setSelectedVariantId(null);
+        setLoadError(
+          err?.message || "Không thể tải dữ liệu sản phẩm. Vui lòng thử lại."
+        );
       })
       .finally(() => alive && setLoading(false));
 
@@ -137,7 +150,9 @@ export default function ProductQuickViewDialog({ open, sanphamid, onOpenChange }
     openCart();
   }
 
-  const name = product?.ten || product?.tensanpham || (loading ? "Loading..." : "—");
+  const name = loadError
+    ? "Không tải được sản phẩm"
+    : product?.ten || product?.tensanpham || (loading ? "Loading..." : "—");
   const desc = product?.motangan || product?.mota || "";
 
   const heroImg =
@@ -175,6 +190,12 @@ export default function ProductQuickViewDialog({ open, sanphamid, onOpenChange }
                   {Number(selectedVariant?.tonkho ?? 0) > 0 ? "Còn hàng" : "Hết hàng"}
                 </div>
 
+                {loadError ? (
+                  <div className="mt-4 rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+                    {loadError}
+                  </div>
+                ) : null}
+
                 <div className="mt-4 flex items-center gap-2">
                   <Button
                     variant="secondary"
@@ -201,7 +222,7 @@ export default function ProductQuickViewDialog({ open, sanphamid, onOpenChange }
                         }
                         onClick={() => setSelectedVariantId(v.bentheid)}
                       >
-                        {v.sku || `Variant #${v.bentheid}`}
+                        {getVariantDisplayName(v)}
                       </Button>
                     ))}
                   </div>
