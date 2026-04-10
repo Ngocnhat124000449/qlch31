@@ -1,4 +1,5 @@
 "use client";
+import styles from "./SearchDialog.module.scss";
 
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -64,7 +65,7 @@ export default function SearchDialog({ open, onOpenChange }) {
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
       <CommandInput
-        placeholder="Search products..."
+        placeholder="Tìm kiếm sản phẩm..."
         value={q}
         onValueChange={setQ}
       />
