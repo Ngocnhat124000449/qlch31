@@ -20,7 +20,8 @@ function pickProduct(data) {
 }
 
 export default async function ProductDetailPage({ params }) {
-  const id = params?.id;
+  const p = await params;
+  const id = p?.id;
 
   let product = null;
   try {
