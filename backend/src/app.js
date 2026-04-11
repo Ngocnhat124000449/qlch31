@@ -13,8 +13,9 @@ import couponRoutes from "./modules/coupon/coupon.routes.js";
 import reviewRoutes from "./modules/review/review.routes.js";
 import postRoutes from "./modules/post/post.routes.js";
 import attributeRoutes from "./modules/attribute/attribute.routes.js";
-import { notFound, errorHandler } from "./handlers/errorHandler.js";
 import bannerRoutes from "./modules/banner/banner.routes.js";
+import storeRoutes from "./modules/store/store.routes.js";
+import { notFound, errorHandler } from "./handlers/errorHandler.js";
 
 const app = express();
 
@@ -35,7 +36,7 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 app.options("*", cors());
 app.use(express.json());
@@ -54,6 +55,7 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api", attributeRoutes);
 app.use("/api/banners", bannerRoutes);
+app.use("/api/store", storeRoutes);
 app.use(notFound);
 app.use(errorHandler);
 

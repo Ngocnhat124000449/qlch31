@@ -1,4 +1,5 @@
 "use client";
+import styles from "./PromotionProductCard.module.scss";
 
 import Link from "next/link";
 import SmartImage from "@/components/ui/SmartImage";

@@ -1,4 +1,5 @@
 "use client";
+import styles from "./DashboardOverview.module.scss";
 
 import { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/apiClient";

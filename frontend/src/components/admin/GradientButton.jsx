@@ -1,4 +1,6 @@
 "use client";
+import styles from "./GradientButton.module.scss";
+
 
 export default function GradientButton({ className = "", children, ...props }) {
   return (

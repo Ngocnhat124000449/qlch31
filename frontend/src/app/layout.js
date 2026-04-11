@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./globals.scss";
 
 import { PopupProvider } from "@/components/popups/PopupProvider";
 import PopupRoot from "@/components/popups/PopupRoot";

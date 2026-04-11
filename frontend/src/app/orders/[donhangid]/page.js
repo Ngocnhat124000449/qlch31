@@ -112,7 +112,9 @@ export default function OrderDetailPage({ params }) {
                           <div className="font-medium text-foreground">
                             {it?.sanpham?.ten || `Biến thể #${it.bentheid}`}
                           </div>
-                          <div className="text-xs text-muted-foreground">SKU: {it.sku || ""}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {it.tenbienthe || it.sku || ""}
+                          </div>
                         </div>
                         <div className="text-sm text-foreground">
                           {it.soluong} × {formatVND(it.dongia)}

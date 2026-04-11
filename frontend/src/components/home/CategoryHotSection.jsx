@@ -1,3 +1,4 @@
+import styles from "./CategoryHotSection.module.scss";
 import Link from "next/link";
 import ProductCard from "@/components/home/ProductCard";
 

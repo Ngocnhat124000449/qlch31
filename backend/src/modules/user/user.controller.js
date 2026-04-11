@@ -12,8 +12,7 @@ import { AppError } from "../../utils/appError.js";
 export const me = asyncHandler(async (req, res) => {
   const profile = await getMe(req.user.userid);
 
-  // Fallback: nếu thiếu user_profile (hay gặp với tài khoản admin tạo sẵn),
-  // vẫn trả tối thiểu thông tin để frontend không hiểu nhầm là guest.
+  // Fallback: nếu service không trả về (user not found)
   if (!profile) {
     return res.json({
       user: {
@@ -25,9 +24,14 @@ export const me = asyncHandler(async (req, res) => {
     });
   }
 
-  // Đảm bảo luôn có role/isAdmin từ middleware (nếu service chưa map)
-  if (profile.role === undefined) profile.role = req.user.role;
-  if (profile.isAdmin === undefined) profile.isAdmin = req.user.isAdmin;
+  // Double-check: nếu profile không có isAdmin hoặc role, lấy từ middleware (verified)
+  // Middleware đã kiểm tra role từ DB khi xác thực token
+  if (profile.isAdmin === undefined || profile.isAdmin === null) {
+    profile.isAdmin = req.user.isAdmin;
+  }
+  if (!profile.role) {
+    profile.role = req.user.role;
+  }
 
   return res.json({ user: profile });
 });
@@ -54,6 +58,21 @@ export const updatePassword = asyncHandler(async (req, res) => {
 
   await changePassword(req.user.userid, val.value);
   return res.json({ message: "Password updated" });
+});
+
+/**
+ * Verify if user is admin
+ * GET /api/users/verify-admin
+ * Dùng để frontend xác minh quyền admin
+ */
+export const verifyAdmin = asyncHandler(async (req, res) => {
+  // Middleware requireAuth đã xác minh token hợp lệ
+  // req.user.isAdmin được set từ middleware authz
+  return res.json({
+    isAdmin: req.user.isAdmin,
+    role: req.user.role,
+    userid: req.user.userid,
+  });
 });
 
 // Admin: list users

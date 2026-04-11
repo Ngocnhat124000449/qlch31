@@ -1,79 +1,71 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import AdminShell from "@/components/admin/AdminShell";
 import { useMe } from "@/hooks/useMe";
-import { apiFetch } from "@/lib/apiClient";
 
 export default function AdminLayout({ children }) {
   const router = useRouter();
   const { me, status } = useMe();
+  const redirectedRef = useRef(false);
+  const prevStatusRef = useRef(null); // Track status changes
 
-  const raw = me?.isAdmin ?? me?.isadmin ?? me?.admin ?? me?.is_admin;
-  const rawStr = raw == null ? "" : String(raw).toLowerCase();
-  const roleStr = String(
-    me?.role ?? me?.vaitro ?? me?.vaiTro ?? ""
-  ).toLowerCase();
+  // Kiểm tra isAdmin: hỗ trợ nhiều dạng (boolean true, số 1, chuỗi "true"/"1")
   const isAdmin =
-    raw === true ||
-    raw === 1 ||
-    raw === "1" ||
-    rawStr === "true" ||
-    roleStr === "admin" ||
-    roleStr === "administrator" ||
-    roleStr === "role_admin";
+    me?.isAdmin === true ||
+    me?.isAdmin === 1 ||
+    (typeof me?.isAdmin === "string" &&
+      (me.isAdmin.toLowerCase() === "true" || me.isAdmin === "1"));
 
-  const [adminGate, setAdminGate] = useState("checking"); // checking | allowed | denied
-  const gateReqRef = useRef(0);
-
+  // Xác định quyền truy cập
   useEffect(() => {
+    // 1. Đang load - chờ
     if (status === "loading") {
-      setAdminGate("checking");
+      prevStatusRef.current = status;
       return;
     }
+
+    // 2. Đã redirect trước đó - không redirect lại
+    if (redirectedRef.current) {
+      prevStatusRef.current = status;
+      return;
+    }
+
+    // 3. Nếu status vừa thay đổi từ loading → auth/guest
+    const statusChanged = prevStatusRef.current !== status;
+    prevStatusRef.current = status;
+
+    // 4. Redirect logic: chỉ kiểm tra khi status thay đổi hoặc lần đầu
     if (status === "guest") {
-      setAdminGate("denied");
+      redirectedRef.current = true;
+      router.replace("/");
       return;
     }
-    if (status === "auth" && isAdmin) {
-      setAdminGate("allowed");
-      return;
-    }
+
     if (status === "auth" && !isAdmin) {
-      const reqId = ++gateReqRef.current;
-      setAdminGate("checking");
-      (async () => {
-        try {
-          await apiFetch("/api/users/admin/users?limit=1&offset=0", {
-            method: "GET",
-          });
-          if (gateReqRef.current !== reqId) return;
-          setAdminGate("allowed");
-        } catch {
-          if (gateReqRef.current !== reqId) return;
-          setAdminGate("denied");
-        }
-      })();
+      redirectedRef.current = true;
+      router.replace("/");
+      return;
     }
-  }, [status, isAdmin]);
 
-  useEffect(() => {
-    if (adminGate === "denied") router.replace("/");
-  }, [router, adminGate]);
+    // 5. Status = "auth" && isAdmin → cho phép render
+  }, [router, status]); // Chỉ track status, không track isAdmin
 
-  const blocked = status !== "auth" || adminGate !== "allowed";
-
-  // Luôn render một UI ổn định trong quá trình kiểm tra/redirect
-  if (status === "loading" || blocked) {
+  // Hiển thị loading khi đang xác thực
+  if (status === "loading") {
     return (
       <div className="min-h-screen bg-background text-foreground grid place-items-center">
-        <div className="text-sm text-muted-foreground">
-          Đang kiểm tra quyền truy cập…
-        </div>
+        <div className="text-sm text-muted-foreground">Đang tải…</div>
       </div>
     );
   }
 
-  return <AdminShell me={me}>{children}</AdminShell>;
+  // Chỉ render admin shell nếu authenticated + isAdmin
+  if (status === "auth" && isAdmin) {
+    return <AdminShell me={me}>{children}</AdminShell>;
+  }
+
+  // Khi không đủ điều kiện - render null (sẽ redirect trong useEffect)
+  return null;
 }

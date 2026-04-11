@@ -10,7 +10,7 @@ function refreshPepper() {
     throw new AppError(
       "Missing REFRESH_TOKEN_SECRET in .env",
       500,
-      "CONFIG_ERROR"
+      "CONFIG_ERROR",
     );
   }
   return p;
@@ -45,7 +45,7 @@ async function fetchProfileWithRole(db, userid) {
     WHERE up.userid = $1
     LIMIT 1
     `,
-    [userid]
+    [userid],
   );
   return rows[0] || null;
 }
@@ -70,18 +70,22 @@ export async function createUserAndDefaults({
       VALUES ($1,$2,$3,$4,$5,$6)
       RETURNING userid
       `,
-      [tendangnhap, hashedPw, email, sdt, hoten, avatarurl]
+      [tendangnhap, hashedPw, email, sdt, hoten, avatarurl],
     );
 
     const userid = ins.rows[0].userid;
 
     await client.query(
+      `INSERT INTO public.user_profile (userid) VALUES ($1) ON CONFLICT (userid) DO NOTHING`,
+      [userid],
+    );
+    await client.query(
       `INSERT INTO public.giohang (userid) VALUES ($1) ON CONFLICT (userid) DO NOTHING`,
-      [userid]
+      [userid],
     );
     await client.query(
       `INSERT INTO public.danhsachyeuthich (userid) VALUES ($1) ON CONFLICT (userid) DO NOTHING`,
-      [userid]
+      [userid],
     );
 
     const profile = await fetchProfileWithRole(client, userid);
@@ -104,7 +108,7 @@ export async function verifyUserCredentials({ identifier, matkhau }) {
     WHERE tendangnhap = $1 OR email = $1 OR sdt = $1
     LIMIT 1
     `,
-    [identifier]
+    [identifier],
   );
 
   if (rows.length === 0) {
@@ -138,7 +142,7 @@ export async function createSession(userid) {
     VALUES ($1,$2,$3)
     RETURNING phienid, expires_at
     `,
-    [userid, refreshHash, expiresAt]
+    [userid, refreshHash, expiresAt],
   );
 
   return {
@@ -162,7 +166,7 @@ export async function rotateSession(refreshToken) {
       WHERE refresh_hash = $1
       FOR UPDATE
       `,
-      [refreshHash]
+      [refreshHash],
     );
 
     if (found.rows.length === 0) {
@@ -182,7 +186,7 @@ export async function rotateSession(refreshToken) {
     // revoke session cũ
     await client.query(
       `UPDATE public.phien_dang_nhap SET revoked_at = NOW() WHERE phienid = $1 AND revoked_at IS NULL`,
-      [s.phienid]
+      [s.phienid],
     );
 
     // tạo session mới
@@ -196,7 +200,7 @@ export async function rotateSession(refreshToken) {
       VALUES ($1,$2,$3)
       RETURNING phienid, expires_at
       `,
-      [s.userid, newHash, newExpires]
+      [s.userid, newHash, newExpires],
     );
 
     await client.query("COMMIT");
@@ -223,7 +227,7 @@ export async function revokeSessionByRefreshToken(refreshToken) {
     SET revoked_at = NOW()
     WHERE refresh_hash = $1 AND revoked_at IS NULL
     `,
-    [refreshHash]
+    [refreshHash],
   );
 
   // idempotent logout: token sai/đã revoke => vẫn coi là OK ở controller
@@ -237,7 +241,7 @@ export async function revokeAllSessions(userid) {
     SET revoked_at = NOW()
     WHERE userid = $1 AND revoked_at IS NULL
     `,
-    [userid]
+    [userid],
   );
   return rowCount;
 }

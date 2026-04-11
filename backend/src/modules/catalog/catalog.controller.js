@@ -2,6 +2,7 @@ import * as v from "./catalog.validators.js";
 import * as s from "./catalog.service.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { AppError } from "../../utils/appError.js";
+import { uploadBufferToCloudinary } from "../../utils/cloudinaryUpload.js";
 
 function toIntOrNull(x) {
   if (x === undefined || x === null || x === "") return null;
@@ -34,6 +35,17 @@ function pickUploadedImageUrl(req) {
     req?.file?.secure_url ||
     null
   );
+}
+
+async function ensureCatalogImageUploaded(req, folder) {
+  if (!req?.file?.buffer) {
+    return pickUploadedImageUrl(req);
+  }
+
+  const uploaded = await uploadBufferToCloudinary(req.file.buffer, { folder });
+  req.uploadedImage = uploaded;
+  req.uploadedImageUrl = uploaded?.url || null;
+  return req.uploadedImageUrl;
 }
 
 export const listCategories = asyncHandler(async (req, res) => {
@@ -181,7 +193,7 @@ export const getProductDetail = asyncHandler(async (req, res) => {
 });
 
 export const createProduct = asyncHandler(async (req, res) => {
-  const imageUrl = pickUploadedImageUrl(req);
+  const imageUrl = await ensureCatalogImageUploaded(req, "catalog/products");
 
   const body = {
     ...req.body,
@@ -210,7 +222,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
     });
   }
 
-  const imageUrl = pickUploadedImageUrl(req);
+  const imageUrl = await ensureCatalogImageUploaded(req, "catalog/products");
 
   const body = {
     ...req.body,
@@ -253,7 +265,7 @@ export const createVariant = asyncHandler(async (req, res) => {
     });
   }
 
-  const imageUrl = pickUploadedImageUrl(req);
+  const imageUrl = await ensureCatalogImageUploaded(req, "catalog/variants");
 
   const body = {
     ...req.body,
@@ -282,7 +294,7 @@ export const updateVariant = asyncHandler(async (req, res) => {
     });
   }
 
-  const imageUrl = pickUploadedImageUrl(req);
+  const imageUrl = await ensureCatalogImageUploaded(req, "catalog/variants");
 
   const body = {
     ...req.body,

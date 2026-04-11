@@ -6,35 +6,47 @@ import { apiFetch } from "@/lib/apiClient";
 import { clearTokens, hasTokens, onAuthChanged } from "@/lib/tokens";
 
 // Module-level cache to avoid auth UI flicker across client navigations.
-// Notes:
-// - On the server, we can't read localStorage, so we always start in "loading".
-// - On the client, once we have fetched /users/me successfully, we reuse the
-//   cached user so headers/guards don't briefly render as "guest".
 let CACHED_ME = null;
 let CACHED_STATUS = "loading"; // "guest" | "loading" | "auth"
+let FETCH_IN_PROGRESS = false;
+let HAS_INITIAL_FETCH = false; // Track if initial fetch completed
 
 export function useMe() {
   const [me, setMe] = useState(() => CACHED_ME);
   const [status, setStatus] = useState(() => CACHED_STATUS);
-  // status: "guest" | "loading" | "auth"
 
   const abortRef = useRef(null);
+  const isMountedRef = useRef(true);
 
-  const fetchMe = useCallback(async () => {
-    // IMPORTANT: never decide "guest" during SSR.
-    // We only check localStorage on the client, inside effects/callbacks.
+  const fetchMe = useCallback(async (force = false) => {
+    // Tránh fetch đồng thời nếu đang fetch (trừ khi force)
+    if (FETCH_IN_PROGRESS && !force) {
+      return;
+    }
+
+    // Không có token = guest
     if (!hasTokens()) {
       CACHED_ME = null;
       CACHED_STATUS = "guest";
-      setMe(null);
-      setStatus("guest");
+      if (isMountedRef.current) {
+        setMe(null);
+        setStatus("guest");
+      }
+      HAS_INITIAL_FETCH = true;
       return null;
     }
 
-    CACHED_STATUS = "loading";
-    setStatus("loading");
+    FETCH_IN_PROGRESS = true;
 
-    // abort previous
+    // Nếu lần đầu, set loading
+    if (!HAS_INITIAL_FETCH) {
+      CACHED_STATUS = "loading";
+      if (isMountedRef.current) {
+        setStatus("loading");
+      }
+    }
+
+    // Abort previous request
     if (abortRef.current) abortRef.current.abort();
     const controller = new AbortController();
     abortRef.current = controller;
@@ -45,7 +57,7 @@ export function useMe() {
         signal: controller.signal,
       });
 
-      // Backend may return { user: {...} } (preferred) or other wrappers.
+      // Extract user từ response
       const user =
         data?.user ??
         data?.data?.user ??
@@ -56,44 +68,67 @@ export function useMe() {
 
       CACHED_ME = user;
       CACHED_STATUS = user ? "auth" : "guest";
-      setMe(user);
-      setStatus(user ? "auth" : "guest");
+
+      if (isMountedRef.current) {
+        setMe(user);
+        setStatus(user ? "auth" : "guest");
+      }
+
+      HAS_INITIAL_FETCH = true;
       return user;
     } catch (err) {
-      // If the request was aborted (component unmount / new request),
-      // ignore it. Aborts are normal in Next dev mode and should NOT
-      // flip auth state to "guest" (otherwise dashboard can redirect).
+      // Abort không phải lỗi thực sự
       if (err?.name === "AbortError") {
         return null;
       }
 
-      // nếu token sai/hết hạn => về guest
+      // Token hết hạn → logout
       if (err?.status === 401 || err?.status === 403) {
         clearTokens();
       }
 
       CACHED_ME = null;
       CACHED_STATUS = "guest";
-      setMe(null);
-      setStatus("guest");
+
+      if (isMountedRef.current) {
+        setMe(null);
+        setStatus("guest");
+      }
+
+      HAS_INITIAL_FETCH = true;
       return null;
+    } finally {
+      FETCH_IN_PROGRESS = false;
     }
   }, []);
 
   useEffect(() => {
-    // Always start in loading on the client; then resolve to guest/auth.
-    // This avoids a SSR-initialized "guest" state that can trigger
-    // incorrect redirects before /me finishes.
-    if (CACHED_STATUS === "loading") {
-      setStatus("loading");
+    isMountedRef.current = true;
+
+    // Chỉ fetch lần đầu hoặc khi component mount
+    if (!HAS_INITIAL_FETCH) {
+      if (CACHED_STATUS === "loading") {
+        setStatus("loading");
+      }
+      fetchMe();
+    } else {
+      // Nếu đã fetch trước đó, sync state từ cache
+      setMe(CACHED_ME);
+      setStatus(CACHED_STATUS);
     }
-    fetchMe();
-    const off = onAuthChanged(() => fetchMe());
+
+    // Lắng nghe auth change (logout, token expiry, etc)
+    const off = onAuthChanged(() => {
+      // Force refetch khi token thay đổi
+      fetchMe(true);
+    });
+
     return () => {
+      isMountedRef.current = false;
       off?.();
       if (abortRef.current) abortRef.current.abort();
     };
-  }, [fetchMe]);
+  }, []); // Empty dependency - chỉ run mount
 
   return { me, status, loading: status === "loading", refresh: fetchMe };
 }

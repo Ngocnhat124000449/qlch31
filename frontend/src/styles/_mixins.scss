@@ -1,0 +1,139 @@
+// =============================================================================
+// _mixins.scss
+// Reusable SCSS mixins cho toàn dự án.
+// Import: @use '../styles/mixins' as m; => @include m.flex-center;
+// =============================================================================
+
+@use "sass:map";
+@use "variables" as v;
+
+// ---------------------------------------------------------------------------
+// Responsive – dùng: @include respond-to("md") { ... }
+// ---------------------------------------------------------------------------
+@mixin respond-to($bp) {
+  $value: map.get(v.$breakpoints, $bp);
+  @if $value == null {
+    @warn "Breakpoint `#{$bp}` không tồn tại trong $breakpoints.";
+  } @else {
+    @media (min-width: $value) {
+      @content;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Flexbox shortcuts
+// ---------------------------------------------------------------------------
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+// ---------------------------------------------------------------------------
+// Truncate text
+// ---------------------------------------------------------------------------
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $lines;
+    overflow: hidden;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Absolute positioning
+// ---------------------------------------------------------------------------
+@mixin absolute-fill {
+  position: absolute;
+  inset: 0;
+}
+
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// ---------------------------------------------------------------------------
+// Card base (dùng cho các card section, product card...)
+// ---------------------------------------------------------------------------
+@mixin card-base($radius: v.$radius-2xl) {
+  border-radius: $radius;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+
+// ---------------------------------------------------------------------------
+// Focus ring (accessibility)
+// ---------------------------------------------------------------------------
+@mixin focus-ring($color: var(--ring)) {
+  outline: none;
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: 2px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Smooth transition shortcut
+// ---------------------------------------------------------------------------
+@mixin transition($props: all, $duration: v.$transition-base) {
+  transition: $props $duration;
+}
+
+// ---------------------------------------------------------------------------
+// Overlay backdrop
+// ---------------------------------------------------------------------------
+@mixin overlay($opacity: 0.5) {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / #{$opacity});
+  z-index: v.$z-overlay;
+}
+
+// ---------------------------------------------------------------------------
+// Scrollbar hidden (cross-browser)
+// ---------------------------------------------------------------------------
+@mixin scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Size shorthand
+// ---------------------------------------------------------------------------
+@mixin size($w, $h: $w) {
+  width: $w;
+  height: $h;
+}
+
+// ---------------------------------------------------------------------------
+// Sticky header
+// ---------------------------------------------------------------------------
+@mixin sticky-top($z: v.$z-sticky) {
+  position: sticky;
+  top: 0;
+  z-index: $z;
+}

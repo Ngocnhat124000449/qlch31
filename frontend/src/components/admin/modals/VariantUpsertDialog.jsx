@@ -1,4 +1,5 @@
 "use client";
+import styles from "./VariantUpsertDialog.module.scss";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -40,6 +41,7 @@ export default function VariantUpsertDialog({
   const id = useMemo(() => pickId(initial), [initial]);
   const isEdit = id != null;
 
+  const [tenbienthe, setTenbienthe] = useState("");
   const [sku, setSku] = useState("");
   const [giaban, setGiaban] = useState("");
   const [tonkho, setTonkho] = useState("");
@@ -61,6 +63,7 @@ export default function VariantUpsertDialog({
     if (!open) return;
     setError("");
     setSaving(false);
+    setTenbienthe(initial?.tenbienthe ?? "");
     setSku(initial?.sku ?? "");
     setGiaban(initial?.giaban != null ? String(initial.giaban) : "");
     setTonkho(initial?.tonkho != null ? String(initial.tonkho) : "");
@@ -131,7 +134,7 @@ export default function VariantUpsertDialog({
   const effectiveProductId = sanphamid ?? (productId ? Number(productId) : null);
 
   const canSave =
-    sku.trim().length > 0 &&
+    tenbienthe.trim().length > 0 &&
     toNumber(giaban) > 0 &&
     (isEdit ? true : !!image) &&
     (isEdit ? true : !!effectiveProductId);
@@ -146,6 +149,7 @@ export default function VariantUpsertDialog({
     setError("");
     try {
       const fields = {
+        tenbienthe: tenbienthe.trim(),
         sku: sku.trim(),
         giaban: toNumber(giaban),
         tonkho: tonkho === "" ? undefined : toNumber(tonkho),
@@ -227,8 +231,21 @@ export default function VariantUpsertDialog({
           ) : null}
 
           <div className="grid gap-2">
+            <Label>Tên biến thể</Label>
+            <Input
+              value={tenbienthe}
+              onChange={(e) => setTenbienthe(e.target.value)}
+              placeholder="VD: iPhone 11 Pro"
+            />
+          </div>
+
+          <div className="grid gap-2">
             <Label>SKU</Label>
-            <Input value={sku} onChange={(e) => setSku(e.target.value)} placeholder="VD: LAP-001" />
+            <Input
+              value={sku}
+              onChange={(e) => setSku(e.target.value)}
+              placeholder="VD: IP11-PRO-128-BLK"
+            />
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

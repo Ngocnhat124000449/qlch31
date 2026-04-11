@@ -1,25 +1,47 @@
 import { Router } from "express";
-import {
-  requireAuth,
-  requireAdmin,
-} from "../../middlewares/authz.middleware.js";
+import { requireAuth } from "../../middlewares/authz.middleware.js";
+import { requirePermission } from "../../middlewares/permission.middleware.js";
 import * as c from "./order.controller.js";
 
 const router = Router();
 
-// user
-router.post("/", requireAuth(), c.createFromCart);
-router.get("/", requireAuth(), c.listMine);
-router.get("/:donhangid", requireAuth(), c.getDetail);
-router.patch("/:donhangid/cancel", requireAuth(), c.cancelMine);
+/**
+ * USER - Quản lý đơn hàng của mình
+ */
+router.post(
+  "/",
+  requireAuth(),
+  requirePermission("create:orders"),
+  c.createFromCart,
+);
+router.get("/", requireAuth(), requirePermission("view:my_orders"), c.listMine);
+router.get(
+  "/:donhangid",
+  requireAuth(),
+  requirePermission("view:order_detail"),
+  c.getDetail,
+);
+router.patch(
+  "/:donhangid/cancel",
+  requireAuth(),
+  requirePermission("cancel:my_orders"),
+  c.cancelMine,
+);
 
-// admin
-router.get("/admin/all", requireAuth(), requireAdmin, c.adminListAll);
+/**
+ * ADMIN - Quản lý tất cả đơn hàng
+ */
+router.get(
+  "/admin/all",
+  requireAuth(),
+  requirePermission("view:all_orders"),
+  c.adminListAll,
+);
 router.patch(
   "/:donhangid/status",
   requireAuth(),
-  requireAdmin,
-  c.adminUpdateStatus
+  requirePermission("update:order_status"),
+  c.adminUpdateStatus,
 );
 
 export default router;

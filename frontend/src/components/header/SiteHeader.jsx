@@ -1,4 +1,5 @@
 "use client";
+import styles from "./SiteHeader.module.scss";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -40,8 +41,8 @@ function ThemeToggleButton() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      aria-label="Toggle theme"
-      title="Toggle theme"
+      aria-label="Đổi chủ đề"
+      title="Đổi chủ đề"
       disabled={!mounted}
     >
       {mounted ? (
@@ -68,7 +69,7 @@ export default function SiteHeader() {
   const meState = useMe();
   const me = meState?.me ?? meState?.[0] ?? null;
   const status = meState?.status ?? meState?.[1]?.status;
-  const meLoading = meState?.loading ?? (status === "loading") ?? false;
+  const meLoading = meState?.loading ?? status === "loading" ?? false;
 
   const { openAuth, openCart, openSearch } = popups || {};
   const [q, setQ] = useState("");
@@ -109,15 +110,15 @@ export default function SiteHeader() {
 
           {/* Nav */}
           <nav className="hidden md:flex items-center gap-6 ml-4">
-            <NavLink href="/" label="Home" active={isActive("/")} />
+            <NavLink href="/" label="Trang chủ" active={isActive("/")} />
             <NavLink
               href="/promotions"
-              label="Promotions"
+              label="Khuyến mại"
               active={isActive("/promotions")}
             />
             <NavLink
               href="/products"
-              label="Products"
+              label="Sản phẩm"
               active={isActive("/products")}
             />
 
@@ -134,7 +135,7 @@ export default function SiteHeader() {
               <Input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Search products..."
+                placeholder="Tìm kiếm sản phẩm..."
                 className="h-10 pl-10 bg-muted/40 border-input focus-visible:ring-0 focus-visible:ring-offset-0"
               />
             </form>
@@ -147,8 +148,8 @@ export default function SiteHeader() {
             <Button
               variant="ghost"
               size="icon"
-              aria-label="Wishlist"
-              title="Wishlist"
+              aria-label="Danh sách yêu thích"
+              title="Danh sách yêu thích"
               onClick={() => {
                 if (!mounted || meLoading) return;
                 if (!me) return openLogin();
@@ -161,8 +162,8 @@ export default function SiteHeader() {
             <Button
               variant="ghost"
               size="icon"
-              aria-label="Cart"
-              title="Cart"
+              aria-label="Giỏ hàng"
+              title="Giỏ hàng"
               onClick={() => {
                 if (typeof openCart === "function") openCart();
               }}

@@ -1,4 +1,5 @@
 "use client";
+import styles from "./CartDialog.module.scss";
 
 import SmartImage from "@/components/ui/SmartImage";
 import { useEffect, useMemo, useState } from "react";
@@ -181,7 +182,7 @@ export default function CartDialog({ open, onOpenChange }) {
               {items.map((it) => {
                 const key = String(it?.bentheid ?? Math.random());
                 const name = it?.sanpham?.ten || it?.tensanpham || "—";
-                const sku = it?.sku || it?.sanpham?.sku || "";
+                const sku = it?.tenbienthe || it?.sku || it?.sanpham?.sku || "";
                 const img =
                   it?.variant_hinhanhurl ||
                   it?.sanpham?.hinhanhurl ||

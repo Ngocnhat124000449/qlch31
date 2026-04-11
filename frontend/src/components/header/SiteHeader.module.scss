@@ -1,0 +1,140 @@
+// =============================================================================
+// SiteHeader.module.scss
+// Styles cho component: components/header/SiteHeader.jsx
+// =============================================================================
+
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+// ---------------------------------------------------------------------------
+// Root wrapper
+// ---------------------------------------------------------------------------
+.header {
+  @include m.sticky-top(v.$z-sticky);
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+  border-bottom-color: color-mix(in oklch, var(--border) 40%, transparent);
+  background-color: color-mix(in oklch, var(--background) 70%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.inner {
+  @include m.flex-between;
+  max-width: 1280px;
+  margin-inline: auto;
+  height: 4rem;
+  gap: 1.5rem;
+  padding-inline: 1.5rem;
+}
+
+// ---------------------------------------------------------------------------
+// Logo
+// ---------------------------------------------------------------------------
+.logo {
+  @include m.flex-center;
+  gap: 0.5rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  @include m.transition(color);
+
+  &:hover {
+    color: var(--foreground);
+  }
+}
+
+.logoIcon {
+  @include m.flex-center;
+  @include m.size(2.25rem);
+  border-radius: v.$radius-xl;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+}
+
+// ---------------------------------------------------------------------------
+// Navigation
+// ---------------------------------------------------------------------------
+.nav {
+  display: none;
+  align-items: center;
+  gap: 1.25rem;
+
+  @include m.respond-to("md") {
+    display: flex;
+  }
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  @include m.transition(color);
+
+  &:hover {
+    color: var(--foreground);
+  }
+
+  svg {
+    @include m.size(1rem);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Search bar
+// ---------------------------------------------------------------------------
+.searchWrap {
+  display: none;
+  align-items: center;
+  width: 420px;
+  margin-left: auto;
+
+  @include m.respond-to("md") {
+    display: flex;
+  }
+}
+
+.searchBar {
+  @include m.flex-center;
+  width: 100%;
+  gap: 0.5rem;
+  border-radius: v.$radius-xl;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  padding: 0.5rem 0.75rem;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  @include m.transition(border-color);
+
+  &:hover {
+    border-color: var(--ring);
+  }
+
+  svg {
+    @include m.size(1rem);
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+}
+
+.searchPlaceholder {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  pointer-events: none;
+  user-select: none;
+}
+
+// ---------------------------------------------------------------------------
+// Action buttons (wishlist, cart, theme toggle)
+// ---------------------------------------------------------------------------
+.actions {
+  @include m.flex-center;
+  gap: 0.75rem;
+  margin-left: auto;
+
+  @include m.respond-to("md") {
+    margin-left: 0;
+  }
+}

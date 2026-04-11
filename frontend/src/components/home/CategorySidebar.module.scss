@@ -1,0 +1,55 @@
+// =============================================================================
+// CategorySidebar.module.scss
+// Styles cho component: components/home/CategorySidebar.jsx
+// =============================================================================
+
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+.sidebar {
+  position: relative;
+  border-radius: v.$radius-2xl;
+  border: 1px solid var(--border);
+  background-color: color-mix(in oklch, var(--muted) 40%, transparent);
+  padding: v.$space-4;
+
+  :global(.dark) & {
+    background-color: color-mix(in oklch, oklch(0.1 0 252) 40%, transparent);
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: v.$radius-xl;
+  padding: 0.75rem;
+  color: var(--foreground);
+  @include m.transition(background-color);
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover:not(.itemActive) {
+    background-color: var(--card);
+  }
+}
+
+.itemActive {
+  background-color: color-mix(in oklch, var(--muted) 50%, transparent);
+}
+
+.itemName {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.itemArrow {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}

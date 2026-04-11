@@ -1,3 +1,4 @@
+import styles from "./HomePage.module.scss";
 /**
  * HomePage (Server Component)
  * - Trang chủ của website (/).

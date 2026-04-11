@@ -1,5 +1,6 @@
-// src/components/header/UserMenuDropdown.jsx
 "use client";
+
+import styles from "./UserMenuDropdown.module.scss";
 
 import Link from "next/link";
 import { User } from "lucide-react";

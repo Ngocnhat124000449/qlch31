@@ -1,0 +1,53 @@
+// =============================================================================
+// CategoryHotSection.module.scss
+// Styles cho component: components/home/CategoryHotSection.jsx
+// =============================================================================
+
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+.section {
+  margin-top: v.$space-10;
+}
+
+.header {
+  @include m.flex-between;
+  margin-bottom: v.$space-4;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin-top: 0.25rem;
+}
+
+.viewAll {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  @include m.transition(color);
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--foreground);
+  }
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+
+  @include m.respond-to("md") {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include m.respond-to("lg") {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

@@ -1,4 +1,5 @@
 "use client";
+import styles from "./CategorySidebar.module.scss";
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";

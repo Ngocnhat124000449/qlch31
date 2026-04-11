@@ -1,4 +1,5 @@
 "use client";
+import styles from "./AdminSidebar.module.scss";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";

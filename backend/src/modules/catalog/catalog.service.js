@@ -210,7 +210,7 @@ export async function getProductDetail(sanphamid) {
 
   const vars = await pool.query(
     `
-    SELECT bentheid, sanphamid, sku, giaban, tonkho, hinhanhurl, trangthai, created_at
+    SELECT bentheid, sanphamid, tenbienthe, sku, giaban, tonkho, hinhanhurl, trangthai, created_at
     FROM public.bienthe_sanpham
     WHERE sanphamid = $1
     ORDER BY bentheid DESC
@@ -304,7 +304,7 @@ export async function listVariantsByProduct(
 ) {
   const { rows } = await pool.query(
     `
-    SELECT bentheid, sanphamid, sku, giaban, tonkho, hinhanhurl, trangthai, created_at
+    SELECT bentheid, sanphamid, tenbienthe, sku, giaban, tonkho, hinhanhurl, trangthai, created_at
     FROM public.bienthe_sanpham
     WHERE sanphamid = $1
       AND (($2::boolean = true) OR (trangthai = true))
@@ -322,12 +322,13 @@ export async function createVariant(sanphamid, data) {
   const { rows } = await pool.query(
     `
     INSERT INTO public.bienthe_sanpham
-      (sanphamid, sku, giaban, tonkho, hinhanhurl, trangthai)
-    VALUES ($1,$2,$3,$4,$5,$6)
-    RETURNING bentheid, sanphamid, sku, giaban, tonkho, hinhanhurl, trangthai, created_at
+      (sanphamid, tenbienthe, sku, giaban, tonkho, hinhanhurl, trangthai)
+    VALUES ($1,$2,$3,$4,$5,$6,$7)
+    RETURNING bentheid, sanphamid, tenbienthe, sku, giaban, tonkho, hinhanhurl, trangthai, created_at
     `,
     [
       sanphamid,
+      data.tenbienthe,
       data.sku,
       data.giaban,
       data.tonkho,
@@ -342,7 +343,7 @@ export async function createVariant(sanphamid, data) {
 export async function updateVariant(bentheid, patch) {
   const { rows: curRows } = await pool.query(
     `
-    SELECT bentheid, sanphamid, sku, giaban, tonkho, hinhanhurl, trangthai
+    SELECT bentheid, sanphamid, tenbienthe, sku, giaban, tonkho, hinhanhurl, trangthai
     FROM public.bienthe_sanpham
     WHERE bentheid = $1
     LIMIT 1
@@ -356,6 +357,10 @@ export async function updateVariant(bentheid, patch) {
 
   const cur = curRows[0];
   const next = {
+    tenbienthe:
+      patch.tenbienthe === undefined
+        ? cur.tenbienthe
+        : patch.tenbienthe || null,
     sku: patch.sku === undefined ? cur.sku : patch.sku || null,
     giaban: patch.giaban === undefined ? cur.giaban : patch.giaban,
     tonkho: patch.tonkho === undefined ? cur.tonkho : patch.tonkho,
@@ -367,11 +372,12 @@ export async function updateVariant(bentheid, patch) {
   const { rows } = await pool.query(
     `
     UPDATE public.bienthe_sanpham
-    SET sku=$1, giaban=$2, tonkho=$3, hinhanhurl=$4, trangthai=$5
-    WHERE bentheid=$6
-    RETURNING bentheid, sanphamid, sku, giaban, tonkho, hinhanhurl, trangthai, created_at
+    SET tenbienthe=$1, sku=$2, giaban=$3, tonkho=$4, hinhanhurl=$5, trangthai=$6
+    WHERE bentheid=$7
+    RETURNING bentheid, sanphamid, tenbienthe, sku, giaban, tonkho, hinhanhurl, trangthai, created_at
     `,
     [
+      next.tenbienthe,
       next.sku,
       next.giaban,
       next.tonkho,

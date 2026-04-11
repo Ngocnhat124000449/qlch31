@@ -253,12 +253,15 @@ export function validateProductUpdate(body) {
 
 export function validateVariantCreate(body) {
   const errors = [];
+  const tenbienthe = body?.tenbienthe;
   const sku = body?.sku;
   const giaban = toNum(body?.giaban);
   const tonkho = body?.tonkho !== undefined ? toInt(body?.tonkho) : 0;
   const hinhanhurl = body?.hinhanhurl;
   const trangthai = body?.trangthai;
 
+  if (tenbienthe !== undefined && !isNonEmptyString(tenbienthe))
+    errors.push("tenbienthe must be non-empty");
   if (sku !== undefined && sku !== null && typeof sku !== "string")
     errors.push("sku must be string");
   if (giaban === null || giaban === undefined || giaban < 0)
@@ -278,6 +281,7 @@ export function validateVariantCreate(body) {
     ok: errors.length === 0,
     errors,
     value: {
+      tenbienthe: tenbienthe?.trim() || null,
       sku: sku?.trim() || null,
       giaban,
       tonkho,
@@ -289,6 +293,7 @@ export function validateVariantCreate(body) {
 
 export function validateVariantUpdate(body) {
   const errors = [];
+  const tenbienthe = body?.tenbienthe;
   const sku = body?.sku;
   const giaban = body?.giaban !== undefined ? toNum(body?.giaban) : undefined;
   const tonkho = body?.tonkho !== undefined ? toInt(body?.tonkho) : undefined;
@@ -296,6 +301,7 @@ export function validateVariantUpdate(body) {
   const trangthai = body?.trangthai;
 
   const hasAny =
+    tenbienthe !== undefined ||
     sku !== undefined ||
     giaban !== undefined ||
     tonkho !== undefined ||
@@ -304,6 +310,8 @@ export function validateVariantUpdate(body) {
 
   if (!hasAny) errors.push("At least one field is required");
 
+  if (tenbienthe !== undefined && !isNonEmptyString(tenbienthe))
+    errors.push("tenbienthe must be non-empty");
   if (sku !== undefined && sku !== null && typeof sku !== "string")
     errors.push("sku must be string");
   if (giaban !== undefined && (giaban === null || giaban < 0))
@@ -323,6 +331,10 @@ export function validateVariantUpdate(body) {
     ok: errors.length === 0,
     errors,
     value: {
+      tenbienthe:
+        tenbienthe === undefined
+          ? undefined
+          : tenbienthe?.trim?.() ?? tenbienthe,
       sku: sku === undefined ? undefined : sku?.trim?.() ?? sku,
       giaban,
       tonkho,

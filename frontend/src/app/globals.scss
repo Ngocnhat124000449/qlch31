@@ -1,0 +1,12 @@
+// =============================================================================
+// globals.scss
+// Global SCSS entry dành cho custom partials của dự án.
+// Tailwind v4 và tw-animate-css được nạp qua globals.css để Sass
+// không phải parse CSS plugin từ node_modules.
+// =============================================================================
+
+@use "../styles/base";
+@use "../styles/typography";
+@use "../styles/animations";
+
+@reference "./globals.css";

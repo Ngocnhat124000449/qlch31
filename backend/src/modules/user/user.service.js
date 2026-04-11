@@ -30,7 +30,7 @@ function mapPgUniqueToAppError(err) {
 }
 
 export async function getMe(userid) {
-  // Lấy thông tin user + profile (profile có thể chưa tồn tại với tài khoản admin tạo sẵn)
+  // Lấy thông tin user + profile (profile có thể chưa tồn tại với tài khoảnamin tạo sẵn)
   const { rows } = await pool.query(
     `
     SELECT
@@ -50,18 +50,22 @@ export async function getMe(userid) {
     WHERE u.userid = $1
     LIMIT 1
     `,
-    [userid]
+    [userid],
   );
 
   if (rows.length === 0) return null;
 
   const row = rows[0];
-  const profile = row.profile && typeof row.profile === "object" ? row.profile : {};
+  const profile =
+    row.profile && typeof row.profile === "object" ? row.profile : {};
   delete row.profile;
 
-  // Trả object phẳng giống trước đây (up.* + role/isAdmin), nhưng luôn có userid/email...
-  // profile nằm trước để userid/role/isAdmin từ users luôn được ưu tiên.
-  return { ...profile, ...row };
+  // Quan trọng: users table data (userid, email, role, isAdmin) luôn ưu tiên
+  // Spread order: profile trước, sau đó users table để users table override
+  return {
+    ...profile,
+    ...row,
+  };
 }
 
 export async function updateMe(userid, patch) {
@@ -72,7 +76,7 @@ export async function updateMe(userid, patch) {
     WHERE userid = $1
     LIMIT 1
     `,
-    [userid]
+    [userid],
   );
 
   if (current.rows.length === 0) {
@@ -99,7 +103,7 @@ export async function updateMe(userid, patch) {
           avatarurl = $4
       WHERE userid = $5
       `,
-      [nextEmail, nextSdt, nextHoten, nextAvatar, userid]
+      [nextEmail, nextSdt, nextHoten, nextAvatar, userid],
     );
 
     if (rowCount === 0) {
@@ -117,7 +121,7 @@ export async function updateMe(userid, patch) {
 export async function changePassword(userid, { oldPassword, newPassword }) {
   const { rows } = await pool.query(
     `SELECT userid, matkhau FROM public.users WHERE userid = $1 LIMIT 1`,
-    [userid]
+    [userid],
   );
 
   if (rows.length === 0) {
@@ -133,7 +137,7 @@ export async function changePassword(userid, { oldPassword, newPassword }) {
 
   const { rowCount } = await pool.query(
     `UPDATE public.users SET matkhau = $1 WHERE userid = $2`,
-    [hashed, userid]
+    [hashed, userid],
   );
 
   if (rowCount === 0) {
@@ -152,7 +156,7 @@ export async function adminListUsers({ limit = 50, offset = 0 }) {
     ORDER BY userid DESC
     LIMIT $1 OFFSET $2
     `,
-    [limit, offset]
+    [limit, offset],
   );
 
   return rows;

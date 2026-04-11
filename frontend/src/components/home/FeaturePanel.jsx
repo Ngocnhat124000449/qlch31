@@ -1,3 +1,4 @@
+import styles from "./FeaturePanel.module.scss";
 import {
   ShieldCheck,
   Headset,

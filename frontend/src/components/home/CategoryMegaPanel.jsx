@@ -1,4 +1,5 @@
 "use client";
+import styles from "./CategoryMegaPanel.module.scss";
 
 import { usePopups } from "@/components/popups/PopupProvider";
 
@@ -19,11 +20,11 @@ export default function CategoryMegaPanel({
   onEnter,
   onLeave,
 }) {
-  if (!open) return null;
-
   // Không có route /products/[id] trong project hiện tại.
   // Thay vì link sang 404, click sẽ mở Quick View.
   const { openQuickView } = usePopups();
+
+  if (!open) return null;
 
   return (
     <div

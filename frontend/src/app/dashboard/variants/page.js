@@ -13,6 +13,7 @@ import {
   formatMoneyVND,
   toNumber,
 } from "@/lib/adminApi";
+import { getVariantDisplayName } from "@/lib/variantLabel";
 import VariantUpsertDialog from "@/components/admin/modals/VariantUpsertDialog";
 import {
   Select,
@@ -111,8 +112,9 @@ export default function VariantsAdminPage() {
     if (!s) return variants;
     return (variants || []).filter((v) => {
       const sku = (v?.sku || "").toString().toLowerCase();
+      const name = getVariantDisplayName(v).toLowerCase();
       const id = String(pickVariantId(v) ?? "");
-      return sku.includes(s) || id.includes(s);
+      return sku.includes(s) || name.includes(s) || id.includes(s);
     });
   }, [variants, q]);
 
@@ -249,13 +251,18 @@ export default function VariantsAdminPage() {
                     <div className="h-12 w-16 overflow-hidden rounded-xl bg-muted/50 ring-1 ring-border">
                       <SmartImage
                         src={pickVariantImage(v)}
-                        alt={v?.sku || "variant"}
+                        alt={getVariantDisplayName(v)}
                         className="h-full w-full object-cover"
                       />
                     </div>
                   </div>
                   <div className="col-span-3 min-w-0">
-                    <div className="truncate text-sm font-medium">{v?.sku || "-"}</div>
+                    <div className="truncate text-sm font-medium">
+                      {getVariantDisplayName(v)}
+                    </div>
+                    {v?.sku ? (
+                      <div className="truncate text-xs text-muted-foreground">SKU: {v.sku}</div>
+                    ) : null}
                     <div className="truncate text-xs text-muted-foreground">#{id}</div>
                   </div>
                   <div className="col-span-2 text-sm">{price > 0 ? formatMoneyVND(price) : "-"}</div>

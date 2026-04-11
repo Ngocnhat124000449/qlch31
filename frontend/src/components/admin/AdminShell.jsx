@@ -1,4 +1,5 @@
 "use client";
+import styles from "./AdminShell.module.scss";
 
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminTopbar from "@/components/admin/AdminTopbar";

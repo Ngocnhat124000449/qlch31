@@ -1,0 +1,38 @@
+// =============================================================================
+// HomePage.module.scss
+// Styles cho component: components/home/HomePage.jsx
+// =============================================================================
+
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+.page {
+  min-height: 100dvh;
+  background-color: var(--background);
+
+  // Dark mode gradient overlay
+  :global(.dark) & {
+    background-image: linear-gradient(
+      to bottom,
+      oklch(0.1 0 252),
+      oklch(0.1 0 252),
+      oklch(0.12 0 252)
+    );
+  }
+}
+
+.main {
+  max-width: 80rem; // 1280px
+  margin-inline: auto;
+  padding: v.$space-8 v.$space-5;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+
+  @include m.respond-to("lg") {
+    grid-template-columns: 280px minmax(0, 1fr) 320px;
+  }
+}

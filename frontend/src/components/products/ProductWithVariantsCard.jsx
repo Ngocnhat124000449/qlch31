@@ -1,3 +1,4 @@
+import styles from "./ProductWithVariantsCard.module.scss";
 import Link from "next/link";
 import SmartImage from "@/components/ui/SmartImage";
 import { Badge } from "@/components/ui/badge";

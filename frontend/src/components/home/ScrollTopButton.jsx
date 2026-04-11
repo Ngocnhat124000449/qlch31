@@ -1,4 +1,5 @@
 "use client";
+import styles from "./ScrollTopButton.module.scss";
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";

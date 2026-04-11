@@ -183,7 +183,7 @@ export default function AdminOrderDetailPage() {
                       ) : null}
                     </div>
                     <div className="col-span-2 text-sm text-muted-foreground">
-                      {it?.sku || `#${it?.bentheid}`}
+                      {it?.tenbienthe || it?.sku || `#${it?.bentheid}`}
                     </div>
                     <div className="col-span-2 text-right text-sm">
                       {formatMoneyVND(it?.dongia)}

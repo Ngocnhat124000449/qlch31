@@ -1,4 +1,5 @@
 "use client";
+import styles from "./AdminTopbar.module.scss";
 
 import { Bell, Moon } from "lucide-react";
 

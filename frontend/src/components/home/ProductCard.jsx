@@ -1,4 +1,5 @@
 "use client";
+import styles from "./ProductCard.module.scss";
 
 import SmartImage from "@/components/ui/SmartImage";
 import { Star, Heart } from "lucide-react";

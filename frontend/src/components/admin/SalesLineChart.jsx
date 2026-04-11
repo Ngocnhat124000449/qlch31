@@ -1,4 +1,5 @@
 "use client";
+import styles from "./SalesLineChart.module.scss";
 
 import { useMemo } from "react";
 

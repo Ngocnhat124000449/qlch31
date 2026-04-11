@@ -1,4 +1,5 @@
 "use client";
+import styles from "./PageHeader.module.scss";
 
 import GradientButton from "./GradientButton";
 

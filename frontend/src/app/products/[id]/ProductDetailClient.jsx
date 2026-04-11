@@ -14,6 +14,7 @@ import { apiFetch } from "@/lib/apiClient";
 import { formatVND } from "@/lib/format";
 import { getAccessToken } from "@/lib/tokens";
 import { usePopups } from "@/components/popups/PopupProvider";
+import { getVariantDisplayName } from "@/lib/variantLabel";
 
 import ReviewSection from "./ReviewSection";
 
@@ -52,7 +53,7 @@ function pickVariantId(v) {
 }
 
 function pickVariantSku(v) {
-  return v?.sku || v?.tenbienthe || (pickVariantId(v) != null ? `#${pickVariantId(v)}` : "-");
+  return getVariantDisplayName(v);
 }
 
 function pickVariantPrice(v) {

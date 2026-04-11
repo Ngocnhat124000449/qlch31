@@ -1,4 +1,5 @@
 "use client";
+import styles from "./EditNameDialog.module.scss";
 
 import { useEffect, useState } from "react";
 import {

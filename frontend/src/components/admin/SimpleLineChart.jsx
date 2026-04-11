@@ -1,4 +1,5 @@
 "use client";
+import styles from "./SimpleLineChart.module.scss";
 
 import { useMemo } from "react";
 

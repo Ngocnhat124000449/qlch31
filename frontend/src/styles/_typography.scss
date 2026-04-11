@@ -1,0 +1,98 @@
+// =============================================================================
+// _typography.scss
+// Semantic typography classes – dùng @apply để bridge với Tailwind.
+// Nhóm: heading, body, label, caption, badge-text.
+// =============================================================================
+
+@layer components {
+  // --------------------------------------------------------------------------
+  // Headings
+  // --------------------------------------------------------------------------
+  .heading-2xl {
+    @apply text-4xl font-bold tracking-tight leading-tight;
+  }
+
+  .heading-xl {
+    @apply text-3xl font-bold tracking-tight leading-snug;
+  }
+
+  .heading-lg {
+    @apply text-2xl font-semibold leading-snug;
+  }
+
+  .heading-md {
+    @apply text-xl font-semibold leading-normal;
+  }
+
+  .heading-sm {
+    @apply text-lg font-semibold leading-normal;
+  }
+
+  // --------------------------------------------------------------------------
+  // Body text
+  // --------------------------------------------------------------------------
+  .body-lg {
+    @apply text-base leading-relaxed text-foreground;
+  }
+
+  .body-md {
+    @apply text-sm leading-relaxed text-foreground;
+  }
+
+  .body-sm {
+    @apply text-xs leading-relaxed text-foreground;
+  }
+
+  // --------------------------------------------------------------------------
+  // Muted / Secondary text
+  // --------------------------------------------------------------------------
+  .text-muted {
+    @apply text-muted-foreground;
+  }
+
+  .text-muted-sm {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .text-muted-xs {
+    @apply text-xs text-muted-foreground;
+  }
+
+  // --------------------------------------------------------------------------
+  // Label (form, field name)
+  // --------------------------------------------------------------------------
+  .label-field {
+    @apply text-sm font-medium text-foreground;
+  }
+
+  .label-required::after {
+    content: " *";
+    @apply text-destructive;
+  }
+
+  // --------------------------------------------------------------------------
+  // Price text
+  // --------------------------------------------------------------------------
+  .price-main {
+    @apply text-pink-400 font-bold text-base;
+  }
+
+  .price-original {
+    @apply text-muted-foreground line-through text-sm;
+  }
+
+  .price-discount {
+    @apply text-red-500 text-xs font-semibold;
+  }
+
+  // --------------------------------------------------------------------------
+  // Section title (dùng cho heading của các section ở trang chủ, dashboard)
+  // --------------------------------------------------------------------------
+  .section-title {
+    @apply text-foreground font-semibold text-lg;
+  }
+
+  .section-subtitle {
+    @apply text-muted-foreground text-sm mt-1;
+  }
+}

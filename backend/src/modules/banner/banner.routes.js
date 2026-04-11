@@ -2,10 +2,8 @@ import { Router } from "express";
 import * as controller from "./banner.controller.js";
 
 // ✅ đúng file bạn đang dùng (named export)
-import {
-  requireAuth,
-  requireAdmin,
-} from "../../middlewares/authz.middleware.js";
+import { requireAuth } from "../../middlewares/authz.middleware.js";
+import { requirePermission } from "../../middlewares/permission.middleware.js";
 
 // ✅ đúng file upload middleware (named export)
 import { uploadSingleImage } from "../../middlewares/upload.middleware.js";
@@ -20,27 +18,31 @@ router.get("/", controller.listBanners);
 router.get("/:id", controller.getBannerById);
 
 /**
- * ADMIN CRUD
+ * ADMIN ONLY - Quản lý banner
  * - requireAuth(): bắt buộc đăng nhập
- * - requireAdmin: chỉ admin mới được CRUD
- * - uploadSingleImage("image"): nhận multipart/form-data field name = image
+ * - requirePermission("create:banners"): chỉ admin mới được tạo banner
  */
 router.post(
   "/",
   requireAuth(),
-  requireAdmin,
+  requirePermission("create:banners"),
   uploadSingleImage("image"),
-  controller.createBanner
+  controller.createBanner,
 );
 
 router.patch(
   "/:id",
   requireAuth(),
-  requireAdmin,
+  requirePermission("edit:banners"),
   uploadSingleImage("image"),
-  controller.updateBanner
+  controller.updateBanner,
 );
 
-router.delete("/:id", requireAuth(), requireAdmin, controller.deleteBanner);
+router.delete(
+  "/:id",
+  requireAuth(),
+  requirePermission("delete:banners"),
+  controller.deleteBanner,
+);
 
 export default router;

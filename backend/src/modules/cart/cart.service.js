@@ -58,6 +58,7 @@ export async function getCart(userid) {
       ci.soluong,
       ci.added_at,
 
+      bt.tenbienthe,
       bt.sku,
       bt.giaban,
       bt.tonkho,
@@ -82,6 +83,7 @@ export async function getCart(userid) {
     soluong: Number(r.soluong),
     added_at: r.added_at,
 
+    tenbienthe: r.tenbienthe,
     sku: r.sku,
     giaban: toNumber(r.giaban),
     tonkho: Number(r.tonkho),

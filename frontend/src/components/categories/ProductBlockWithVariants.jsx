@@ -1,3 +1,4 @@
+import styles from "./ProductBlockWithVariants.module.scss";
 import Link from "next/link";
 import SmartImage from "@/components/ui/SmartImage";
 

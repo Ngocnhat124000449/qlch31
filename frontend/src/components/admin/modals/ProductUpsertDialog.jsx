@@ -1,4 +1,5 @@
 "use client";
+import styles from "./ProductUpsertDialog.module.scss";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -463,7 +464,14 @@ useEffect(() => {
                       return (
                         <div key={String(vid)} className="grid grid-cols-7 items-center gap-3 px-4 py-3">
                           <div className="col-span-2 min-w-0">
-                            <div className="truncate text-sm font-medium">{v?.sku ?? "-"}</div>
+                            <div className="truncate text-sm font-medium">
+                              {v?.tenbienthe || v?.sku || "-"}
+                            </div>
+                            {v?.sku ? (
+                              <div className="truncate text-xs text-muted-foreground">
+                                SKU: {v.sku}
+                              </div>
+                            ) : null}
                             <div className="truncate text-xs text-muted-foreground">#{vid}</div>
                           </div>
                           <div className="text-sm">{v?.giaban ?? "-"}</div>

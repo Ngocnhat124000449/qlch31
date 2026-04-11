@@ -1,7 +1,8 @@
-// src/components/popups/auth/AuthDialog.jsx
 "use client";
 
-import { useMemo, useState } from "react";
+import styles from "./AuthDialog.module.scss";
+
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -61,7 +62,7 @@ export default function AuthDialog({
   const [errMsg, setErrMsg] = useState("");
 
   // reset tab when opened with new default
-  useMemo(() => {
+  useEffect(() => {
     if (open) setTab(defaultTab);
   }, [open, defaultTab]);
 
@@ -143,13 +144,13 @@ export default function AuthDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[720px]">
         <DialogHeader>
-          <DialogTitle>{tab === "login" ? "Login" : "Register"}</DialogTitle>
+          <DialogTitle>{tab === "login" ? "Đăng nhập" : "Đăng ký"}</DialogTitle>
         </DialogHeader>
 
         <Tabs value={tab} onValueChange={setTab} className="w-full">
           <TabsList className="grid w-[260px] grid-cols-2">
-            <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="register">Register</TabsTrigger>
+            <TabsTrigger value="login">Đăng nhập</TabsTrigger>
+            <TabsTrigger value="register">Đăng ký</TabsTrigger>
           </TabsList>
 
           {errMsg ? (
@@ -179,7 +180,7 @@ export default function AuthDialog({
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "..." : "Login"}
+                {loading ? "..." : "Đăng nhập"}
               </Button>
             </form>
           </TabsContent>
@@ -228,7 +229,7 @@ export default function AuthDialog({
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "..." : "Register"}
+                {loading ? "..." : "Đăng ký"}
               </Button>
             </form>
           </TabsContent>

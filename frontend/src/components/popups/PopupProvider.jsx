@@ -1,4 +1,5 @@
 "use client";
+import styles from "./PopupProvider.module.scss";
 
 import React, { createContext, useContext, useMemo, useState } from "react";
 

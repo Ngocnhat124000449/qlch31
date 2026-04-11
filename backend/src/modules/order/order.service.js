@@ -332,7 +332,7 @@ export async function getOrderDetail(userid, donhangid, isAdmin) {
   const items = await pool.query(
     `
     SELECT og.bentheid, og.soluong, og.dongia,
-           bt.sku, bt.sanphamid,
+           bt.tenbienthe, bt.sku, bt.sanphamid,
            sp.ten AS sanpham_ten
     FROM public.ordor_gom og
     JOIN public.bienthe_sanpham bt ON bt.bentheid = og.bentheid
@@ -352,6 +352,7 @@ export async function getOrderDetail(userid, donhangid, isAdmin) {
       bentheid: r.bentheid,
       soluong: Number(r.soluong),
       dongia: toNumber(r.dongia),
+      tenbienthe: r.tenbienthe,
       sku: r.sku,
       sanpham: { sanphamid: r.sanphamid, ten: r.sanpham_ten },
     })),

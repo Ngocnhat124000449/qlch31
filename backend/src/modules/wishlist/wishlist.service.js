@@ -60,6 +60,7 @@ async function getWishlistItems(danhsachyeuthichid) {
       bg.bentheid,
       bg.added_at,
 
+      bt.tenbienthe,
       bt.sku,
       bt.giaban,
       bt.tonkho,
@@ -80,6 +81,7 @@ async function getWishlistItems(danhsachyeuthichid) {
   return rows.map((r) => ({
     bentheid: r.bentheid,
     added_at: r.added_at,
+    tenbienthe: r.tenbienthe,
     sku: r.sku,
     giaban: r.giaban,
     tonkho: r.tonkho,

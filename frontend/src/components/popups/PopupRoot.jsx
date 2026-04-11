@@ -1,4 +1,5 @@
 "use client";
+import styles from "./PopupRoot.module.scss";
 
 import { usePopups } from "@/components/popups/PopupProvider";
 

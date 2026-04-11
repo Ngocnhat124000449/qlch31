@@ -1,4 +1,5 @@
 "use client";
+import styles from "./FlashSaleSection.module.scss";
 
 import { useEffect, useMemo, useState } from "react";
 import ProductCard from "@/components/home/ProductCard";

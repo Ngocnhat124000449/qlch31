@@ -1,4 +1,5 @@
 "use client";
+import styles from "./CategoriesDropdown.module.scss";
 
 /**
  * CategoriesDropdown (Header)
@@ -135,36 +136,33 @@ export default function CategoriesDropdown({ active = false }) {
   }, []);
 
   return (
-    <div className="relative" onMouseLeave={onLeaveAll}>
+    <div className={styles.wrapper} onMouseLeave={onLeaveAll}>
       <button
         type="button"
         onMouseEnter={openMenu}
         onClick={() => setOpen((v) => !v)} // fallback cho thiết bị không hover
-        className={[
-          "flex items-center gap-1 text-sm font-medium transition-colors",
-          active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
-        ].join(" ")}
+        className={[styles.trigger, active && styles.active].filter(Boolean).join(" ")}
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        Categories <ChevronDown className="h-4 w-4 opacity-80" />
+        Categories <ChevronDown />
       </button>
 
       {open ? (
         <div
-          className="absolute left-0 top-full mt-3 z-50"
+          className={styles.dropdownWrap}
           onMouseEnter={openMenu}
         >
           {/* Container relative để CategoryMegaPanel định vị absolute (left-[280px], top-0) */}
-          <div className="relative rounded-2xl border border-border bg-popover text-foreground shadow-2xl">
+          <div className={styles.dropdownInner}>
             {/* Cột trái: danh mục */}
-            <div className="w-[280px] p-2">
+            <div className={styles.leftCol}>
               {catsLoading ? (
-                <div className="px-3 py-2 text-sm text-muted-foreground">
+                <div className={styles.emptyState}>
                   Đang tải danh mục...
                 </div>
               ) : cats.length ? (
-                <div className="space-y-1">
+                <div className={styles.catList}>
                   {cats.map((c) => {
                     const id = getCatId(c);
                     const name = getCatName(c);
@@ -175,24 +173,24 @@ export default function CategoriesDropdown({ active = false }) {
                         key={String(id ?? name)}
                         onMouseEnter={() => onEnterCat(id)}
                         className={[
-                          "rounded-xl",
-                          isActive ? "bg-accent" : "hover:bg-accent/60",
-                        ].join(" ")}
+                          styles.catItem,
+                          isActive && styles.activeItem,
+                        ].filter(Boolean).join(" ")}
                       >
                         <Link
                           href={id ? `/categories/${id}` : "/categories"}
-                          className="flex items-center justify-between px-3 py-3 text-sm font-medium text-foreground"
+                          className={styles.catLink}
                           onClick={() => setOpen(false)}
                         >
                           <span className="truncate">{name}</span>
-                          <span className="text-muted-foreground">{">"}</span>
+                          <span className={styles.iconArrow}>{">"}</span>
                         </Link>
                       </div>
                     );
                   })}
                 </div>
               ) : (
-                <div className="px-3 py-2 text-sm text-muted-foreground">
+                <div className={styles.emptyState}>
                   Chưa có danh mục
                 </div>
               )}

@@ -1,0 +1,51 @@
+// =============================================================================
+// FlashSaleSection.module.scss
+// Styles cho component: components/home/FlashSaleSection.jsx
+// =============================================================================
+
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+.section {
+  margin-top: v.$space-10;
+}
+
+.card {
+  @include m.card-base(v.$radius-2xl);
+  padding: v.$space-6;
+}
+
+.header {
+  @include m.flex-between;
+}
+
+.titleGroup {
+  @include m.flex-col;
+  gap: 0.5rem;
+}
+
+.title {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.countdown {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.endsLabel {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.grid {
+  margin-top: v.$space-6;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @include m.respond-to("md") {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

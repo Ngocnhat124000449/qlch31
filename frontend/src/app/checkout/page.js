@@ -93,7 +93,7 @@ export default function CheckoutPage() {
         soluong: clamped,
         inCart,
         giaban: Number(it?.giaban || 0),
-        sku: it?.sku || "",
+        sku: it?.tenbienthe || it?.sku || "",
         name: it?.sanpham?.ten || it?.tensanpham || "Sản phẩm",
         img:
           it?.variant_hinhanhurl ||

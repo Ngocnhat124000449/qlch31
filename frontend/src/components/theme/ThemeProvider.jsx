@@ -1,4 +1,5 @@
 "use client";
+import styles from "./ThemeProvider.module.scss";
 
 import React, {
   createContext,

@@ -1,4 +1,5 @@
 "use client";
+import styles from "./BannerUpsertDialog.module.scss";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {

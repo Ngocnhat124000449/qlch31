@@ -1,4 +1,5 @@
 "use client";
+import styles from "./HeroSection.module.scss";
 
 import CategorySidebar from "./CategorySidebar";
 import HeroBanner from "./HeroBanner";

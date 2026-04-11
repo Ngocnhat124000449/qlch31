@@ -1,0 +1,95 @@
+// =============================================================================
+// CategoriesDropdown.module.scss
+// Styles for CategoriesDropdown component
+// =============================================================================
+
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+.wrapper {
+  position: relative;
+}
+
+.trigger {
+  @include m.flex-center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color v.$transition-fast;
+  color: var(--muted-foreground);
+
+  &:hover {
+    color: var(--foreground);
+  }
+
+  &.active {
+    color: var(--foreground);
+  }
+
+  svg {
+    @include m.size(1rem);
+    opacity: 0.8;
+  }
+}
+
+.dropdownWrap {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 0.75rem;
+  z-index: v.$z-toast; // or 50
+}
+
+.dropdownInner {
+  position: relative;
+  border-radius: v.$radius-2xl;
+  border: 1px solid var(--border);
+  background-color: var(--popover);
+  color: var(--foreground);
+  box-shadow: v.$shadow-xl;
+  display: flex; // To place CategoryMegaPanel side-by-side if they were using absolute? 
+  // Wait, the original code had:
+  // "relative rounded-2xl border border-border bg-popover text-foreground shadow-2xl"
+}
+
+.leftCol {
+  width: 280px;
+  padding: 0.5rem;
+}
+
+.catList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.catItem {
+  border-radius: v.$radius-xl;
+  transition: background-color v.$transition-fast;
+
+  &:hover {
+    background-color: color-mix(in oklch, var(--accent) 60%, transparent);
+  }
+
+  &.activeItem {
+    background-color: var(--accent);
+  }
+}
+
+.catLink {
+  @include m.flex-between;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  
+  .iconArrow {
+    color: var(--muted-foreground);
+  }
+}
+
+.emptyState {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}

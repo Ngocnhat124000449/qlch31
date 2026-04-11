@@ -1,3 +1,4 @@
+import styles from "./StatCard.module.scss";
 export default function StatCard({ title, value, hint, icon }) {
   return (
     <div className="rounded-2xl border border-border bg-card p-4 backdrop-blur-xl">

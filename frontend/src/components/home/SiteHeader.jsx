@@ -1,10 +1,12 @@
 "use client";
+import styles from "../header/SiteHeader.module.scss";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { usePopups } from "@/components/popups/PopupProvider";
 import { Button } from "@/components/ui/button";
 import UserMenuDropdown from "./UserMenuDropdown";
+import { cn } from "@/lib/utils";
 import {
   Home as HomeIcon,
   Percent,
@@ -31,65 +33,56 @@ export default function SiteHeader() {
 
   const nav = useMemo(
     () => [
-      { label: "Home", href: "/", icon: HomeIcon },
-      { label: "Promotions", href: "/promotions", icon: Percent },
-      { label: "Products", href: "/products", icon: Boxes },
+      { label: "Trang chủ", href: "/", icon: HomeIcon },
+      { label: "Khuyến mại", href: "/promotions", icon: Percent },
+      { label: "Sản phẩm", href: "/products", icon: Boxes },
     ],
-    []
+    [],
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-[1280px] items-center gap-6 px-6">
-        <Link href="/" className="flex items-center gap-2 font-semibold">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-card">
-            ⌂
-          </span>
+    <header className={styles.header}>
+      <div className={styles.inner}>
+        <Link href="/" className={styles.logo}>
+          <span className={styles.logoIcon}>⌂</span>
           <span>QuantumCore</span>
         </Link>
 
-        <nav className="hidden items-center gap-5 md:flex">
+        <nav className={styles.nav}>
           {nav.map((n) => {
             const Icon = n.icon;
             return (
-              <Link
-                key={n.label}
-                href={n.href}
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-              >
-                <Icon className="h-4 w-4" />
+              <Link key={n.label} href={n.href} className={styles.navLink}>
+                <Icon />
                 {n.label}
               </Link>
             );
           })}
 
-          <div className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground cursor-pointer">
-            <Grid2x2 className="h-4 w-4" />
-            Categories
-            <ChevronDown className="h-4 w-4 opacity-70" />
+          <div className={cn(styles.navLink, "cursor-pointer")}>
+            <Grid2x2 />
+            Danh mục
+            <ChevronDown />
           </div>
         </nav>
 
-        <div className="ml-auto hidden w-[420px] items-center md:flex">
-          <div
-            className="flex w-full items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-muted-foreground"
-            onClick={openSearch}
-          >
-            <Search className="h-4 w-4 opacity-70" />
+        <div className={styles.searchWrap}>
+          <div className={styles.searchBar} onClick={openSearch}>
+            <Search />
             <input
-              className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-              placeholder="Search products..."
+              className={styles.searchPlaceholder}
+              placeholder="Tìm kiếm sản phẩm..."
               readOnly
             />
           </div>
         </div>
 
-        <div className="ml-auto flex items-center gap-3 md:ml-0">
+        <div className={styles.actions}>
           <Button
             variant="ghost"
             size="icon"
             className="text-foreground hover:bg-card"
-            aria-label="Theme"
+            aria-label="Đổi chủ đề"
           >
             <Moon className="h-5 w-5" />
           </Button>
@@ -98,7 +91,7 @@ export default function SiteHeader() {
             variant="ghost"
             size="icon"
             className="text-foreground hover:bg-card"
-            aria-label="Wishlist"
+            aria-label="Danh sách yêu thích"
             asChild
           >
             <Link href="/wishlist">
@@ -110,7 +103,7 @@ export default function SiteHeader() {
             variant="ghost"
             size="icon"
             className="text-foreground hover:bg-card"
-            aria-label="Cart"
+            aria-label="Giỏ hàng"
             onClick={openCart}
           >
             <ShoppingCart className="h-5 w-5" />
@@ -123,7 +116,7 @@ export default function SiteHeader() {
               className="bg-indigo-600 hover:bg-indigo-500"
               onClick={() => openAuth("login")}
             >
-              Sign In
+              Đăng nhập
             </Button>
           )}
         </div>

@@ -1,4 +1,5 @@
 "use client";
+import styles from "./SupplierUpsertDialog.module.scss";
 
 import { useEffect, useMemo, useState } from "react";
 import {

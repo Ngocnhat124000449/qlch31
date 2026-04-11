@@ -1,0 +1,82 @@
+// =============================================================================
+// HeroBanner.module.scss
+// Styles cho component: components/home/HeroBanner.jsx
+// =============================================================================
+
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+.wrap {
+  position: relative;
+  width: 100%;
+  border-radius: v.$radius-2xl;
+  overflow: hidden;
+  aspect-ratio: 16 / 7;
+  background-color: var(--muted);
+}
+
+.slide {
+  @include m.absolute-fill;
+  @include m.transition(opacity, v.$transition-slow);
+  opacity: 0;
+}
+
+.slideActive {
+  opacity: 1;
+}
+
+.image {
+  @include m.absolute-fill;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Navigation dots
+.dots {
+  position: absolute;
+  bottom: v.$space-3;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: v.$space-2;
+}
+
+.dot {
+  @include m.size(0.5rem);
+  border-radius: v.$radius-full;
+  background-color: rgb(255 255 255 / 0.5);
+  cursor: pointer;
+  @include m.transition(background-color);
+}
+
+.dotActive {
+  background-color: #fff;
+}
+
+// Arrow buttons
+.arrow {
+  @include m.flex-center;
+  @include m.size(2rem);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: v.$radius-full;
+  background-color: rgb(255 255 255 / 0.2);
+  backdrop-filter: blur(4px);
+  border: none;
+  cursor: pointer;
+  @include m.transition(background-color);
+
+  &:hover {
+    background-color: rgb(255 255 255 / 0.4);
+  }
+
+  svg {
+    @include m.size(1rem);
+    color: #fff;
+  }
+}
+
+.arrowLeft  { left:  v.$space-3; }
+.arrowRight { right: v.$space-3; }

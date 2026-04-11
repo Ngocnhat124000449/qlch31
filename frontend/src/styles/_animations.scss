@@ -1,0 +1,94 @@
+// =============================================================================
+// _animations.scss
+// Global keyframe animations & animation utility classes.
+// =============================================================================
+
+// ---------------------------------------------------------------------------
+// Keyframes
+// ---------------------------------------------------------------------------
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes slide-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-down {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+@keyframes countdown-tick {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+// ---------------------------------------------------------------------------
+// Animation utility classes (dùng @layer utilities)
+// ---------------------------------------------------------------------------
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 200ms ease forwards;
+  }
+
+  .animate-slide-in-up {
+    animation: slide-in-up 250ms ease forwards;
+  }
+
+  .animate-slide-in-down {
+    animation: slide-in-down 250ms ease forwards;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 200ms ease forwards;
+  }
+
+  .animate-spin-custom {
+    animation: spin 1s linear infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  // --------------------------------------------------------------------------
+  // Scroll behavior
+  // --------------------------------------------------------------------------
+  .scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

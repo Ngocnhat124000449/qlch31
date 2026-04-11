@@ -1,0 +1,112 @@
+// =============================================================================
+// CategoryMegaPanel.module.scss
+// Styles cho component: components/home/CategoryMegaPanel.jsx
+// =============================================================================
+
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+.panel {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: v.$space-2;
+  width: 720px;
+  z-index: v.$z-dropdown;
+  border-radius: v.$radius-2xl;
+  border: 1px solid var(--border);
+  background-color: var(--popover);
+  box-shadow: v.$shadow-xl;
+  padding: v.$space-5;
+  animation: slide-in-right 180ms ease forwards;
+
+  @keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+}
+
+.panelHidden {
+  display: none;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space-5;
+}
+
+.col {
+  @include m.flex-col;
+  gap: v.$space-4;
+}
+
+.colTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+}
+
+.vendorList {
+  @include m.flex-col;
+  gap: v.$space-2;
+}
+
+.vendorItem {
+  @include m.flex-center;
+  gap: v.$space-3;
+  padding: v.$space-2 v.$space-3;
+  border-radius: v.$radius-xl;
+  @include m.transition(background-color);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--accent);
+  }
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: v.$space-3;
+}
+
+.productMini {
+  @include m.card-base(v.$radius-xl);
+  overflow: hidden;
+  @include m.transition(box-shadow);
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: v.$shadow-md;
+  }
+}
+
+.productMiniImg {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.productMiniName {
+  padding: v.$space-2;
+  font-size: 0.75rem;
+  @include m.truncate(1);
+  color: var(--foreground);
+}
+
+.loading {
+  @include m.flex-center;
+  height: 8rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+.error {
+  @include m.flex-center;
+  height: 8rem;
+  color: var(--destructive);
+  font-size: 0.875rem;
+}

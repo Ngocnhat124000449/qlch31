@@ -1,4 +1,5 @@
 "use client";
+import styles from "./UserMenuDropdown.module.scss";
 
 import Link from "next/link";
 import { usePopups } from "@/components/popups/PopupProvider";
@@ -25,7 +26,8 @@ export default function UserMenuDropdown() {
     (me.isAdmin === true ||
       me.isadmin === true ||
       me.admin === true ||
-      (me.role || me.vaitro || me.vaiTro || "").toString().toLowerCase() === "admin" ||
+      (me.role || me.vaitro || me.vaiTro || "").toString().toLowerCase() ===
+        "admin" ||
       (me.role || me.vaitro || me.vaiTro || "").toString().toLowerCase() ===
         "administrator" ||
       me?.permissions?.includes?.("admin"));
@@ -37,7 +39,7 @@ export default function UserMenuDropdown() {
           variant="ghost"
           size="icon"
           className="text-foreground hover:bg-card"
-          aria-label="Account"
+          aria-label="Tài khoản"
         >
           <User className="h-5 w-5" />
         </Button>
@@ -49,7 +51,7 @@ export default function UserMenuDropdown() {
       >
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="cursor-pointer">
-            My Account
+            Tài khoản của tôi
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent className="w-56 border-border bg-popover text-foreground">
             <DropdownMenuItem asChild className="cursor-pointer">
@@ -69,16 +71,16 @@ export default function UserMenuDropdown() {
         </DropdownMenuSub>
 
         <DropdownMenuItem asChild className="cursor-pointer">
-          <Link href="/orders">My Orders</Link>
+          <Link href="/orders">Đơn hàng của tôi</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild className="cursor-pointer">
-          <Link href="/wishlist">Wishlist</Link>
+          <Link href="/wishlist">Danh sách yêu thích</Link>
         </DropdownMenuItem>
 
         {isAdmin ? (
           <DropdownMenuItem asChild className="cursor-pointer">
-            <Link href="/dashboard">Dashboard</Link>
+            <Link href="/dashboard">Bảng điều khển</Link>
           </DropdownMenuItem>
         ) : null}
 
@@ -91,7 +93,7 @@ export default function UserMenuDropdown() {
             window.location.href = "/";
           }}
         >
-          Sign Out
+          Đăng xuất
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
