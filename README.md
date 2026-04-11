@@ -23,17 +23,29 @@ npm install
 Tạo .env:
 
 DATABASE_URL=postgresql://neondb_owner:npg_4uDMSHk3xird@ep-muddy-snow-a1d0dn6f-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+
 JWT_SECRET="f4b9b2f3c7e94d8d1fcb8e1a2d9f65c3b1a7e8d4c29f44e1b95a7f23d4c8b7e9c2d1e4f6a9c8b3d7e1f4a6c9b2d8e3f7a9"
+
 CLOUDINARY_CLOUD_NAME="dkczxprrd"
+
 CLOUDINARY_API_KEY="644759851737567"
+
 CLOUDINARY_API_SECRET="4WoskVAzsT7Wc5p9BB6yXhSg6hM"
+
 CLOUDINARY_UPLOAD_PRESET=ml_default
+
 PORT=5001
+
 JWT_EXPIRES_IN=7d
+
 ACCESS_TOKEN_SECRET=Qe9mX2pK7vL4nT1sR8yH3uD6cB0aZ5wJ
+
 REFRESH_TOKEN_SECRET=H7qN3sV9kP2xL6mT1rY8cD4uA0zE5bWj
+
 ACCESS_TOKEN_EXPIRES_IN=15m
+
 REFRESH_TOKEN_EXPIRES_IN=7d
+
 
 
 Chạy:
@@ -49,6 +61,7 @@ npm install
 Tạo .env.local:
 
 NEXT_PUBLIC_API_BASE_URL=http://localhost:5001
+
 NEXT_PUBLIC_API_BASE=http://localhost:5001
 
 
