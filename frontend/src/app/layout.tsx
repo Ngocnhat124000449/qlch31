@@ -4,6 +4,7 @@ import "./globals.scss";
 import { PopupProvider } from "@/components/popups/PopupProvider";
 import PopupRoot from "@/components/popups/PopupRoot";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { ReactNode } from "react";
 
 const THEME_INIT_SCRIPT = `
 (function () {
@@ -24,7 +25,11 @@ const THEME_INIT_SCRIPT = `
 })();
 `;
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>

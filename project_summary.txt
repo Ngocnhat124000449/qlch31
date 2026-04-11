@@ -1,0 +1,57 @@
+TỔNG KẾT DỰ ÁN QUẢN LÝ CỬA HÀNG (QLCH31)
+=======================================
+Ngày cập nhật: 11/04/2026
+
+1. THÔNG TIN DATABASE
+---------------------
+- Hệ quản trị: PostgreSQL (đang host trên Neon.tech).
+- Công cụ quy hoạch: node-pg-migrate (quản lý version database).
+- Cấu trúc: 
+  + Người dùng: bảng 'users' (phân quyền user/admin), 'phien_dang_nhap' (token refresh).
+  + Sản phẩm: 'sanpham', 'bienthe_sanpham' (SKU, giá, tồn kho), 'danhmuc', 'nhacungcap', 'thuoctinh' (màu sắc, kích thước...).
+  + Bán hàng: 'giohang', 'donhang', 'ordor_gom' (chi tiết đơn hàng), 'phuongthucthanhtoan'.
+  + Khuyến mãi: 'magiamgia' (coupon), 'chuongtrinhkhuyenmai'.
+  + CMS: 'banner' (quảng cáo), 'baidang' (tin tức), 'danhgia' (review sản phẩm).
+- Tình trạng: Schema đã hoàn thiện và chạy tốt trên môi trường dev.
+
+2. HỆ THỐNG API (BACKEND)
+-------------------------
+- Công nghệ: Node.js (Express framework).
+- Xác thực & Bảo mật: 
+  + JWT (Access Token & Refresh Token).
+  + Hệ thống phân quyền (Permission-based) với hơn 70 quyền chi tiết.
+- Các module chính:
+  + /api/auth: Đăng ký, đăng nhập, logout, làm mới token.
+  + /api/catalog: Quản lý danh mục, sản phẩm và biến thể.
+  + /api/cart & /api/orders: Quy trình giỏ hàng và đặt hàng.
+  + /api/store: (Mới) Dashboard, thống kê doanh thu, quản lý kho nâng cao, báo cáo tài chính.
+  + /api/banners: Quản lý hình ảnh quảng cáo (kết hợp Cloudinary).
+- Tình trạng: Backend đã hoàn thành khoảng 95%, các endpoint cốt lõi đã sẵn sàng.
+
+3. TIẾN ĐỘ THỰC HIỆN
+--------------------
+A. Đã hoàn thành (Done):
+- Backend: Toàn bộ API nghiệp vụ và API quản lý cửa hàng (Store Management).
+- Database: Toàn bộ schema và dữ liệu mẫu (seed data).
+- Frontend (Core): Cấu trúc Next.js 16, layouts, hệ thống styling (SASS/Tailwind 4), Radix UI.
+- Frontend (Customer): Trang chủ, danh mục, chi tiết sản phẩm, giỏ hàng, wishlist.
+- Tài liệu: API Doc (STORE_MANAGEMENT_API.md), Hướng dẫn test, Hệ thống phân quyền.
+
+B. Đang tiến hành (In Progress):
+- Frontend (Admin): Đang tích hợp nốt các trang dashboard quản lý mới (thống kê doanh thu, biểu đồ, quản lý kho chi tiết).
+- UI/UX Polish: Cải thiện giao diện SiteHeader và các hiệu ứng micro-interaction.
+
+4. CÁC PHẦN CÒN THIẾU ĐỂ DEPLOY
+------------------------------
+- Testing: Kiểm thử thực tế quy trình thanh toán (Checkout flow) và phân quyền (Permission check).
+- Hạ tầng (Infrastructure):
+  + Cấu hình Docker (nếu cần containerization).
+  + Setup CI/CD (GitHub Actions) để tự động deploy.
+  + Chọn server host backend (Render, Railway hoặc DigitalOcean).
+  + Host frontend trên Vercel hoặc Netlify.
+- Tính năng: 
+  + Bảng `audit_logs` để lưu lịch sử thao tác admin.
+  + Hoàn thiện UI tích hợp `api/store` để admin theo dõi báo cáo trực quan.
+- Môi trường: Thiết lập các biến môi trường (.env) cho Production (Cloudinary URL, Database URL, JWT Secret).
+
+TỔNG KẾT: Dự án đạt khoảng 85% khối lượng công việc tổng thể. Sẵn sàng cho giai đoạn tích hợp frontend cuối cùng và triển khai alpha.

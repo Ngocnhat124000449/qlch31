@@ -4,9 +4,28 @@ import { useEffect, useState } from "react";
 import styles from "./HeroBanner.module.scss";
 import SmartImage from "@/components/ui/SmartImage";
 
-export default function HeroBanner({ banners = [] }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+interface Banner {
+  bannerid?: string | number;
+  ten?: string;
+  mota?: string;
+  imageUrl?: string;
+  imageurl?: string;
+  hinhanh?: string;
+  hinhanhurl?: string;
+  linkurl?: string;
+  vitri?: string;
+  trangthai?: boolean;
+}
+
+interface HeroBannerProps {
+  banners?: Banner[];
+}
+
+export default function HeroBanner({
+  banners = [],
+}: HeroBannerProps): JSX.Element {
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
 
   // Auto-rotate banners every 3 seconds
   useEffect(() => {
@@ -37,15 +56,15 @@ export default function HeroBanner({ banners = [] }) {
     banner?.hinhanhurl ||
     null;
 
-  const goToPrevious = () => {
+  const goToPrevious = (): void => {
     setCurrentIndex((prev) => (prev - 1 + banners.length) % banners.length);
   };
 
-  const goToNext = () => {
+  const goToNext = (): void => {
     setCurrentIndex((prev) => (prev + 1) % banners.length);
   };
 
-  const goToSlide = (index) => {
+  const goToSlide = (index: number): void => {
     setCurrentIndex(index);
   };
 
